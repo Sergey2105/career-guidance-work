@@ -1,0 +1,7 @@
+import React, { useState } from 'react'
+import styles from './index.module.scss'
+
+const EventPage = () => {
+	return <div></div>
+}
+export default EventPage

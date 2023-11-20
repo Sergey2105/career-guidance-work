@@ -1,0 +1,36 @@
+{
+	"name": "career-guidance-work",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@redux-devtools/extension": "^3.2.5",
+		"@reduxjs/toolkit": "^1.9.7",
+		"axios": "^1.5.1",
+		"lodash": "^4.17.21",
+		"next": "13.5.4",
+		"next-redux-wrapper": "^8.1.0",
+		"normalize.css": "^8.0.1",
+		"react": "^18",
+		"react-dom": "^18",
+		"react-icons": "^4.12.0",
+		"react-redux": "^8.1.3",
+		"redux": "^4.2.1",
+		"redux-thunk": "^2.4.2"
+	},
+	"devDependencies": {
+		"@types/lodash": "^4.14.200",
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"eslint": "^8",
+		"eslint-config-next": "13.5.4",
+		"sass": "^1.68.0",
+		"typescript": "^5"
+	}
+}
