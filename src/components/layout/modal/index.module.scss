@@ -1,0 +1,32 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+}
+.modal {
+  position: fixed;
+  top: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 10px;
+  color: #000;
+  width: 416px;
+  height: auto;
+}
+.body {
+  padding: 0 2rem 2rem 2rem;
+  &__input {
+    margin-top: 15px;
+  }
+}
+.footer {
+  padding: 0 2rem 2rem 2rem;
+}
