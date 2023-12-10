@@ -1,8 +1,8 @@
-import Layout from '@/components/layout/Layout'
-import { NextPage } from 'next'
+import Center from "@/assets/shared/components/layout/center";
+import { NextPage } from "next";
 
 const contact: NextPage = () => {
-	return <Layout title='Контакты'></Layout>
-}
+    return <Center title="Контакты"></Center>;
+};
 
-export default contact
+export default contact;

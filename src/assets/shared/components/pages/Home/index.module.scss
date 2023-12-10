@@ -1,0 +1,59 @@
+.home {
+    &__wrapper {
+        width: 1120px;
+        margin: 0 auto;
+        position: relative;
+    }
+    &__main {
+        padding: 200px 0;
+        z-index: 1;
+        &__label {
+            font-size: 70px;
+            font-weight: 500;
+            color: #000;
+            z-index: 1;
+        }
+        &__btn {
+            width: 200px;
+            margin-top: 32px;
+        }
+    }
+    &__events {
+        background-color: #dedede;
+        padding: 100px 0;
+        &__item {
+            display: grid;
+            grid-template-columns: repeat(2, 455px);
+            gap: 60px;
+            justify-content: center;
+        }
+        &__left {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        &__right {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+        }
+        &__btn {
+            width: 250px;
+            margin: 70px auto 0;
+        }
+    }
+    &__join {
+        padding: 100px 0;
+        &__label {
+            font-size: 24px;
+            text-align: center;
+            margin: 0 auto;
+            width: 600px;
+        }
+        &__btn {
+            width: 200px;
+            margin: 70px auto 0;
+        }
+    }
+}

@@ -1,0 +1,45 @@
+//@media screen and (min-width: 1440px) {
+.header {
+    background-color: #fff;
+    z-index: 1;
+    box-shadow: 0 0 1px rgb(0, 0, 0, 0.5);
+    &__wrapper {
+        width: 1120px;
+        margin: 0 auto;
+    }
+    &__menu {
+        display: flex;
+        justify-content: space-between;
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+        padding: 10px 0;
+    }
+    li {
+        list-style-type: none;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 40px;
+        font-size: 18px;
+        margin-right: 20px;
+    }
+    a {
+        color: #000;
+    }
+    //исправить отцентовку профиля
+    &__icon {
+        cursor: pointer;
+        color: #000;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+    }
+}
+.link {
+    text-decoration: none;
+    color: #fff;
+}
+//}
