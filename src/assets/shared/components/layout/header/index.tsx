@@ -16,7 +16,7 @@ const Header: FC = () => {
     };
     const windowClose = () => {
         setOpen(false);
-        document.body.style.overflow = "visible";
+        document.body.style.overflow = "";
     };
 
     return (

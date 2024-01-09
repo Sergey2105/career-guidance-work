@@ -12,6 +12,7 @@
     "@redux-devtools/extension": "^3.2.5",
     "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.5.1",
+    "clsx": "^2.1.0",
     "lodash": "^4.17.21",
     "next": "13.5.4",
     "next-redux-wrapper": "^8.1.0",
