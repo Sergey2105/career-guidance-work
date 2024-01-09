@@ -2,7 +2,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC, useState } from "react";
 import styles from "./index.module.scss";
-import Modal from "../modalLogin";
+import Modal from "../../modal/modalLogin";
 import Profile from "/public/icons/profile.svg";
 import ButtonProfile from "../../buttons/buttonPropfile";
 
@@ -40,8 +40,14 @@ const Header: FC = () => {
                             </Link>
                         </li>
                     </ul>
-                    <div className={styles["header__icon"]}>
-                        <ButtonProfile windowOpen={windowOpen} />
+                    <div className={styles["header__profile"]}>
+                        <div className={styles["header__icon"]}>
+                            <ButtonProfile windowOpen={windowOpen} />
+                        </div>
+                        <div className={styles["header__user"]}>
+                            <span>Имя</span>
+                            <span>Фамилия</span>
+                        </div>
                     </div>
                 </div>
                 {open && <Modal onCloseModal={windowClose} />}

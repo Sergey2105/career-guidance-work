@@ -1,6 +1,6 @@
 .footer {
     box-shadow: 0 0 1px rgb(0, 0, 0, 0.5);
-    padding: 20px;
+    padding-bottom: 20px;
     &__wrapper {
         width: 1120px;
         margin: 0 auto;
@@ -10,6 +10,7 @@
         justify-content: space-around;
     }
     &__detail {
+        margin-top: 24px;
         p {
             color: #000;
             font-weight: 600;

@@ -4,12 +4,13 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Room from "/public/img/room.jpg";
 
-const EventItem = () => {
+const EventItem = (props: { width: any; height: any }) => {
+    const { width, height } = props;
     return (
         <div className={styles["item"]}>
             <div className={styles["item__header"]}>
                 <div className={styles["item__header__img"]}>
-                    <Image src={Room} alt={"room"} width={455} height={200} className={styles["item__header__img__img"]} />
+                    <Image src={Room} alt={"room"} width={width} height={height} className={styles["item__header__img__img"]} />
                 </div>
                 <div className={styles["item__header__date"]}>
                     <span>10 декабря 2023 года</span>
