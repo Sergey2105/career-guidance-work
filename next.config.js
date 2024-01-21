@@ -1,18 +1,16 @@
-const { config } = require("process");
-
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
     reactStrictMode: false,
+    output: "standalone",
+    distDir: "dist",
     webpack: (config) => {
         config.module.rules.push({
             test: /\.svg$/,
             use: [
                 {
-                    // loader: require.resolve("@svgr/webpack"),
-                    loader: "@svgr/webpack",
+                    loader: require.resolve("@svgr/webpack"),
                     options: {
-                        icon: true,
                         typescript: true,
                     },
                 },

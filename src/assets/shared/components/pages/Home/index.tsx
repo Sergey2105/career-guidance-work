@@ -2,15 +2,29 @@ import React, { useState } from "react";
 import Image from "next/image";
 import styles from "./index.module.scss";
 import EventItem from "../Events/EventsItem";
-import ButtonModal from "../../buttons/buttonModal";
-import ButtonConfirm from "../../buttons/buttonConfirm";
-import ButtonArrowLeft from "../../buttons/buttonsArrowLeft";
-import ButtonArrowRight from "../../buttons/buttonsArrowRight";
+import ButtonModal from "../../buttons/ButtonModal";
+import ButtonArrowLeft from "../../buttons/ButtonsArrowLeft";
+import ButtonArrowRight from "../../buttons/ButtonsArrowRight";
 import Empowered from "/public/img/empowered.jpg";
+import router from "next/router";
+import ModalLogin from "../../modal/ModalLogin";
+import ButtonLink from "../../buttons/ButtonLink";
 
 const HomePage = () => {
+    const [openLogin, setOpenLogin] = useState<boolean>(false);
+
+    const windowOpen = () => {
+        setOpenLogin(true);
+        document.body.style.overflow = "hidden";
+    };
+    const windowClose = () => {
+        setOpenLogin(false);
+        document.body.style.overflow = "";
+    };
     return (
         <div className={styles["home"]}>
+            {openLogin && <ModalLogin onCloseModal={windowClose} />}
+
             <div className={styles["home__wrapper"]}>
                 <div className={styles["home__main"]}>
                     <div>
@@ -18,7 +32,7 @@ const HomePage = () => {
                             <span>Твой календарь мероприятий, твой путь к профессиональному росту!</span>
                         </div>
                         <div className={styles["home__main__btn"]}>
-                            <ButtonModal label={"Перейти"} />
+                            <ButtonModal label={"Присоединиться"} windowOpen={windowOpen} />
                         </div>
                     </div>
                     <div className={styles["home__main__img"]}>
@@ -39,8 +53,8 @@ const HomePage = () => {
                         <EventItem width={455} height={200} />
                     </div>
                 </div>
-                <div className={styles["home__events__btn"]}>
-                    <ButtonModal label={"Больше мероприятий"} />
+                <div className={styles["home__events__btn"]} onClick={() => router.push("/events")}>
+                    <ButtonLink label={"Больше мероприятий"} />
                 </div>
             </div>
             <div className={styles["home__join"]}>
@@ -52,7 +66,7 @@ const HomePage = () => {
                         </span>
                     </div>
                     <div className={styles["home__join__btn"]}>
-                        <ButtonConfirm label={"Присоедениться"} />
+                        <ButtonLink label={"Больше информации"} />
                     </div>
                 </div>
             </div>

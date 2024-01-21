@@ -1,7 +1,7 @@
 import styles from "../index.module.scss";
 import React, { useState } from "react";
 
-const ButtonConfirm = (props) => {
+const ButtonLogin = (props) => {
     const { label } = props;
 
     return (
@@ -12,4 +12,4 @@ const ButtonConfirm = (props) => {
         </div>
     );
 };
-export default ButtonConfirm;
+export default ButtonLogin;
