@@ -1,0 +1,65 @@
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.5);
+    &__default {
+        z-index: 60;
+        &__windows {
+            width: 343px;
+            height: 440px;
+            border-radius: 8px;
+            background-color: #fff;
+            position: relative;
+            overflow: auto;
+        }
+        &__header {
+            background: #fff;
+            height: 80px;
+            padding: 25px 16px;
+            display: flex;
+            justify-content: space-between;
+            &__title {
+                font-size: 24px;
+                font-weight: 600;
+                color: #000;
+            }
+            &__icon {
+                text-align: center;
+                display: flex;
+                align-items: center;
+            }
+            &__cross {
+                cursor: pointer;
+                height: 30px;
+                width: 30px;
+            }
+        }
+        &__body {
+            padding: 24px 16px 0 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: auto;
+            height: calc(440px - 80px - 80px);
+        }
+        &__footer {
+            display: grid;
+            column-gap: 16px;
+            padding: 16px 16px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+    }
+}
+@media screen and (min-width: 768px) {
+}
+@media screen and (min-width: 1440px) {
+}

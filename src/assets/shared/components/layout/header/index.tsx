@@ -2,25 +2,25 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC, useState } from "react";
 import styles from "./index.module.scss";
-import Modal from "../../modal/modalLogin";
-import Profile from "/public/icons/profile.svg";
-import ButtonProfile from "../../buttons/buttonPropfile";
+import ModalLogin from "../../modal/ModalLogin";
+import ButtonProfile from "../../buttons/ButtonProfile";
 
 const Header: FC = () => {
-    const [open, setOpen] = useState<boolean>(false);
+    const [openLogin, setOpenLogin] = useState<boolean>(false);
     const pathname = usePathname();
 
     const windowOpen = () => {
-        setOpen(true);
+        setOpenLogin(true);
         document.body.style.overflow = "hidden";
     };
     const windowClose = () => {
-        setOpen(false);
+        setOpenLogin(false);
         document.body.style.overflow = "";
     };
 
     return (
         <header className={styles["header"]}>
+            {openLogin && <ModalLogin onCloseModal={windowClose} />}
             <div className={styles["header__wrapper"]}>
                 <div className={styles["header__menu"]}>
                     <ul>
@@ -35,7 +35,7 @@ const Header: FC = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/c ontact" className={`${pathname === "/contact" ? styles.active : ""} ${styles["link"]}`}>
+                            <Link href="/contact" className={`${pathname === "/contact" ? styles.active : ""} ${styles["link"]}`}>
                                 Контакты
                             </Link>
                         </li>
@@ -50,7 +50,6 @@ const Header: FC = () => {
                         </div>
                     </div>
                 </div>
-                {open && <Modal onCloseModal={windowClose} />}
             </div>
         </header>
     );
