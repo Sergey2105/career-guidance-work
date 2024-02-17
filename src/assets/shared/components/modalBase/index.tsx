@@ -3,7 +3,7 @@ import React from "react";
 import { clsx } from "clsx";
 import Cross from "/public/icons/cross.svg";
 
-const ModalBase = (props: { children: any; title: any; onCloseModal: any; footer: any; size?: "default" | undefined }) => {
+const ModalBase = (props) => {
     const { children, title, onCloseModal, footer, size = "default" } = props;
 
     return (
@@ -12,7 +12,7 @@ const ModalBase = (props: { children: any; title: any; onCloseModal: any; footer
                 <div className={clsx(styles["modal__header"], styles[`modal__${size}__header`])}>
                     <span className={clsx(styles["modal__header__title"], styles[`modal__${size}__header__title`])}>{title}</span>
                     <div className={clsx(styles["modal__header__icon"], styles[`modal__${size}__header__icon`])} onClick={onCloseModal}>
-                        <Cross onClick={onCloseModal} className={clsx(styles["modal__header__cross"], styles[`modal__${size}__header__cross`])} />
+                        <Cross onClick={onCloseModal} />
                     </div>
                 </div>
                 <div className={clsx(styles["modal__body"], styles[`modal__${size}__body`])}>{children}</div>

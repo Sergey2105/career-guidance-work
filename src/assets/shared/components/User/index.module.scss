@@ -1,0 +1,60 @@
+.user {
+    display: flex;
+    align-items: center;
+    &__icon {
+        cursor: pointer;
+        color: #000;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+    }
+    &__btn {
+        cursor: pointer;
+        font-size: 18px;
+        border: 1px solid black;
+        border-radius: 6px;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    &__name {
+        display: flex;
+        flex-direction: row;
+        font-size: 14px;
+        font-weight: 600;
+        margin-left: 24px;
+    }
+}
+@media screen and (min-width: 768px) {
+    .user {
+        &__name {
+            display: flex;
+            flex-direction: row;
+            font-size: 14px;
+            margin-left: 12px;
+        }
+    }
+}
+@media screen and (min-width: 1024px) {
+    .user {
+        &__name {
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+            margin-left: 24px;
+        }
+    }
+}
+
+@media screen and (min-width: 1360px) {
+    .user {
+        &__name {
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 24px;
+        }
+    }
+}

@@ -1,0 +1,28 @@
+.pagination {
+    &__container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    &__btn {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #000;
+        font-size: 14px;
+        height: 40px;
+        width: 40px;
+        border: 1px solid #000;
+        border-radius: 6px;
+        margin: 0 2px;
+        text-decoration: none;
+        &__active {
+            background-color: rgba(4, 94, 184, 0.582);
+        }
+        &__disabled {
+            opacity: 0.2;
+        }
+    }
+}

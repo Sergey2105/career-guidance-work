@@ -1,26 +1,79 @@
-//@media screen and (min-width: 1440px) {
 .header {
     background-color: #fff;
-    z-index: 1;
-    box-shadow: 0 0 1px rgb(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 1px 4px 1px rgb(0, 0, 0, 0.5);
+    width: 100%;
+    height: 60px;
     &__wrapper {
-        width: 1120px;
+        max-width: 375px;
         margin: 0 auto;
+        width: 100vw;
+        height: 100%;
+        z-index: 50;
+    }
+    &__content {
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        width: 100%;
+        height: 100%;
+    }
+    &__logo {
+        display: flex;
+        align-items: center;
     }
     &__menu {
-        display: flex;
-        justify-content: space-between;
+        width: 100%;
+        &__visible {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 60px;
+            bottom: 0;
+            width: 375px;
+            height: 100vh;
+            background-color: #f8f8f8;
+            z-index: 40;
+            transition: left 1s;
+            &__active {
+                display: flex;
+                left: 0;
+            }
+            &__disabled {
+                display: none;
+                left: -100%;
+            }
+        }
     }
-    ul {
+    &__burger {
+        display: flex;
+        flex-direction: row-reverse;
+        width: 100%;
+        &__btn {
+            display: flex;
+            align-items: center;
+            border: none;
+            padding: 5px;
+            background: none;
+        }
+    }
+    &__user {
+        display: flex;
+        margin-left: 50px;
+        height: 40px;
+    }
+    &__list {
+        display: flex;
+        flex-direction: column;
         margin: 0;
         padding: 0;
-        display: flex;
-        flex-direction: row;
-        padding: 10px 0;
+        margin-left: 50px;
     }
     li {
-        list-style-type: none;
-        vertical-align: middle;
         display: inline-block;
         line-height: 40px;
         font-size: 16px;
@@ -29,28 +82,72 @@
     a {
         color: #000;
     }
-    //исправить отцентовку профиля
-    &__profile {
-        display: flex;
-        align-items: center;
-    }
-    &__icon {
-        cursor: pointer;
-        color: #000;
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-    }
-    &__user {
-        display: flex;
-        flex-direction: column;
-        font-size: 14px;
-        font-weight: 500;
-        margin-left: 24px;
-    }
 }
 .link {
     text-decoration: none;
     color: #fff;
+    &__active {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 600;
+    }
 }
-//}
+@media screen and (min-width: 768px) {
+    .header {
+        &__wrapper {
+            max-width: 768px;
+        }
+        &__content {
+            padding: 0 20px;
+        }
+    }
+}
+@media screen and (min-width: 1024px) {
+    .header {
+        &__wrapper {
+            max-width: 1024px;
+        }
+        &__content {
+            padding: 0;
+        }
+        &__menu {
+            &__visible {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                position: relative;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100%;
+                background-color: transparent;
+            }
+        }
+        &__list {
+            display: flex;
+            flex-direction: row;
+            margin: 0;
+            padding: 0;
+            margin-left: 50px;
+        }
+        &__burger {
+            display: none;
+        }
+    }
+}
+
+@media screen and (min-width: 1360px) {
+    .header {
+        &__wrapper {
+            max-width: 1360px;
+        }
+        &__content {
+            padding: 0;
+        }
+        &__burger {
+            display: none;
+        }
+    }
+}

@@ -1,14 +1,11 @@
-import React, { FC, PropsWithChildren } from "react";
+import React from "react";
 import MainLayout from "../MainLayout";
-import Meta from "../../seo/Meta";
-import { IMeta } from "../../seo/meta.interface";
 
-const Center: FC<PropsWithChildren<IMeta>> = ({ title, description, children }) => {
+const Center = (props) => {
+    const { children } = props;
     return (
         <>
-            <Meta title={title} description={description}>
-                <MainLayout>{children}</MainLayout>
-            </Meta>
+            <MainLayout>{children}</MainLayout>
         </>
     );
 };

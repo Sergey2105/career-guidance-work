@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./index.module.scss";
 import EventItem from "../Events/EventsItem";
@@ -9,9 +9,14 @@ import Empowered from "/public/img/empowered.jpg";
 import router from "next/router";
 import ModalLogin from "../../modal/ModalLogin";
 import ButtonLink from "../../buttons/ButtonLink";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 const HomePage = () => {
     const [openLogin, setOpenLogin] = useState<boolean>(false);
+    const Mobile = useMediaQuery(375);
+    const Tablet = useMediaQuery(768);
+    const Laptop = useMediaQuery(1024);
+    const Desktop = useMediaQuery(1360);
 
     const windowOpen = () => {
         setOpenLogin(true);
@@ -21,28 +26,29 @@ const HomePage = () => {
         setOpenLogin(false);
         document.body.style.overflow = "";
     };
+
     return (
         <div className={styles["home"]}>
             {openLogin && <ModalLogin onCloseModal={windowClose} />}
-
             <div className={styles["home__wrapper"]}>
                 <div className={styles["home__main"]}>
+                    <div className={styles["home__main__label"]}>
+                        <span>Твой календарь мероприятий, твой путь к профессиональному росту!</span>
+                    </div>
                     <div>
-                        <div className={styles["home__main__label"]}>
-                            <span>Твой календарь мероприятий, твой путь к профессиональному росту!</span>
-                        </div>
-                        <div className={styles["home__main__btn"]}>
-                            <ButtonModal label={"Присоединиться"} windowOpen={windowOpen} />
+                        <div className={styles["home__main__img"]}>
+                            {/* <img src="/public/img/empowered.jpg" alt="Empowered" /> */}
+                            <Image className={styles["home__main__img__img"]} src={Empowered} alt="class" objectFit="contain" />
                         </div>
                     </div>
-                    <div className={styles["home__main__img"]}>
-                        <Image src={Empowered} width={450} height={640} alt="class" />
+                    <div className={styles["home__main__btn"]}>
+                        <ButtonModal label={"Присоединиться"} windowOpen={windowOpen} />
                     </div>
                 </div>
             </div>
             <div className={styles["home__events"]}>
                 <div className={styles["home__wrapper"]}>
-                    <div className={styles["home__events__left"]}>
+                    {/* <div className={styles["home__events__left"]}>
                         <ButtonArrowLeft />
                     </div>
                     <div className={styles["home__events__right"]}>
@@ -51,14 +57,14 @@ const HomePage = () => {
                     <div className={styles["home__events__item"]}>
                         <EventItem width={455} height={200} />
                         <EventItem width={455} height={200} />
-                    </div>
+                    </div> */}
                 </div>
                 <div className={styles["home__events__btn"]} onClick={() => router.push("/events")}>
                     <ButtonLink label={"Больше мероприятий"} />
                 </div>
             </div>
-            <div className={styles["home__join"]}>
-                <div className={styles["home__wrapper"]}>
+            <div className={styles["home__wrapper"]}>
+                <div className={styles["home__join"]}>
                     <div className={styles["home__join__label"]}>
                         <span>
                             Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis

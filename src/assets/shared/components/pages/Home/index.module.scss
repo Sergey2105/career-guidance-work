@@ -1,39 +1,44 @@
 .home {
+    width: 100%;
     &__wrapper {
-        width: 1120px;
+        max-width: 350px;
         margin: 0 auto;
         position: relative;
     }
     &__main {
-        padding: 100px 0;
+        padding: 100px 0px;
         z-index: 1;
         position: relative;
-        display: grid;
-        grid-template-columns: repeat(2, 560px);
-
+        display: block;
         &__label {
-            font-size: 53px;
-            font-weight: 500;
+            font-family: "Oswald", sans-serif;
+            font-size: 26px;
+            font-weight: 600;
             color: #000;
-            z-index: 1;
+            text-align: center;
         }
         &__btn {
             width: 200px;
-            margin-top: 32px;
+            margin: 32px auto;
         }
         &__img {
-            display: flex;
-            align-items: center;
+            // position: relative;
             text-align: center;
-            justify-content: end;
+            width: 100%;
+            height: 100%;
+            &__img {
+                width: 100%;
+                height: 100%;
+            }
         }
     }
     &__events {
         background-color: #dedede;
         padding: 100px 0;
+        width: 100%;
         &__item {
-            display: grid;
-            grid-template-columns: repeat(2, 455px);
+            // display: grid;
+            // grid-template-columns: repeat(2, 455px);
             gap: 60px;
             justify-content: center;
         }
@@ -56,14 +61,131 @@
     &__join {
         padding: 100px 0;
         &__label {
-            font-size: 24px;
+            font-size: 16px;
             text-align: center;
             margin: 0 auto;
-            width: 600px;
         }
         &__btn {
             width: 200px;
             margin: 70px auto 0;
+        }
+    }
+}
+@media screen and (min-width: 768px) {
+    .home {
+        &__wrapper {
+            max-width: 768px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+        }
+        &__main {
+            padding: 100px 0px;
+            z-index: 1;
+            position: relative;
+            display: block;
+            &__label {
+                font-size: 46px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                // height: 50px;
+            }
+            &__btn {
+                width: 200px;
+                margin: 32px auto;
+            }
+            &__img {
+                // position: relative;
+                text-align: center;
+                width: 100%;
+                height: 100%;
+                &__img {
+                    width: 350px;
+                    height: 550px;
+                }
+            }
+        }
+        &__join {
+            &__label {
+                font-size: 22px;
+            }
+        }
+    }
+}
+@media screen and (min-width: 1024px) {
+    .home {
+        &__wrapper {
+            max-width: 1024px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+        }
+        &__main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            &__label {
+                text-align: left;
+                font-size: 52px;
+                position: relative;
+            }
+            &__btn {
+                width: 200px;
+                margin: 32px 0;
+                position: absolute;
+                top: 50%;
+            }
+            &__img {
+                // position: relative;
+                text-align: right;
+                width: 100%;
+                height: 100%;
+                &__img {
+                    width: 450px;
+                    height: 650px;
+                }
+            }
+        }
+        &__join {
+            &__label {
+                font-size: 24px;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 1360px) {
+    .home {
+        &__wrapper {
+            max-width: 1360px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+        }
+        &__main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            &__label {
+                text-align: left;
+                font-size: 64px;
+                position: relative;
+            }
+            &__btn {
+                width: 200px;
+                margin: 32px 0;
+                position: absolute;
+                top: 60%;
+            }
+            &__img {
+                // position: relative;
+                text-align: right;
+                width: 100%;
+                height: 100%;
+                &__img {
+                    width: 450px;
+                    height: 650px;
+                }
+            }
         }
     }
 }

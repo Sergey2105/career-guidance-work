@@ -1,9 +1,15 @@
 .body {
-    padding: 0 20px 40px 20px;
     &__input {
         margin-top: 15px;
     }
     &__input:nth-child(2) {
         margin-top: 20px;
+    }
+    &__registration {
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 400;
+        text-decoration: underline;
+        margin: 20px 0;
     }
 }
