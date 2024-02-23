@@ -14,12 +14,19 @@
         justify-content: center;
         align-items: center;
     }
-}
-.btn:hover {
-    opacity: 0.8;
-}
-.btn:active {
-    opacity: 0.5;
+    &__click:disabled {
+        cursor: default;
+        opacity: 0.5;
+    }
+    &__click:disabled:hover {
+        opacity: 0.5;
+    }
+    &__click:hover {
+        opacity: 0.8;
+    }
+    &__click:active {
+        opacity: 0.5;
+    }
 }
 .btn__inactive {
     cursor: pointer;

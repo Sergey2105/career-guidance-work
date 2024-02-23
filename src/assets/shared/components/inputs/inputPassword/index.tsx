@@ -4,7 +4,7 @@ import Visisble from "/public/icons/visible.svg";
 import Unisisble from "/public/icons/unvisible.svg";
 
 const InputPassword = (props) => {
-    const { placeholder, label, onChange, id } = props;
+    const { placeholder, label, onChange } = props;
     const [visible, setVisible] = useState<boolean>(false);
     const [type, setType] = useState<string>("password");
 
@@ -30,7 +30,7 @@ const InputPassword = (props) => {
         <div className={styles["input"]}>
             <label className={styles["input__label"]}>{label}</label>
             <div className={styles["input__group"]}>
-                <input ref={ref} type={type} className={styles["input__input"]} placeholder={placeholder} onChange={onChangeText} id={id}></input>
+                <input ref={ref} type={type} className={styles["input__input"]} placeholder={placeholder} onChange={onChangeText}></input>
                 <div className={styles["input__icon"]} onClick={isVisible}>
                     {visible ? <Visisble /> : <Unisisble />}
                 </div>

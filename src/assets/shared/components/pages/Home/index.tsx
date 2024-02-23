@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./index.module.scss";
-import EventItem from "../Events/EventsItem";
 import ButtonModal from "../../buttons/ButtonModal";
-import ButtonArrowLeft from "../../buttons/ButtonsArrowLeft";
-import ButtonArrowRight from "../../buttons/ButtonsArrowRight";
 import Empowered from "/public/img/empowered.jpg";
 import router from "next/router";
 import ModalLogin from "../../modal/ModalLogin";
 import ButtonLink from "../../buttons/ButtonLink";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { fetchEvents, selectEvents } from "../../store/slice/eventsSlice";
+import EventItem from "../Meeting/EventsItem";
+import { useDispatch, useSelector } from "../../store/hooks";
+import Swiper from "swiper";
+import "swiper/css";
 
 const HomePage = () => {
     const [openLogin, setOpenLogin] = useState<boolean>(false);
@@ -27,14 +29,19 @@ const HomePage = () => {
         document.body.style.overflow = "";
     };
 
+    const dispatch = useDispatch();
+    const events = useSelector(selectEvents);
+
+    useEffect(() => {
+        dispatch(fetchEvents({ page: 1, search: "" }));
+    }, []);
+
     return (
         <div className={styles["home"]}>
             {openLogin && <ModalLogin onCloseModal={windowClose} />}
             <div className={styles["home__wrapper"]}>
                 <div className={styles["home__main"]}>
-                    <div className={styles["home__main__label"]}>
-                        <span>Твой календарь мероприятий, твой путь к профессиональному росту!</span>
-                    </div>
+                    <div className={styles["home__main__label"]}>Твой календарь мероприятий, твой путь к профессиональному росту!</div>
                     <div>
                         <div className={styles["home__main__img"]}>
                             {/* <img src="/public/img/empowered.jpg" alt="Empowered" /> */}
@@ -42,24 +49,15 @@ const HomePage = () => {
                         </div>
                     </div>
                     <div className={styles["home__main__btn"]}>
-                        <ButtonModal label={"Присоединиться"} windowOpen={windowOpen} />
+                        <ButtonModal label={"Присоединиться"} onClick={() => router.push("/login")} />
                     </div>
                 </div>
             </div>
             <div className={styles["home__events"]}>
                 <div className={styles["home__wrapper"]}>
-                    {/* <div className={styles["home__events__left"]}>
-                        <ButtonArrowLeft />
-                    </div>
-                    <div className={styles["home__events__right"]}>
-                        <ButtonArrowRight />
-                    </div>
-                    <div className={styles["home__events__item"]}>
-                        <EventItem width={455} height={200} />
-                        <EventItem width={455} height={200} />
-                    </div> */}
+                    {/* <div className={styles["home__events__item"]}>{events?.results?.map((value, key) => <EventItem key={key} value={value} myKey={key} />)}</div> */}
                 </div>
-                <div className={styles["home__events__btn"]} onClick={() => router.push("/events")}>
+                <div className={styles["home__events__btn"]} onClick={() => router.push("/meeting")}>
                     <ButtonLink label={"Больше мероприятий"} />
                 </div>
             </div>

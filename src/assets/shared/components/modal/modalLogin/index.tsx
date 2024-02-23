@@ -48,20 +48,30 @@ const ModalLogin = (props) => {
 
     const auth = () => {
         dispatch(login({ username: inputLogin, password: inputPassword })).then((res) => {
-            // if (res.type.includes("fulfilled")) {
-            //     const referrer = new URLSearchParams(window.location.search)?.get("referrer") || "/meeting/";
-            //     if (!referrer.includes("meeting")) {
-            //         window.location.href = `${window.location.origin}${referrer}`;
-            //     } else {
-            //         router.push(referrer);
-            //     }
-            // }
+            if (res.type.includes("fulfilled")) {
+                // const referrer = new URLSearchParams(window.location.search)?.get("referrer") || "/meeting/";
+                // if (!referrer.includes("meeting")) {
+                //     window.location.href = `${window.location.origin}${referrer}`;
+                // } else {
+                //     router.push(referrer);
+                // }
+                router.push("/");
+            }
         });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        auth();
+        // window.location.reload();
+        onCloseModal();
     };
 
     // const register = () => {
     //     dispatch(signup({ username: inputLogin, password: inputPassword, email: inputEmail }));
     // };
+
+    const disabled = inputLogin.length == 0 || inputPassword.length == 0;
 
     return (
         <>
@@ -69,42 +79,42 @@ const ModalLogin = (props) => {
                 title={islogin ? "Вход" : "Регистрация"}
                 onCloseModal={onCloseModal}
                 size="login"
-                footer={<>{islogin ? <ButtonLogin label={"Войти"} onClick={auth} /> : <ButtonRegistration label={"Регистрация"} />}</>}
+                footer={<>{islogin ? <ButtonLogin label={"Войти"} onClick={handleSubmit} disabled={disabled} /> : <ButtonLogin label={"Регистрация"} />}</>}
             >
-                <form>
+                <div>
                     {islogin ? (
                         <>
-                            <div className={styles["body"]}>
+                            <form className={styles["body"]} onSubmit={handleSubmit}>
                                 <div className={styles["body__input"]}>
-                                    <InputText placeholder={"Введите логин"} label={"Логин"} onChange={changeLogin} changeClear={changeLoginClear} id={"login_login"} />
+                                    <InputText placeholder={"Введите логин"} label={"Логин"} onChange={changeLogin} changeClear={changeLoginClear} />
                                 </div>
                                 <div className={styles["body__input"]}>
-                                    <InputPassword placeholder={"Введите пароль"} label={"Пароль"} onChange={changePassword} id={"login_password"} />
+                                    <InputPassword placeholder={"Введите пароль"} label={"Пароль"} onChange={changePassword} />
                                 </div>
-                            </div>
+                            </form>
                             <div className={styles["body__registration"]} onClick={SwitchLogin}>
                                 <span>Регистрация</span>
                             </div>
                         </>
                     ) : (
                         <>
-                            <div className={styles["body"]}>
+                            <form className={styles["body"]}>
                                 <div className={styles["body__input"]}>
-                                    <InputText type={"email"} placeholder={"Email"} label={"Email"} onChange={changeEmail} changeClear={changeEmailClear} id={"register_email"} />
+                                    <InputText type={"email"} placeholder={"Email"} label={"Email"} onChange={changeEmail} changeClear={changeEmailClear} />
                                 </div>
                                 <div className={styles["body__input"]}>
-                                    <InputText placeholder={"Введите логин"} label={"Логин"} onChange={changeLogin} changeClear={changeLoginClear} id={"register_login"} />
+                                    <InputText placeholder={"Введите логин"} label={"Логин"} onChange={changeLogin} changeClear={changeLoginClear} />
                                 </div>
                                 <div className={styles["body__input"]}>
-                                    <InputPassword placeholder={"Введите пароль"} label={"Пароль"} onChange={changePassword} id={"register_password"} />
+                                    <InputPassword placeholder={"Введите пароль"} label={"Пароль"} onChange={changePassword} />
                                 </div>
-                            </div>
+                            </form>
                             <div className={styles["body__registration"]} onClick={SwitchLogin}>
                                 <span>Войти</span>
                             </div>
                         </>
                     )}
-                </form>
+                </div>
             </ModalBase>
         </>
     );

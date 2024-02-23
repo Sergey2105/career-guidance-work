@@ -1,3 +1,10 @@
 .body {
     margin-top: 60px;
+    margin-bottom: auto;
+}
+.container {
+    min-height: 100vh;
+    height: calc(100vh - 60px - 152px);
+    display: flex;
+    flex-direction: column;
 }

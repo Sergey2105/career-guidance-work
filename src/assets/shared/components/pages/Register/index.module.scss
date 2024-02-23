@@ -1,0 +1,50 @@
+.container {
+    position: relative;
+    width: 100vw;
+    height: calc(100vh - 60px);
+}
+.body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 343px;
+    max-height: 100%;
+}
+.form {
+    &__greetings {
+        font-size: 14px;
+        color: rgb(0, 0, 0, 0.6);
+        font-weight: 500;
+        margin-bottom: 12px;
+    }
+    &__title {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+    &__input {
+        margin-bottom: 20px;
+    }
+    &__btn {
+        margin-bottom: 12px;
+    }
+    &__forgot {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: rgb(0, 0, 0, 0.6);
+        text-decoration-color: rgb(0, 0, 0, 0.6);
+        text-align: center;
+        margin-bottom: 12px;
+    }
+    &__registration {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #414561;
+        text-decoration-color: #414561;
+        text-align: center;
+        margin-bottom: 12px;
+    }
+}

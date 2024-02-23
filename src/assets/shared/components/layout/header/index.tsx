@@ -15,9 +15,10 @@ import { getMe, selectUser } from "../../store/slice/authSlice";
 const Header = () => {
     const [openLogin, setOpenLogin] = useState<boolean>(false);
     const pathname = usePathname();
+    const dispatch = useDispatch();
     const router = useRouter();
     const menu = useSelector(selectMenu);
-    const dispatch = useDispatch();
+    const userData = useSelector(selectUser);
 
     const windowOpen = () => {
         setOpenLogin(true);
@@ -64,7 +65,8 @@ const Header = () => {
                                 </li>
                             </ul>
                             <div className={styles["header__user"]}>
-                                <User windowOpen={windowOpen} />
+                                {/* <User onClick={() => router.push("/profile")} /> */}
+                                <User onClick={() => router.push("/login")} />
                             </div>
                         </div>
                         <div className={styles["header__burger"]}>

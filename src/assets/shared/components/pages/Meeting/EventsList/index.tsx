@@ -31,8 +31,7 @@ const EventList = () => {
         <div className={styles["list"]}>
             <div className={styles["list__list"]}>{events?.results?.map((value, key) => <EventItem key={key} value={value} myKey={key} />)}</div>
             <div className={styles["pagination"]}>
-                {}
-                <Pagination howManyPages={events?.meta?.page_count} onChange={setCurrentPage} inputSearch={inputSearch} />
+                {events?.results?.length != 0 ? <Pagination howManyPages={events?.meta?.page_count} onChange={setCurrentPage} inputSearch={inputSearch} /> : null}
             </div>
         </div>
     );

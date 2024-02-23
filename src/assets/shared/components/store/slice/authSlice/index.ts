@@ -3,7 +3,7 @@ import { RootState } from "../..";
 import { stat } from "fs";
 
 interface type {
-    user: string | null;
+    user: {} | null;
     isLogin: boolean;
     auth_token: string | null;
     loading: boolean;
@@ -12,7 +12,7 @@ interface type {
 }
 
 const initialState: type = {
-    user: "",
+    user: null,
     isLogin: false,
     auth_token: null,
     loading: false,
@@ -70,7 +70,6 @@ export const login = createAsyncThunk("auth/login", async ({ username, password 
         body: JSON.stringify({ username, password }),
     });
     let dataChange = await response.json();
-    console.log("response", dataChange);
 
     if (response.status === 200) {
         localStorage.setItem("userToken", dataChange.auth_token);
@@ -81,29 +80,41 @@ export const login = createAsyncThunk("auth/login", async ({ username, password 
 });
 
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
-    const token = localStorage.removeItem("userToken");
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/token/logout/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
         },
     });
+
     let userInfo = await response.json();
-    return userInfo;
+
+    if (response.status === 200) {
+        localStorage.removeItem("userToken");
+    } else {
+        return thunkAPI.rejectWithValue(userInfo);
+    }
 });
 
 export const getMe = createAsyncThunk("auth/me", async (_, thunkAPI) => {
     const token = localStorage.getItem("userToken");
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/uset_by_token/`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
-        },
-    });
-    let userInfo = await response.json();
-    return userInfo;
+    if (token !== null) {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/uset_by_token/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
+        });
+        let userInfo = await response.json();
+
+        // if (response.status === 200) {
+        //     localStorage.setItem("user", userInfo.user);
+        return userInfo;
+        // } else {
+        //     return thunkAPI.rejectWithValue(userInfo);
+        // }
+    }
 });
 
 const authSlice = createSlice({

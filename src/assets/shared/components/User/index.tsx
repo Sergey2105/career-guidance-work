@@ -6,12 +6,12 @@ import { getMe, logout, selectUser } from "../store/slice/authSlice";
 import { useEffect } from "react";
 
 const User = (props) => {
-    const { windowOpen } = props;
+    const { windowOpen, onClick = () => null } = props;
     const router = useRouter();
     const dispatch = useDispatch();
     const userData = useSelector(selectUser);
 
-    // console.log(userData);
+    console.log(userData);
 
     const click = () => {
         dispatch(logout()).then(() => {
@@ -19,14 +19,10 @@ const User = (props) => {
         });
     };
 
-    // useEffect(() => {
-    //     dispatch(getMe());
-    // }, []);
-
     return (
         <div className={styles["user"]}>
             <div className={styles["user__icon"]}>
-                <div className={styles["user__btn"]} onClick={windowOpen}>
+                <div className={styles["user__btn"]} onClick={onClick}>
                     <Profile />
                 </div>
             </div>
@@ -34,7 +30,6 @@ const User = (props) => {
                 <span>{userData?.first_name}</span>
                 <span>{userData?.last_name}</span>
             </div>
-            <button onClick={click}>выйти</button>
         </div>
     );
 };
