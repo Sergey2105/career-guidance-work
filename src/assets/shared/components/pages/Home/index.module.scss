@@ -1,7 +1,8 @@
 .home {
     width: 100%;
     &__wrapper {
-        max-width: 327px;
+        padding: 0 8px;
+        max-width: 375px;
         margin: 0 auto;
         position: relative;
     }
@@ -12,13 +13,14 @@
         display: block;
         &__label {
             font-family: "Oswald", sans-serif;
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 600;
             color: #000;
             text-align: center;
+            margin-bottom: 10px;
         }
         &__btn {
-            width: 200px;
+            width: 100%;
             margin: 32px auto 0;
         }
         &__img {
@@ -54,7 +56,7 @@
             transform: translateY(-50%);
         }
         &__btn {
-            width: 250px;
+            width: 100%;
             margin: 32px auto 0;
         }
     }
@@ -62,11 +64,11 @@
         padding: 100px 0;
         &__label {
             font-size: 16px;
-            text-align: center;
             margin: 0 auto;
+            text-align: justify;
         }
         &__btn {
-            width: 200px;
+            width: 100%;
             margin: 70px auto 0;
         }
     }
@@ -74,8 +76,10 @@
 @media screen and (min-width: 768px) {
     .home {
         &__wrapper {
-            // max-width: 720px;
-            // margin: 0 auto;
+            padding: 0 24px;
+            max-width: 768px;
+            margin: 0 auto;
+            position: relative;
         }
         &__main {
             padding: 100px 0px;
@@ -87,10 +91,10 @@
                 font-weight: 600;
                 color: #000;
                 text-align: center;
-                // height: 50px;
+                margin-bottom: 10px;
             }
             &__btn {
-                width: 200px;
+                width: 350px;
                 margin: 32px auto;
             }
             &__img {
@@ -104,9 +108,41 @@
                 }
             }
         }
+        &__events {
+            background-color: #dedede;
+            padding: 100px 0;
+            width: 100%;
+            &__item {
+                // display: grid;
+                // grid-template-columns: repeat(2, 455px);
+                // gap: 60px;
+                // justify-content: center;
+            }
+            &__left {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            &__right {
+                position: absolute;
+                top: 50%;
+                right: 0;
+                transform: translateY(-50%);
+            }
+            &__btn {
+                width: 350px;
+                margin: 32px auto 0;
+            }
+        }
         &__join {
+            padding: 100px 0;
             &__label {
-                font-size: 22px;
+                font-size: 20px;
+                margin: 0 auto;
+            }
+            &__btn {
+                width: 350px;
+                margin: 70px auto 0;
             }
         }
     }
@@ -114,6 +150,7 @@
 @media screen and (min-width: 1024px) {
     .home {
         &__wrapper {
+            padding: 0 24px;
             max-width: 1024px;
             margin: 0 auto;
         }
@@ -122,8 +159,9 @@
             grid-template-columns: repeat(2, 1fr);
             &__label {
                 text-align: left;
-                font-size: 52px;
+                font-size: 48px;
                 position: relative;
+                margin: 0;
             }
             &__btn {
                 width: 200px;
@@ -142,18 +180,48 @@
                 }
             }
         }
+        &__events {
+            background-color: #dedede;
+            padding: 100px 0;
+            width: 100%;
+            &__item {
+                // display: grid;
+                // grid-template-columns: repeat(2, 455px);
+                // gap: 60px;
+                // justify-content: center;
+            }
+            &__left {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            &__right {
+                position: absolute;
+                top: 50%;
+                right: 0;
+                transform: translateY(-50%);
+            }
+            &__btn {
+                width: 250px;
+                margin: 32px auto 0;
+            }
+        }
         &__join {
             &__label {
-                font-size: 24px;
+                font-size: 22px;
+            }
+            &__btn {
+                width: 250px;
             }
         }
     }
 }
 
-@media screen and (min-width: 1360px) {
+@media screen and (min-width: 1280px) {
     .home {
         &__wrapper {
-            max-width: 1360px;
+            padding: 0 24px;
+            max-width: 1280px;
             margin: 0 auto;
         }
         &__main {
@@ -161,8 +229,9 @@
             grid-template-columns: repeat(2, 1fr);
             &__label {
                 text-align: left;
-                font-size: 64px;
+                font-size: 62px;
                 position: relative;
+                margin: 0;
             }
             &__btn {
                 width: 200px;
@@ -179,6 +248,40 @@
                     width: 450px;
                     height: 650px;
                 }
+            }
+        }
+        &__events {
+            background-color: #dedede;
+            padding: 100px 0;
+            width: 100%;
+            &__item {
+                // display: grid;
+                // grid-template-columns: repeat(2, 455px);
+                // gap: 60px;
+                // justify-content: center;
+            }
+            &__left {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            &__right {
+                position: absolute;
+                top: 50%;
+                right: 0;
+                transform: translateY(-50%);
+            }
+            &__btn {
+                width: 250px;
+                margin: 32px auto 0;
+            }
+        }
+        &__join {
+            &__label {
+                font-size: 26px;
+            }
+            &__btn {
+                width: 250px;
             }
         }
     }

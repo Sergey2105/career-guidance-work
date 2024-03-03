@@ -17,6 +17,19 @@
         font-weight: 400;
         letter-spacing: 0.5px;
         color: #000;
+        &__error {
+            width: 100%;
+            height: 48px;
+            padding: 10px 35px 10px 15px;
+            border: none;
+            border: 2px solid #ff4570;
+            border-radius: 6px;
+            outline: none;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            color: #000;
+        }
     }
     &__input:hover {
         border: 2px solid #000;

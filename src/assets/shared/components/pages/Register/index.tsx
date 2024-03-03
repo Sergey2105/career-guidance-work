@@ -5,16 +5,19 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
 import InputText from "../../inputs/inputText";
 import InputPassword from "../../inputs/inputPassword";
-import { login } from "../../store/slice/authSlice";
+import { register, selectErrors } from "../../store/slice/authSlice";
 import ButtonLogin from "../../buttons/ButtonLogin";
 
 const Register = () => {
     const [inputEmail, setInputEmail] = useState<string>("");
     const [inputLogin, setInputLogin] = useState<string>("");
     const [inputPassword, setInputPassword] = useState<string>("");
-    const [islogin, setIsLogin] = useState<boolean>(true);
+    const [inputFirstName, setInputFirstName] = useState<string>("");
+    const [inputLastName, setInputLastName] = useState<string>("");
+    const [error, setError] = useState<boolean>(false);
     const router = useRouter();
     const dispatch = useDispatch();
+    const messageError = useSelector(selectErrors);
 
     const changeEmail = (e) => {
         setInputEmail(e.target.value);
@@ -36,16 +39,23 @@ const Register = () => {
         setInputPassword(e.target.value);
     };
 
-    const SwitchLogin = () => {
-        if (islogin) {
-            setIsLogin(false);
-        } else {
-            setIsLogin(true);
-        }
+    const changeFirstName = (e) => {
+        setInputFirstName(e.target.value);
     };
 
-    const auth = () => {
-        dispatch(login({ username: inputLogin, password: inputPassword })).then((res) => {
+    const changeFirstNameClear = () => {
+        setInputFirstName("");
+    };
+    const changeLastName = (e) => {
+        setInputLastName(e.target.value);
+    };
+
+    const changeLastNameClear = () => {
+        setInputLastName("");
+    };
+
+    const reg = () => {
+        dispatch(register({ username: inputLogin, password: inputPassword, email: inputEmail, first_name: inputFirstName, last_name: inputLastName })).then((res) => {
             if (res.type.includes("fulfilled")) {
                 // const referrer = new URLSearchParams(window.location.search)?.get("referrer") || "/meeting/";
                 // if (!referrer.includes("meeting")) {
@@ -53,50 +63,67 @@ const Register = () => {
                 // } else {
                 //     router.push(referrer);
                 // }
-                router.push("/");
+                setError(false);
+                router.push("/login");
+            } else if (res.type.includes("rejected")) {
+                setError(true);
             }
         });
     };
+    // console.log(Object.keys(messageError));
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        auth();
+        reg();
     };
 
-    const disabled = inputLogin.length == 0 || inputPassword.length == 0;
+    const disabled = inputLogin.length == 0 || inputPassword.length == 0 || inputEmail.length == 0 || inputFirstName.length == 0 || inputLastName.length == 0;
 
     return (
         <div className={styles["container"]}>
             <div className={styles["body"]}>
-                <div className={styles["form__greetings"]} onClick={SwitchLogin}>
-                    Добро пожаловать
-                </div>
-                <div className={styles["form__title"]} onClick={SwitchLogin}>
-                    Зарегестрируйтесь
-                </div>
+                <div className={styles["form__greetings"]}>Добро пожаловать</div>
+                <div className={styles["form__title"]}>Зарегестрируйтесь</div>
                 <form className={styles["form"]} onSubmit={handleSubmit}>
                     <div className={styles["form__input"]}>
-                        <InputText type={"email"} placeholder={"Email"} label={"Email"} onChange={changeEmail} changeClear={changeEmailClear} />
+                        <InputText type={"email"} placeholder={"Email"} label={"Email"} onChange={changeEmail} changeClear={changeEmailClear} error={error} value={inputEmail} />
                     </div>
                     <div className={styles["form__input"]}>
-                        <InputText placeholder={"Введите логин"} label={"Логин"} onChange={changeLogin} changeClear={changeLoginClear} />
+                        <InputText placeholder={"Введите логин"} label={"Логин"} onChange={changeLogin} changeClear={changeLoginClear} error={error} value={inputLogin} />
                     </div>
                     <div className={styles["form__input"]}>
-                        <InputPassword placeholder={"Введите пароль"} label={"Пароль"} onChange={changePassword} />
+                        <InputText
+                            placeholder={"Введите имя пользователя"}
+                            label={"Имя пользователя"}
+                            onChange={changeFirstName}
+                            changeClear={changeFirstNameClear}
+                            value={inputFirstName}
+                        />
+                    </div>
+                    <div className={styles["form__input"]}>
+                        <InputText
+                            placeholder={"Введите фамилию пользователя"}
+                            label={"Фамилия пользователя"}
+                            onChange={changeLastName}
+                            changeClear={changeLastNameClear}
+                            value={inputLastName}
+                        />
+                    </div>
+                    <div className={styles["form__input"]}>
+                        <InputPassword placeholder={"Введите пароль"} label={"Пароль"} onChange={changePassword} error={error} value={inputPassword} />
                     </div>
                 </form>
-                <div className={styles["form__btn"]}>
-                    <ButtonLogin label={"Войти"} onClick={handleSubmit} disabled={disabled} />
+                <div className={styles["form__error"]}>
+                    {/* {Object.keys(messageError).map((element, index) => (
+                        // eslint-disable-next-line react/jsx-key
+                        <div>{element}</div>
+                    ))} */}
                 </div>
-                <a href="/forgot" className={styles["form__forgot"]}>
-                    <div className={styles["form__forgot"]} onClick={SwitchLogin}>
-                        Не помните пароль?
-                    </div>
-                </a>
+                <div className={styles["form__btn"]}>
+                    <ButtonLogin label={"Регигистрация"} onClick={handleSubmit} disabled={disabled} />
+                </div>
                 <a href="/login" className={styles["form__registration"]}>
-                    <div className={styles["form__registration"]} onClick={SwitchLogin}>
-                        Вход в личный кабинет
-                    </div>
+                    <div className={styles["form__registration"]}>Вход в личный кабинет</div>
                 </a>
             </div>
         </div>

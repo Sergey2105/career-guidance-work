@@ -3,9 +3,10 @@ import Header from "../header";
 import Footer from "../footer";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
-import { useDispatch } from "../../store/hooks";
-import { getMe } from "../../store/slice/authSlice";
+import { useDispatch, useSelector } from "../../store/hooks";
+import { activated, getMe } from "../../store/slice/authSlice";
 import { useEffect } from "react";
+import { selectFullUser, userDate } from "../../store/slice/userSlice";
 
 const MainLayout = (props) => {
     const { children } = props;
@@ -19,6 +20,12 @@ const MainLayout = (props) => {
         }
     }, []);
 
+    // const fullUserData = useSelector(selectFullUser);
+    // console.log(fullUserData);
+
+    // useEffect(() => {
+    //     dispatch(userDate());
+    // }, []);
     // useEffect(() => {
     // if (userData) {
     //     router.push(`/referrer=${window.location.pathname}`);

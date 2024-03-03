@@ -24,6 +24,7 @@
         font-size: 14px;
         font-weight: 600;
         margin-left: 24px;
+        gap: 6px;
     }
 }
 @media screen and (min-width: 768px) {
@@ -32,7 +33,7 @@
             display: flex;
             flex-direction: row;
             font-size: 14px;
-            margin-left: 12px;
+            margin-left: 6px;
         }
     }
 }
@@ -43,11 +44,12 @@
             flex-direction: column;
             font-size: 14px;
             margin-left: 24px;
+            gap: 0;
         }
     }
 }
 
-@media screen and (min-width: 1360px) {
+@media screen and (min-width: 1280px) {
     .user {
         &__name {
             display: flex;
@@ -55,6 +57,7 @@
             font-size: 14px;
             font-weight: 500;
             margin-left: 24px;
+            gap: 0;
         }
     }
 }

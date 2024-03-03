@@ -7,7 +7,7 @@ interface type {
     isLogin: boolean;
     auth_token: string | null;
     loading: boolean;
-    error: string;
+    error: Record<string, any>;
     userData: Record<string, any>;
 }
 
@@ -16,52 +16,52 @@ const initialState: type = {
     isLogin: false,
     auth_token: null,
     loading: false,
-    error: "",
+    error: {},
     userData: {},
 };
 
-// export const signup = createAsyncThunk("auth/register", async ({ username, password, email }: { username: string; password: string; email: string }, thunkAPI) => {
-//     // const data = {
-//     //     username: "",
-//     //     email: "",
-//     //     password: "",
-//     // };
-//     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/auth/users`, {
-//         method: "POST",
-//         headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ username, email, password }),
-//     });
-//     let dataChange = await response.json();
+export const register = createAsyncThunk(
+    "auth/register",
+    async ({ username, password, email, first_name, last_name }: { username: string; password: string; email: string; first_name: string; last_name: string }, thunkAPI) => {
+        // const data = {
+        //     username: "",
+        //     email: "",
+        //     password: "",
+        // };
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/user_register/`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password, first_name, last_name, email }),
+        });
+        let dataChange = await response.json();
 
-//     if (response.status === 200) {
-//         localStorage.setItem("token", dataChange.auth_token);
-//         return dataChange;
-//     } else {
-//         return thunkAPI.rejectWithValue(dataChange);
-//     }
-// });
+        if (response.status === 201) {
+            return dataChange;
+        } else {
+            return thunkAPI.rejectWithValue(dataChange);
+        }
+    },
+);
 
-// export const login = createAsyncThunk("auth/login", async (data: string) => {
-//     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/token/login`, {
-//         mode: "no-cors",
-//         method: "POST",
-//         headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json",
-//         },
-//         body: data,
-//     }).then((res) => res);
-// });
+export const activated = createAsyncThunk("auth/activated", async (_, thunkAPI) => {
+    const token = localStorage.getItem("userToken");
+    console.log(token);
+    if (token !== null) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/user_create/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
+        });
+    }
+});
 
 export const login = createAsyncThunk("auth/login", async ({ username, password }: { username: string; password: string }, thunkAPI) => {
-    // const data = {
-    //     username: "",
-    //     password: "",
-    // };
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/token/login`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/token/login/`, {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -73,7 +73,6 @@ export const login = createAsyncThunk("auth/login", async ({ username, password 
 
     if (response.status === 200) {
         localStorage.setItem("userToken", dataChange.auth_token);
-        return dataChange;
     } else {
         return thunkAPI.rejectWithValue(dataChange);
     }
@@ -99,7 +98,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 export const getMe = createAsyncThunk("auth/me", async (_, thunkAPI) => {
     const token = localStorage.getItem("userToken");
     if (token !== null) {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/uset_by_token/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/user_by_token/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -108,12 +107,7 @@ export const getMe = createAsyncThunk("auth/me", async (_, thunkAPI) => {
         });
         let userInfo = await response.json();
 
-        // if (response.status === 200) {
-        //     localStorage.setItem("user", userInfo.user);
         return userInfo;
-        // } else {
-        //     return thunkAPI.rejectWithValue(userInfo);
-        // }
     }
 });
 
@@ -129,16 +123,9 @@ const authSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        // builder.addCase(signup.fulfilled, (state, action) => {
-        //     // state.userData = action.payload;
-        //     console.log(action);
-        // });
-        // builder.addCase(signup.rejected, (state, action) => {
-        //     console.log(action);
-        // });
-        // builder.addCase(signup.pending, (state, action) => {
-        //     // console.log(action);
-        // });
+        builder.addCase(register.fulfilled, (state, action) => {});
+        builder.addCase(register.rejected, (state, { payload }) => {});
+        builder.addCase(register.pending, (state, action) => {});
 
         builder.addCase(login.fulfilled, (state, action) => {
             state.isLogin = true;
@@ -148,30 +135,35 @@ const authSlice = createSlice({
             state.isLogin = false;
         });
         builder.addCase(login.pending, (state, action) => {
-            // console.log(action);
             state.isLogin = false;
         });
 
         builder.addCase(getMe.fulfilled, (state, action) => {
             state.userData = action.payload;
             state.loading = false;
-            state.error = "";
         });
         builder.addCase(getMe.pending, (state) => {
             state.loading = true;
-            state.error = "";
         });
-
         builder.addCase(getMe.rejected, (state, action) => {
             state.loading = false;
-            state.error = "";
-            // state.error = action.error.message;
+        });
+        builder.addCase(activated.fulfilled, (state, action) => {
+            console.log(action);
+            state.loading = false;
+        });
+        builder.addCase(activated.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(activated.rejected, (state, action) => {
+            console.log(action);
+            state.loading = false;
         });
     },
 });
 export const { addToken } = authSlice.actions;
 
-// export const selectEvent = (state: RootState) => state.auth.user;
-export const selectUser = (state: RootState) => state.auth.userData;
+export const selectErrors = (state: RootState) => state.authSlice.error;
+export const selectUser = (state: RootState) => state.authSlice.userData;
 
 export default authSlice.reducer;

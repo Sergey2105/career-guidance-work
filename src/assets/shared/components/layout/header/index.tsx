@@ -10,7 +10,9 @@ import Menu from "/public/icons/menu.svg";
 import Cross from "/public/icons/cross.svg";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "../../store/hooks";
-import { getMe, selectUser } from "../../store/slice/authSlice";
+import { activated, getMe, selectUser } from "../../store/slice/authSlice";
+import Logo from "/public/img/logo.png";
+import Image from "next/image";
 
 const Header = () => {
     const [openLogin, setOpenLogin] = useState<boolean>(false);
@@ -20,15 +22,6 @@ const Header = () => {
     const menu = useSelector(selectMenu);
     const userData = useSelector(selectUser);
 
-    const windowOpen = () => {
-        setOpenLogin(true);
-        document.body.style.overflow = "hidden";
-    };
-    const windowClose = () => {
-        setOpenLogin(false);
-        document.body.style.overflow = "";
-    };
-
     // выход
 
     // const logout = () => {
@@ -37,13 +30,24 @@ const Header = () => {
     //     });
     // };
 
+    const pathLogin = () => {
+        if (localStorage.getItem("userToken")) {
+            router.push("/profile");
+        } else {
+            router.push("/login");
+        }
+        dispatch(closeMenu());
+    };
+
+    // const token = localStorage.getItem("userToken");
+    // dispatch(activated());
+
     return (
         <header className={styles["header"]}>
-            {openLogin && <ModalLogin onCloseModal={windowClose} />}
             <div className={styles["header__wrapper"]}>
                 <div className={styles["header__content"]}>
-                    <div className={styles["header__logo"]}>
-                        <span>Logo</span>
+                    <div className={styles["header__logo"]} onClick={() => router.push("/")}>
+                        <Image src={Logo} alt="Logo" />
                     </div>
                     <div className={styles["header__menu"]}>
                         <div className={clsx(styles["header__menu__visible"], styles[`${menu ? "header__menu__visible__active" : "header__menu__visible__disabled"}`])}>
@@ -65,8 +69,7 @@ const Header = () => {
                                 </li>
                             </ul>
                             <div className={styles["header__user"]}>
-                                {/* <User onClick={() => router.push("/profile")} /> */}
-                                <User onClick={() => router.push("/login")} />
+                                <User onClick={pathLogin} />
                             </div>
                         </div>
                         <div className={styles["header__burger"]}>
@@ -86,6 +89,7 @@ const Header = () => {
                         </div>
                     </div>
                 </div>
+                {menu ? <div className={styles["header__background"]} onClick={() => dispatch(closeMenu())}></div> : null}
             </div>
         </header>
     );

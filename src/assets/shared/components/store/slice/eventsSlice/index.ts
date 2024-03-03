@@ -15,8 +15,8 @@ const initialState = {
             pervions: "",
         },
         meta: {
-            count: "",
-            page_count: "",
+            count: 0,
+            page_count: 0,
         },
         results: [],
     },
@@ -27,7 +27,7 @@ const initialState = {
 
 export const fetchEvents = createAsyncThunk("events/fetchEvent", async function ({ page, search }: { page?: number; search?: string | number }) {
     const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${page !== 1 ? `?page=${page}&per_page=10&search=${search}` : `?page=${1}&per_page=10&search=${search}`}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${page !== 1 ? `?page=${page}&per_page=10&search=${search}` : `?page=${1}&per_page=10&search=${search}`}/`,
     ).then((res) => res.json());
     return response;
 });
@@ -57,6 +57,6 @@ const eventsSlice = createSlice({
 
 export const {} = eventsSlice.actions;
 
-export const selectEvents = (state: RootState) => state.event.data;
+export const selectEvents = (state: RootState) => state.eventsSlice.data;
 
 export default eventsSlice.reducer;

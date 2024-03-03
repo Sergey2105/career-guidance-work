@@ -3,7 +3,7 @@ import styles from "../index.module.scss";
 import Cross from "/public/icons/cross.svg";
 
 const InputText = (props) => {
-    const { placeholder, label, onChange, changeClear, type = "text" } = props;
+    const { placeholder, label, onChange, changeClear, type = "", error, value } = props;
     const ref = useRef<any>();
     const [textValue, setTextValue] = useState<string>("");
 
@@ -21,7 +21,14 @@ const InputText = (props) => {
         <div className={styles["input"]}>
             <label className={styles["input__label"]}>{label}</label>
             <div className={styles["input__group"]}>
-                <input ref={ref} type={type} className={styles["input__input"]} placeholder={placeholder} onChange={onChangeText}></input>
+                <input
+                    ref={ref}
+                    type={type}
+                    className={error ? styles["input__input__error"] : styles["input__input"]}
+                    placeholder={placeholder}
+                    onChange={onChangeText}
+                    value={value}
+                ></input>
                 <div className={styles["input__icon"]} onClick={deleteInput}>
                     {textValue.length !== 0 ? <Cross /> : null}
                 </div>

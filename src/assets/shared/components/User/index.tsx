@@ -6,12 +6,10 @@ import { getMe, logout, selectUser } from "../store/slice/authSlice";
 import { useEffect } from "react";
 
 const User = (props) => {
-    const { windowOpen, onClick = () => null } = props;
+    const { onClick = () => null } = props;
     const router = useRouter();
     const dispatch = useDispatch();
     const userData = useSelector(selectUser);
-
-    console.log(userData);
 
     const click = () => {
         dispatch(logout()).then(() => {
@@ -26,10 +24,12 @@ const User = (props) => {
                     <Profile />
                 </div>
             </div>
-            <div className={styles["user__name"]}>
-                <span>{userData?.first_name}</span>
-                <span>{userData?.last_name}</span>
-            </div>
+            {userData?.id ? (
+                <div className={styles["user__name"]}>
+                    <span>{userData?.first_name}</span>
+                    <span>{userData?.last_name}</span>
+                </div>
+            ) : null}
         </div>
     );
 };

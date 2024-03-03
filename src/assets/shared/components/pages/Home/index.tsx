@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./index.module.scss";
-import ButtonModal from "../../buttons/ButtonModal";
 import Empowered from "/public/img/empowered.jpg";
 import router from "next/router";
 import ModalLogin from "../../modal/ModalLogin";
-import ButtonLink from "../../buttons/ButtonLink";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { fetchEvents, selectEvents } from "../../store/slice/eventsSlice";
-import EventItem from "../Meeting/EventsItem";
+import EventItem from "../Meeting/MeetingsItem";
 import { useDispatch, useSelector } from "../../store/hooks";
 import Swiper from "swiper";
 import "swiper/css";
+import Button from "../../buttons/Button";
 
 const HomePage = () => {
     const [openLogin, setOpenLogin] = useState<boolean>(false);
@@ -45,32 +44,32 @@ const HomePage = () => {
                     <div>
                         <div className={styles["home__main__img"]}>
                             {/* <img src="/public/img/empowered.jpg" alt="Empowered" /> */}
-                            <Image className={styles["home__main__img__img"]} src={Empowered} alt="class" objectFit="contain" />
+                            <Image className={styles["home__main__img__img"]} src={Empowered} alt="class" />
                         </div>
                     </div>
                     <div className={styles["home__main__btn"]}>
-                        <ButtonModal label={"Присоединиться"} onClick={() => router.push("/login")} />
+                        <Button label={"Присоединиться"} onClick={() => router.push("/login")} />
                     </div>
                 </div>
             </div>
             <div className={styles["home__events"]}>
                 <div className={styles["home__wrapper"]}>
                     {/* <div className={styles["home__events__item"]}>{events?.results?.map((value, key) => <EventItem key={key} value={value} myKey={key} />)}</div> */}
-                </div>
-                <div className={styles["home__events__btn"]} onClick={() => router.push("/meeting")}>
-                    <ButtonLink label={"Больше мероприятий"} />
+                    <div className={styles["home__events__btn"]} onClick={() => router.push("/meeting")}>
+                        <Button label={"Больше мероприятий"} />
+                    </div>
                 </div>
             </div>
             <div className={styles["home__wrapper"]}>
                 <div className={styles["home__join"]}>
                     <div className={styles["home__join__label"]}>
-                        <span>
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis
-                            parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-                        </span>
+                        {/* Откройте мир профессиональных возможностей! Узнайте больше о наших мероприятиях и программе профориентации. Информация, которая поможет вам выбрать свое
+                        будущее. */}
+                        Исследуйте ваше профессиональное будущее с нашим разнообразным списком мероприятий! Открытие дверей к новым карьерным возможностям начинается здесь. Узнайте
+                        о наших образовательных и профориентационных программ для осознанного выбора вашего пути в мире труда.
                     </div>
                     <div className={styles["home__join__btn"]}>
-                        <ButtonLink label={"Больше информации"} />
+                        <Button label={"Больше информации"} />
                     </div>
                 </div>
             </div>

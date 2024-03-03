@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
-import EventList from "./EventsList";
+import MeetingList from "./MeetingList";
 
-const EventPage = () => {
-  return (
-    <div>
-      <EventList />
-    </div>
-  );
+const MeetingPage = () => {
+    return (
+        <div>
+            <MeetingList />
+        </div>
+    );
 };
-export default EventPage;
+export default MeetingPage;
