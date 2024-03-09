@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import EventItem from "../MeetingsItem";
+import MeetingsItem from "../MeetingsItem";
 import Pagination from "../../../Pagination";
 import { fetchEvents, selectEvents } from "../../../store/slice/eventsSlice";
 import { useDispatch, useSelector } from "../../../store/hooks";
@@ -29,7 +29,7 @@ const MeetingList = () => {
     return (
         <div className={styles["list"]}>
             <div className={styles["list__wrapper"]}>
-                <div className={styles["list__list"]}>{events?.results?.map((value, key) => <EventItem key={key} value={value} myKey={key} />)}</div>
+                <div className={styles["list__list"]}>{events?.results?.map((value, key) => <MeetingsItem key={key} value={value} myKey={key} />)}</div>
                 <div className={styles["pagination"]}>
                     {events?.results?.length != 0 && events?.meta?.page_count > 1 ? (
                         <Pagination howManyPages={events?.meta?.page_count} onChange={setCurrentPage} inputSearch={inputSearch} />

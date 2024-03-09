@@ -14,14 +14,11 @@ const Login = () => {
     const [inputPassword, setInputPassword] = useState<string>("");
     const [error, setError] = useState<boolean>(false);
     const router = useRouter();
-    const userData = useSelector(selectUser);
     const fullUserData = useSelector(selectFullUser);
     const dispatch = useDispatch();
     console.log(fullUserData);
-
-    useEffect(() => {
-        dispatch(userDate());
-    }, []);
+    const userData = useSelector(selectUser);
+    console.log(userData);
 
     const changeLogin = (e) => {
         setInputLogin(e.target.value);
@@ -44,15 +41,15 @@ const Login = () => {
                 // } else {
                 //     router.push(referrer);
                 // }
-                if (userData.id) {
-                    router.push("/");
-                } else {
-                    setError(false);
-                    router.push("/");
+
+                if (fullUserData?.birthday === null) {
                     dispatch(activated());
+                    router.push("/data");
+                    setError(false);
+                } else {
+                    router.push("/");
+                    setError(false);
                 }
-            } else if (res.type.includes("rejected")) {
-                setError(true);
             }
         });
     };

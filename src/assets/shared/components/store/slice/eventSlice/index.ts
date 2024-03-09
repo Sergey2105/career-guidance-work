@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../..";
+import Meeting from "@/pages/meeting";
 
 // interface typeEvents {
 //     data: Record<string, any>;
@@ -44,16 +45,32 @@ export const getEvent = createAsyncThunk("event/getEvent", async function (id: s
     return response;
 });
 
-export const joinEvent = createAsyncThunk("event/joinEvent", async (id: string) => {
+export const joinEvent = createAsyncThunk("event/joinEvent", async function (meetings: string) {
     const token = localStorage.getItem("userToken");
     if (token !== null) {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/user/10/add_meeting/`, {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/user/1/add_meeting/`, {
             method: "PUT",
             headers: {
+                Accept: "application/json",
                 "Content-Type": "application/json",
                 Authorization: `Token ${token}`,
             },
-            body: JSON.stringify({ id }),
+            body: JSON.stringify({ meetings }),
+        });
+    }
+});
+
+export const removeEvent = createAsyncThunk("event/removeEvent", async function (meetings: string) {
+    const token = localStorage.getItem("userToken");
+    if (token !== null) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/user/1/remove_meeting/`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
+            body: JSON.stringify({ meetings }),
         });
     }
 });

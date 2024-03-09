@@ -9,6 +9,7 @@ interface type {
     loading: boolean;
     error: Record<string, any>;
     userData: Record<string, any>;
+    userDataFull: Record<string, any>;
 }
 
 const initialState: type = {
@@ -18,6 +19,7 @@ const initialState: type = {
     loading: false,
     error: {},
     userData: {},
+    userDataFull: {},
 };
 
 export const register = createAsyncThunk(
@@ -79,23 +81,21 @@ export const login = createAsyncThunk("auth/login", async ({ username, password 
 });
 
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/token/logout/`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    const token = localStorage.getItem("userToken");
+    if (token !== null) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/token/logout/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
+        });
 
-    let userInfo = await response.json();
-
-    if (response.status === 200) {
         localStorage.removeItem("userToken");
-    } else {
-        return thunkAPI.rejectWithValue(userInfo);
     }
 });
 
-export const getMe = createAsyncThunk("auth/me", async (_, thunkAPI) => {
+export const getMe = createAsyncThunk("auth/getMe", async (_, thunkAPI) => {
     const token = localStorage.getItem("userToken");
     if (token !== null) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/user_by_token/`, {
@@ -111,6 +111,11 @@ export const getMe = createAsyncThunk("auth/me", async (_, thunkAPI) => {
     }
 });
 
+export const getMeFull = createAsyncThunk("auth/getMeFull", async function (id: string) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/users/${id}/`).then((res) => res.json());
+    return response;
+});
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -123,21 +128,6 @@ const authSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(register.fulfilled, (state, action) => {});
-        builder.addCase(register.rejected, (state, { payload }) => {});
-        builder.addCase(register.pending, (state, action) => {});
-
-        builder.addCase(login.fulfilled, (state, action) => {
-            state.isLogin = true;
-        });
-        builder.addCase(login.rejected, (state, action) => {
-            console.log(action);
-            state.isLogin = false;
-        });
-        builder.addCase(login.pending, (state, action) => {
-            state.isLogin = false;
-        });
-
         builder.addCase(getMe.fulfilled, (state, action) => {
             state.userData = action.payload;
             state.loading = false;
@@ -148,15 +138,14 @@ const authSlice = createSlice({
         builder.addCase(getMe.rejected, (state, action) => {
             state.loading = false;
         });
-        builder.addCase(activated.fulfilled, (state, action) => {
-            console.log(action);
+        builder.addCase(getMeFull.fulfilled, (state, action) => {
+            state.userDataFull = action.payload;
             state.loading = false;
         });
-        builder.addCase(activated.pending, (state) => {
+        builder.addCase(getMeFull.pending, (state) => {
             state.loading = true;
         });
-        builder.addCase(activated.rejected, (state, action) => {
-            console.log(action);
+        builder.addCase(getMeFull.rejected, (state, action) => {
             state.loading = false;
         });
     },
@@ -165,5 +154,6 @@ export const { addToken } = authSlice.actions;
 
 export const selectErrors = (state: RootState) => state.authSlice.error;
 export const selectUser = (state: RootState) => state.authSlice.userData;
+export const selectUserFull = (state: RootState) => state.authSlice.userDataFull;
 
 export default authSlice.reducer;

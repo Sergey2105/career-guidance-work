@@ -9,14 +9,14 @@ const initialState: type = {
     fullUserData: {},
 };
 
-export const userDate = createAsyncThunk("user/userDate", async (_, thunkAPI) => {
-    // const token = localStorage.getItem("userToken");
+export const userDate = createAsyncThunk("user/userDate", async (id: string) => {
+    const token = localStorage.getItem("userToken");
     // if (token !== null) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/users/10/`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/users/${id}/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            // Authorization: `Token ${token}`,
+            Authorization: `Token ${token}`,
         },
     });
     // }
