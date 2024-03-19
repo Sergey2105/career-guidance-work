@@ -4,21 +4,20 @@ import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
 import InputText from "../../inputs/inputText";
-import InputPassword from "../../inputs/inputPassword";
-import { activated, login, selectUser } from "../../store/slice/authSlice";
-import ButtonLogin from "../../buttons/ButtonLogin";
+import { activated, login, selectErrors, selectUser } from "../../store/slice/authSlice";
+import Button from "../../buttons/Button";
 import { selectFullUser, userDate } from "../../store/slice/userSlice";
+import { log } from "console";
+import InputPassword from "../../inputs/inputPassword";
 
 const Login = () => {
     const [inputLogin, setInputLogin] = useState<string>("");
     const [inputPassword, setInputPassword] = useState<string>("");
     const [error, setError] = useState<boolean>(false);
     const router = useRouter();
-    const fullUserData = useSelector(selectFullUser);
+    const userDataFull = useSelector(selectFullUser);
     const dispatch = useDispatch();
-    console.log(fullUserData);
-    const userData = useSelector(selectUser);
-    console.log(userData);
+    const loginErrors = useSelector(selectErrors);
 
     const changeLogin = (e) => {
         setInputLogin(e.target.value);
@@ -41,23 +40,23 @@ const Login = () => {
                 // } else {
                 //     router.push(referrer);
                 // }
-
-                if (fullUserData?.birthday === null) {
-                    dispatch(activated());
-                    router.push("/data");
-                    setError(false);
-                } else {
-                    router.push("/");
-                    setError(false);
-                }
+                // if (userDataFull?.birthday === null) {
+                //     dispatch(activated());
+                //     router.push("/data");
+                //     setError(false);
+                // } else {
+                //     router.push("/");
+                //     setError(false);
+                // }
+                router.push("/");
             }
         });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        auth();
-    };
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     auth();
+    // };
 
     const disabled = inputLogin.length == 0 || inputPassword.length == 0;
 
@@ -66,17 +65,19 @@ const Login = () => {
             <div className={styles["body"]}>
                 <div className={styles["form__greetings"]}>Добро пожаловать</div>
                 <div className={styles["form__title"]}>Войдите в личный кабинет</div>
-                <form className={styles["form"]} onSubmit={handleSubmit}>
+                <div className={styles["form"]}>
                     <div className={styles["form__input"]}>
                         <InputText placeholder={"Введите логин"} label={"Логин"} onChange={changeLogin} changeClear={changeLoginClear} error={error} value={inputLogin} />
                     </div>
                     <div className={styles["form__input"]}>
                         <InputPassword placeholder={"Введите пароль"} label={"Пароль"} onChange={changePassword} error={error} value={inputPassword} />
                     </div>
-                </form>
-                <div className={styles["form__error"]}>{error ? "Неверные данные для входа." : null}</div>
+                </div>
+                {loginErrors ? <div className={styles["form__error"]}>{loginErrors?.non_field_errors}</div> : null}
                 <div className={styles["form__btn"]}>
-                    <ButtonLogin label={"Войти"} onClick={handleSubmit} disabled={disabled} />
+                    <Button type="default" onClick={() => auth()} disabled={disabled}>
+                        Войти
+                    </Button>
                 </div>
                 <a href="/reset" className={styles["form__forgot"]}>
                     <div className={styles["form__forgot"]}>Не помните пароль?</div>

@@ -21,7 +21,7 @@ const initialState = {
         results: [],
     },
     count: "",
-    loading: false,
+    loading: true,
     error: "",
 };
 
@@ -38,19 +38,15 @@ const eventsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchEvents.fulfilled, (state, action) => {
-            state.loading = true;
+            state.loading = false;
             state.data = action.payload;
-            state.error = "";
         });
         builder.addCase(fetchEvents.pending, (state) => {
             state.loading = true;
-            state.error = "";
         });
 
         builder.addCase(fetchEvents.rejected, (state, action) => {
-            state.loading = false;
-            state.error = "";
-            // state.error = action.error.message;
+            state.loading = true;
         });
     },
 });
@@ -58,5 +54,6 @@ const eventsSlice = createSlice({
 export const {} = eventsSlice.actions;
 
 export const selectEvents = (state: RootState) => state.eventsSlice.data;
+export const selectEventsLoading = (state: RootState) => state.eventsSlice.loading;
 
 export default eventsSlice.reducer;

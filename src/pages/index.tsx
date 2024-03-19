@@ -2,12 +2,19 @@ import Layout from "@/assets/shared/components/layout/MainLayout";
 import Center from "@/assets/shared/components/layout/center";
 import HomePage from "@/assets/shared/components/pages/Home";
 import { NextPage } from "next";
+import Head from "next/head";
 
 const Home: NextPage = () => {
     return (
-        <Center>
-            <HomePage />
-        </Center>
+        <>
+            <Head>
+                <title>Главная</title>
+            </Head>
+
+            <Center>
+                <HomePage />
+            </Center>
+        </>
     );
 };
 

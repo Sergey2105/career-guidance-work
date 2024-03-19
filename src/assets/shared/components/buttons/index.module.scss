@@ -1,39 +1,47 @@
 .btn {
+    font-family: "Montserrat", sans-serif;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    border: none;
+    border-radius: 6px;
+    // background-color: black;
+    padding: 10px 15px;
     width: 100%;
-    &__click {
-        cursor: pointer;
-        font-size: 18px;
-        font-weight: 500;
-        border: none;
-        border-radius: 6px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    &__default {
         background-color: #1e4a91;
-        // background-color: black;
-        padding: 10px 15px;
-        color: #ffffff;
-        width: 100%;
-        height: 48px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 10px;
+        color: #fff;
     }
-    &__click:disabled {
-        cursor: default;
-        opacity: 0.5;
+    &__white {
+        background-color: #f2f2f2;
+        color: #1e4a91;
+        border: 2px solid #1e4a91;
     }
-    &__click:disabled:hover {
-        opacity: 0.5;
-    }
-    &__click:hover {
-        opacity: 0.8;
-    }
-    &__click:active {
-        opacity: 0.5;
-    }
+}
+.btn:disabled {
+    cursor: default;
+    opacity: 0.5;
+    pointer-events: none;
+}
+.btn:disabled:hover {
+    opacity: 0.5;
+}
+.btn:hover {
+    opacity: 0.8;
+}
+.btn:active {
+    opacity: 0.5;
 }
 .btn__inactive {
     cursor: pointer;
     font-size: 22px;
+    line-height: 32px;
     border: none;
     background-color: #424245;
     padding: 10px 15px;

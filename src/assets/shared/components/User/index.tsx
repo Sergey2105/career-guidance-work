@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 import styles from "./index.module.scss";
 import Profile from "/public/icons/profile.svg";
 import { useDispatch, useSelector } from "../store/hooks";
-import { getMe, logout, selectUser } from "../store/slice/authSlice";
+import { getMe, logout, selectUser, selectUserFull } from "../store/slice/authSlice";
 import { useEffect } from "react";
 
 const User = (props) => {
@@ -10,12 +10,13 @@ const User = (props) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const userData = useSelector(selectUser);
+    const userDataFull = useSelector(selectUserFull);
 
-    const click = () => {
-        dispatch(logout()).then(() => {
-            router.push("/");
-        });
-    };
+    // const click = () => {
+    //     dispatch(logout()).then(() => {
+    //         router.push("/");
+    //     });
+    // };
 
     return (
         <div className={styles["user"]}>

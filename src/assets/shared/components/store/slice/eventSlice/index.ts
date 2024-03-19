@@ -36,7 +36,7 @@ const initialState = {
         voting: [],
     },
     count: "",
-    loading: false,
+    loading: true,
     error: "",
 };
 

@@ -14,6 +14,7 @@
 .form {
     &__greetings {
         font-size: 14px;
+        line-height: 20px;
         color: rgb(0, 0, 0, 0.6);
         font-weight: 500;
         margin-bottom: 12px;
@@ -31,27 +32,27 @@
     }
     &__forgot {
         font-size: 16px;
+        line-height: 24px;
         font-weight: 600;
         margin-bottom: 12px;
         color: rgb(0, 0, 0, 0.6);
         text-decoration-color: rgb(0, 0, 0, 0.6);
-        text-align: center;
         margin-bottom: 12px;
     }
     &__registration {
         font-size: 16px;
+        line-height: 24px;
         font-weight: 600;
         margin-bottom: 12px;
         color: #414561;
         text-decoration-color: #414561;
-        text-align: center;
         margin-bottom: 12px;
     }
     &__error {
         font-size: 16px;
+        line-height: 24px;
         font-weight: 500;
         color: #ff4570;
-        text-align: center;
         margin-bottom: 12px;
     }
 }

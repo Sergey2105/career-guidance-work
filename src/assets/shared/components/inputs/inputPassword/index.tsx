@@ -25,7 +25,6 @@ const InputPassword = (props) => {
             setType("text");
         }
     };
-
     return (
         <div className={styles["input"]}>
             <label className={styles["input__label"]}>{label}</label>

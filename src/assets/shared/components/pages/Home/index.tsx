@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "../../store/hooks";
 import Swiper from "swiper";
 import "swiper/css";
 import Button from "../../buttons/Button";
+import Loader from "../../Loader";
+import { selectUserFull } from "../../store/slice/authSlice";
 
 const HomePage = () => {
     const [openLogin, setOpenLogin] = useState<boolean>(false);
@@ -18,15 +20,10 @@ const HomePage = () => {
     const Tablet = useMediaQuery(768);
     const Laptop = useMediaQuery(1024);
     const Desktop = useMediaQuery(1360);
+    const userDataFull = useSelector(selectUserFull);
 
-    const windowOpen = () => {
-        setOpenLogin(true);
-        document.body.style.overflow = "hidden";
-    };
-    const windowClose = () => {
-        setOpenLogin(false);
-        document.body.style.overflow = "";
-    };
+    // if (typeof window !== "undefined") {
+    // }
 
     const dispatch = useDispatch();
     const events = useSelector(selectEvents);
@@ -36,44 +33,55 @@ const HomePage = () => {
     }, []);
 
     return (
-        <div className={styles["home"]}>
-            {openLogin && <ModalLogin onCloseModal={windowClose} />}
-            <div className={styles["home__wrapper"]}>
-                <div className={styles["home__main"]}>
-                    <div className={styles["home__main__label"]}>Твой календарь мероприятий, твой путь к профессиональному росту!</div>
-                    <div>
-                        <div className={styles["home__main__img"]}>
-                            {/* <img src="/public/img/empowered.jpg" alt="Empowered" /> */}
-                            <Image className={styles["home__main__img__img"]} src={Empowered} alt="class" />
+        <>
+            {/* {!userDataFull.id ? (
+                <Loader />
+            ) : ( */}
+            <div className={styles["home"]}>
+                <div className={styles["home__wrapper"]}>
+                    <div className={styles["home__main"]}>
+                        <div className={styles["home__main__label"]}>Твой календарь мероприятий, твой путь к профессиональному росту!</div>
+                        <div>
+                            <div className={styles["home__main__img"]}>
+                                {/* <img src="/public/img/empowered.jpg" alt="Empowered" /> */}
+                                <Image className={styles["home__main__img__img"]} src={Empowered} alt="class" />
+                            </div>
+                        </div>
+                        <div className={styles["home__main__btn"]}>
+                            {!userDataFull.id ? (
+                                <Button type="default" onClick={() => router.push("/login")}>
+                                    Присоединиться
+                                </Button>
+                            ) : null}
                         </div>
                     </div>
-                    <div className={styles["home__main__btn"]}>
-                        <Button label={"Присоединиться"} onClick={() => router.push("/login")} />
+                </div>
+                <div className={styles["home__events"]}>
+                    <div className={styles["home__wrapper"]}>
+                        {/* <div className={styles["home__events__item"]}>{events?.results?.map((value, key) => <EventItem key={key} value={value} myKey={key} />)}</div> */}
+                        <div className={styles["home__events__btn"]}>
+                            <Button type="default" onClick={() => router.push("/meeting")}>
+                                Больше мероприятий
+                            </Button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className={styles["home__events"]}>
                 <div className={styles["home__wrapper"]}>
-                    {/* <div className={styles["home__events__item"]}>{events?.results?.map((value, key) => <EventItem key={key} value={value} myKey={key} />)}</div> */}
-                    <div className={styles["home__events__btn"]} onClick={() => router.push("/meeting")}>
-                        <Button label={"Больше мероприятий"} />
-                    </div>
-                </div>
-            </div>
-            <div className={styles["home__wrapper"]}>
-                <div className={styles["home__join"]}>
-                    <div className={styles["home__join__label"]}>
-                        {/* Откройте мир профессиональных возможностей! Узнайте больше о наших мероприятиях и программе профориентации. Информация, которая поможет вам выбрать свое
+                    <div className={styles["home__join"]}>
+                        <div className={styles["home__join__label"]}>
+                            {/* Откройте мир профессиональных возможностей! Узнайте больше о наших мероприятиях и программе профориентации. Информация, которая поможет вам выбрать свое
                         будущее. */}
-                        Исследуйте ваше профессиональное будущее с нашим разнообразным списком мероприятий! Открытие дверей к новым карьерным возможностям начинается здесь. Узнайте
-                        о наших образовательных и профориентационных программ для осознанного выбора вашего пути в мире труда.
-                    </div>
-                    <div className={styles["home__join__btn"]}>
-                        <Button label={"Больше информации"} />
+                            Исследуйте ваше профессиональное будущее с нашим разнообразным списком мероприятий! Открытие дверей к новым карьерным возможностям начинается здесь.
+                            Узнайте о наших образовательных и профориентационных программ для осознанного выбора вашего пути в мире труда.
+                        </div>
+                        <div className={styles["home__join__btn"]}>
+                            <Button type="default">Больше информации</Button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            {/* )} */}
+        </>
     );
 };
 export default HomePage;

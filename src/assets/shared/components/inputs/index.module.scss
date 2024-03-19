@@ -2,6 +2,7 @@
     &__label {
         display: block;
         font-size: 14px;
+        line-height: 20px;
         font-weight: 600;
         margin-bottom: 10px;
     }
@@ -26,6 +27,7 @@
             border-radius: 6px;
             outline: none;
             font-size: 16px;
+            line-height: 24px;
             font-weight: 400;
             letter-spacing: 0.5px;
             color: #000;
@@ -53,4 +55,64 @@
         transform: translateY(-50%);
         padding: 5px;
     }
+    &__area {
+        font-family: "Montserrat", sans-serif;
+        width: 100%;
+        height: 48px;
+        padding: 10px 35px 10px 15px;
+        border: none;
+        border: 2px solid #b3b3b3;
+        border-radius: 6px;
+        outline: none;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+        color: #000;
+        max-width: 100%;
+        min-width: 100%;
+        max-height: 200px;
+        min-height: 100px;
+        &__error {
+            width: 100%;
+            height: 48px;
+            padding: 10px 35px 10px 15px;
+            border: none;
+            border: 2px solid #ff4570;
+            border-radius: 6px;
+            outline: none;
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            color: #000;
+        }
+    }
+    &__input:hover {
+        border: 2px solid #000;
+        outline: none;
+    }
+    &__input:focus {
+        border: 2px solid #000;
+        outline: none;
+    }
+    &__group {
+        position: relative;
+        width: 100%;
+    }
+}
+.date {
+    transform: translate3d(24px, 289px 0px);
+    z-index: 10;
+    outline: none;
+    border: #b3b3b3 solid 2px;
+    background-color: #fff;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-top: 4px;
+    &__date {
+        margin: 0 !important;
+    }
+}
+.rdp {
+    margin: 0 !important;
 }

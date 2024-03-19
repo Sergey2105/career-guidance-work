@@ -1,20 +1,33 @@
 .list {
+    padding: 100px 0;
     &__wrapper {
-        padding: 0 8px;
+        padding: 0 16px;
         max-width: 375px;
         margin: 0 auto;
         position: relative;
+    }
+    &__title {
+        font-size: 24px;
+        line-height: 34px;
+        font-weight: 600;
+    }
+    &__header {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 40px;
+    }
+    &__search {
+        max-width: 100%;
     }
     &__list {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
         justify-content: center;
         gap: 20px;
-        padding: 100px 0;
     }
 }
 .pagination {
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 @media screen and (min-width: 768px) {
@@ -25,11 +38,26 @@
             margin: 0 auto;
             position: relative;
         }
+        &__title {
+            font-size: 24px;
+            line-height: 34px;
+            font-weight: 600;
+        }
+        &__header {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        &__search {
+            width: 434px;
+        }
         &__list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             justify-content: center;
-            gap: 20px;
+            gap: 12px;
         }
     }
 }
@@ -40,11 +68,25 @@
             max-width: 1024px;
             margin: 0 auto;
         }
+        &__title {
+            font-size: 24px;
+            line-height: 34px;
+            font-weight: 600;
+        }
+        &__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        &__search {
+            width: 434px;
+        }
         &__list {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             justify-content: center;
-            gap: 20px;
+            gap: 16px;
         }
     }
 }
@@ -54,6 +96,20 @@
             padding: 0 24px;
             max-width: 1280px;
             margin: 0 auto;
+        }
+        &__title {
+            font-size: 24px;
+            line-height: 34px;
+            font-weight: 600;
+        }
+        &__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        &__search {
+            width: 434px;
         }
         &__list {
             display: grid;

@@ -2,10 +2,9 @@ import InputText from "@/assets/shared/components/inputs/inputText";
 import styles from "./index.module.scss";
 import InputPassword from "@/assets/shared/components/inputs/inputPassword";
 import React, { useState } from "react";
-import ButtonLogin from "@/assets/shared/components/buttons/ButtonLogin";
+import Button from "@/assets/shared/components/buttons/Button";
 import ModalBase from "../../modalBase";
 import { useRouter } from "next/router";
-import ButtonRegistration from "../../buttons/ButtonRegistration";
 import { login } from "../../store/slice/authSlice";
 import { useDispatch } from "../../store/hooks";
 
@@ -41,8 +40,10 @@ const ModalLogin = (props) => {
     const SwitchLogin = () => {
         if (islogin) {
             setIsLogin(false);
+            document.body.style.overflow = "hidden";
         } else {
             setIsLogin(true);
+            document.body.style.overflow = "visible";
         }
     };
 
@@ -79,7 +80,17 @@ const ModalLogin = (props) => {
                 title={islogin ? "Вход" : "Регистрация"}
                 onCloseModal={onCloseModal}
                 size="login"
-                footer={<>{islogin ? <ButtonLogin label={"Войти"} onClick={handleSubmit} disabled={disabled} /> : <ButtonLogin label={"Регистрация"} />}</>}
+                footer={
+                    <>
+                        {islogin ? (
+                            <Button onClick={() => handleSubmit} disabled={disabled}>
+                                Войти
+                            </Button>
+                        ) : (
+                            <Button>Регистрация</Button>
+                        )}
+                    </>
+                }
             >
                 <div>
                     {islogin ? (

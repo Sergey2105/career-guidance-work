@@ -4,9 +4,11 @@ import Footer from "../Footer";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
-import { getMe, getMeFull, selectUser, selectUserFull } from "../../store/slice/authSlice";
+import { activated, getMe, getMeFull, selectUser, selectUserFull } from "../../store/slice/authSlice";
 import { useEffect } from "react";
 import { selectFullUser, userDate } from "../../store/slice/userSlice";
+import Loader from "../../Loader";
+import { getEvent } from "../../store/slice/eventSlice";
 
 const MainLayout = (props) => {
     const { children } = props;
@@ -14,6 +16,7 @@ const MainLayout = (props) => {
     const dispatch = useDispatch();
     const userData = useSelector(selectUser);
     const userDataFull = useSelector(selectUserFull);
+
     console.log(userDataFull);
 
     useEffect(() => {
@@ -30,6 +33,21 @@ const MainLayout = (props) => {
         }
     }, [userData]);
 
+    useEffect(() => {
+        if (userData.id_profile === "None") {
+            dispatch(activated());
+            router.push("/data");
+        }
+        if (userDataFull.id && userDataFull?.birthday === null && userData.id_profile !== "None") {
+            router.push("/data");
+        }
+    }, [userDataFull]);
+
+    // if (typeof window !== "undefined" && window.localStorage) {
+    //     const token = localStorage.getItem("userToken");
+    //     console.log(token);
+    // }
+
     // useEffect(() => {
     // if (userData) {
     //     router.push(`/referrer=${window.location.pathname}`);
@@ -42,11 +60,13 @@ const MainLayout = (props) => {
     // console.log(userData);
 
     return (
-        <div className={styles["container"]}>
-            <Header />
-            <main className={styles["body"]}>{children}</main>
-            {router.pathname === "/login" || router.pathname === "/register" ? null : <Footer />}
-        </div>
+        <>
+            <div className={styles["container"]}>
+                <Header />
+                <main className={styles["body"]}>{children}</main>
+                {router.pathname === "/login" || router.pathname === "/register" ? null : <Footer />}
+            </div>
+        </>
     );
 };
 export default MainLayout;

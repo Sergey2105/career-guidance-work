@@ -12,7 +12,7 @@
     &__default {
         z-index: 60;
         &__windows {
-            width: 416px;
+            width: 343px;
             height: 400px;
             border-radius: 8px;
             background-color: #fff;
@@ -26,7 +26,8 @@
             display: flex;
             justify-content: space-between;
             &__title {
-                font-size: 24px;
+                font-size: 20px;
+                line-height: 30px;
                 font-weight: 600;
                 color: #000;
             }
@@ -61,7 +62,7 @@
     &__login {
         z-index: 60;
         &__windows {
-            width: 416px;
+            width: 343px;
             height: auto;
             border-radius: 8px;
             background-color: #fff;
@@ -75,7 +76,8 @@
             display: flex;
             justify-content: space-between;
             &__title {
-                font-size: 24px;
+                font-size: 20px;
+                line-height: 30px;
                 font-weight: 600;
                 color: #000;
             }
@@ -99,6 +101,44 @@
     }
 }
 @media screen and (min-width: 768px) {
+    .modal {
+        &__login {
+            &__windows {
+                width: 434px;
+            }
+        }
+        &__default {
+            &__windows {
+                width: 434px;
+            }
+        }
+    }
 }
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1024px) {
+    .modal {
+        &__login {
+            &__windows {
+                width: 434px;
+            }
+        }
+        &__default {
+            &__windows {
+                width: 434px;
+            }
+        }
+    }
+}
+@media screen and (min-width: 1280px) {
+    .modal {
+        &__login {
+            &__windows {
+                width: 434px;
+            }
+        }
+        &__default {
+            &__windows {
+                width: 434px;
+            }
+        }
+    }
 }

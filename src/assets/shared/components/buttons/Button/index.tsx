@@ -1,15 +1,30 @@
+import React, { ReactElement } from "react";
 import styles from "../index.module.scss";
-import React, { useState } from "react";
+import { clsx } from "clsx";
 
-const Button = (props) => {
-    const { label, onClick = () => null } = props;
+export interface btn {
+    children: React.ReactNode;
+    onClick?: () => void;
+    // onClick?;
+    type?: "default" | "white";
+    disabled?: boolean;
+}
+const Button = (props): ReactElement => {
+    const { children, onClick = () => null, type, disabled = false } = props;
 
     return (
-        <div className={styles["btn"]}>
-            <button className={styles["btn__click"]} onClick={onClick}>
-                <span className={styles["btn__text"]}>{label}</span>
-            </button>
-        </div>
+        // <div className={styles["btn"]}>
+        <button
+            className={clsx(styles["btn"], styles[`btn__${type}`], disabled && styles[`btn__disabled`])}
+            // className={styles["btn__${type}__click"]}
+            onClick={onClick}
+            disabled={disabled}
+            type="button"
+        >
+            {/* <span className={styles["btn__text"]}>{label}</span> */}
+            {children}
+        </button>
+        // </div>
     );
 };
 export default Button;

@@ -16,12 +16,16 @@ const ModalUnauth = (props) => {
                 size="login"
                 footer={
                     <>
-                        <Button label={"Регистрация"} onClick={() => router.push("/register")} />
-                        <Button label={"Закрыть"} onClick={switchModal} />
+                        <Button type="default" onClick={() => router.push("/login")}>
+                            Вход
+                        </Button>
+                        <Button type="white" onClick={switchModal}>
+                            Закрыть
+                        </Button>
                     </>
                 }
             >
-                <div>Для записи на мероприятие необходмо авторизоваться</div>
+                <div className={styles["text"]}>Для записи на мероприятие необходмо авторизоваться</div>
             </ModalBase>
         </>
     );

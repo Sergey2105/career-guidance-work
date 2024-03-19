@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "../../store/hooks";
 import InputText from "../../inputs/inputText";
 import InputPassword from "../../inputs/inputPassword";
 import { login } from "../../store/slice/authSlice";
-import ButtonLogin from "../../buttons/ButtonLogin";
+import Button from "../../buttons/Button";
 
 const Reset = () => {
     const [inputEmail, setInputEmail] = useState<string>("");
@@ -34,11 +34,13 @@ const Reset = () => {
                 <div className={styles["form__title"]}>Востановить пароль</div>
                 <form className={styles["form"]}>
                     <div className={styles["form__input"]}>
-                        <InputText type={"email"} placeholder={"Email"} label={"Email"} onChange={changeEmail} changeClear={changeEmailClear} value={inputEmail} />
+                        <InputText type={"email"} placeholder={"Введите email"} label={"Email"} onChange={changeEmail} changeClear={changeEmailClear} value={inputEmail} />
                     </div>
                 </form>
                 <div className={styles["form__btn"]}>
-                    <ButtonLogin label={"Воcтановить пароль"} onClick={handleSubmit} disabled={disabled} />
+                    <Button type="default" onClick={() => handleSubmit} disabled={disabled}>
+                        Воcтановить пароль
+                    </Button>
                 </div>
                 <a href="/login" className={styles["form__registration"]}>
                     <div className={styles["form__registration"]}>Вход в личный кабинет</div>

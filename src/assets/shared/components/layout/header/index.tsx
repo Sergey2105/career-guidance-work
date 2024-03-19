@@ -32,15 +32,12 @@ const Header = () => {
 
     const pathLogin = () => {
         if (localStorage.getItem("userToken")) {
-            router.push("/profile");
+            router.push(`/profile/${userData.id_profile}`);
         } else {
             router.push("/login");
         }
         dispatch(closeMenu());
     };
-
-    // const token = localStorage.getItem("userToken");
-    // dispatch(activated());
 
     return (
         <header className={styles["header"]}>
@@ -63,8 +60,8 @@ const Header = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/contact" className={styles[`${pathname === "/contact" ? "link__active" : "link"}`]} onClick={() => dispatch(closeMenu())}>
-                                        Контакты
+                                    <Link href="/info" className={styles[`${pathname === "/info" ? "link__active" : "link"}`]} onClick={() => dispatch(closeMenu())}>
+                                        Информация
                                     </Link>
                                 </li>
                             </ul>
