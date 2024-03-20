@@ -32,7 +32,12 @@ const Header = () => {
 
     const pathLogin = () => {
         if (localStorage.getItem("userToken")) {
-            router.push(`/profile/${userData.id_profile}`);
+            const path = location.pathname.split("/").filter((el) => el)[0];
+            if (path === "profile") {
+                router.push(`/profile/${userData.id_profile}`).then(() => router.reload());
+            } else {
+                router.push(`/profile/${userData.id_profile}`);
+            }
         } else {
             router.push("/login");
         }

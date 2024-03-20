@@ -204,6 +204,10 @@ const authSlice = createSlice({
         builder.addCase(getAnotherFull.fulfilled, (state, action) => {
             state.userDataFullAnother = action.payload;
         });
+        builder.addCase(getAnotherFull.pending, (state, action) => {});
+        builder.addCase(getAnotherFull.rejected, (state, action) => {
+            state.errors = action.payload;
+        });
         builder.addCase(logout.fulfilled, (state, action) => {
             state.userDataFull = {};
             state.userData = {};
