@@ -60,13 +60,18 @@ const Header = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/meeting" className={styles[`${pathname === "/meeting" ? "link__active" : "link"}`]} onClick={() => dispatch(closeMenu())}>
+                                    <Link href="/meeting" className={styles[`${pathname === "/meeting/" ? "link__active" : "link"}`]} onClick={() => dispatch(closeMenu())}>
                                         Мероприятия
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/info" className={styles[`${pathname === "/info" ? "link__active" : "link"}`]} onClick={() => dispatch(closeMenu())}>
+                                    <Link href="/info" className={styles[`${pathname === "/info/" ? "link__active" : "link"}`]} onClick={() => dispatch(closeMenu())}>
                                         Информация
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/mymeeting" className={styles[`${pathname === "/mymeeting/" ? "link__active" : "link"}`]} onClick={() => dispatch(closeMenu())}>
+                                        Мои мероприятия
                                     </Link>
                                 </li>
                             </ul>

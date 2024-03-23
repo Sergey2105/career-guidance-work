@@ -44,9 +44,9 @@ const Profile = () => {
 
     return (
         <>
-            {userDataFullAnother?.detail ? (
+            {userDataFullAnother?.error ? (
                 <div className={styles["message"]}>
-                    <span className={styles["message__text"]}>{userDataFullAnother?.detail}</span>
+                    <span className={styles["message__text"]}>{userDataFullAnother?.error}</span>
                     <div className={styles["message__btn"]}>
                         <Button onClick={() => router.push("/")} type="default">
                             Вернуться на главную
@@ -87,14 +87,14 @@ const Profile = () => {
                                 ) : null}
                             </div>
                             {login == userDataFull.id ? (
-                                <>
+                                <div className={styles["body__btn"]}>
                                     <Button onClick={() => router.push("/data")} type="default">
                                         Изменить данные
                                     </Button>
                                     <Button onClick={logoutUser} type="white">
                                         Выйти
                                     </Button>
-                                </>
+                                </div>
                             ) : null}
                             {/* Сообщение? */}
                         </div>

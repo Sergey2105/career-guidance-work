@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Center from "@/assets/shared/components/layout/center";
+import Center from "@/assets/shared/components/layout/Center";
 import Reset from "@/assets/shared/components/pages/Reset";
 import { NextPage } from "next";
 import Head from "next/head";

@@ -123,7 +123,6 @@ export const data = createAsyncThunk(
     "auth/data",
     async function ({
         id,
-        username,
         email,
         first_name,
         last_name,
@@ -132,7 +131,6 @@ export const data = createAsyncThunk(
         info,
     }: {
         id: string;
-        username: string;
         email: string;
         first_name: string;
         last_name: string;
@@ -150,7 +148,6 @@ export const data = createAsyncThunk(
                     Authorization: `Token ${token}`,
                 },
                 body: JSON.stringify({
-                    username,
                     email,
                     first_name,
                     last_name,
@@ -205,9 +202,7 @@ const authSlice = createSlice({
             state.userDataFullAnother = action.payload;
         });
         builder.addCase(getAnotherFull.pending, (state, action) => {});
-        builder.addCase(getAnotherFull.rejected, (state, action) => {
-            state.errors = action.payload;
-        });
+        builder.addCase(getAnotherFull.rejected, (state, action) => {});
         builder.addCase(logout.fulfilled, (state, action) => {
             state.userDataFull = {};
             state.userData = {};

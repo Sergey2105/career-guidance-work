@@ -11,15 +11,13 @@ const QrCode = (props) => {
 
     useEffect(() => {
         if (userDataFull) {
-            setID(userDataFull.id);
+            setID(String(userDataFull.id));
         }
     }, [userDataFull]);
 
     return (
         <div className={styles["qr"]}>
-            <div className={styles["qr__title"]}>Ваш QR код для прохода на мероприятие</div>
             <div className={styles["qr__block"]}>{userDataFull.id ? <QRCode value={id} width="" height="" /> : null}</div>
-            <span className={styles["qr__text"]}></span>
         </div>
     );
 };

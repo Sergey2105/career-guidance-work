@@ -75,7 +75,7 @@ const InputText = (props) => {
 
     return (
         <div className={styles["input"]}>
-            <label className={styles["input__label"]}>{label}</label>
+            {label ? <span className={styles["input__label"]}>{label}</span> : null}
             <div className={styles["input__group"]}>
                 <input
                     ref={ref as LegacyRef<HTMLInputElement> | undefined}

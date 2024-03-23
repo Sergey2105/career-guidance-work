@@ -1,6 +1,6 @@
 import Loader from "@/assets/shared/components/Loader";
 import Layout from "@/assets/shared/components/layout/MainLayout";
-import Center from "@/assets/shared/components/layout/center";
+import Center from "@/assets/shared/components/layout/Center";
 import Data from "@/assets/shared/components/pages/Data";
 import HomePage from "@/assets/shared/components/pages/Home";
 import { selectUserFull } from "@/assets/shared/components/store/slice/authSlice";

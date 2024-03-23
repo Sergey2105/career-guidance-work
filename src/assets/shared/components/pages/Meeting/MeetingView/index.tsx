@@ -19,12 +19,11 @@ const MeetingView = (props) => {
     const [modalRemove, setModalRemove] = useState<boolean>(false);
 
     const dispatch = useDispatch();
-    const route = useRouter();
+    const router = useRouter();
     const event = useSelector(selectEventProps);
     const userData = useSelector(selectUser);
     const userDataFull = useSelector(selectUserFull);
     console.log(event);
-    console.log(userDataFull);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
@@ -55,7 +54,7 @@ const MeetingView = (props) => {
         const token = localStorage.getItem("userToken");
         if (token !== null) {
             window.location.reload();
-            dispatch(joinEvent(String(id)));
+            dispatch(joinEvent({ id: userDataFull?.id, meetings: String(id) }));
         } else {
             switchModalUnlogin();
         }
@@ -66,7 +65,7 @@ const MeetingView = (props) => {
         const token = localStorage.getItem("userToken");
         if (token !== null) {
             window.location.reload();
-            dispatch(removeEvent(String(id)));
+            dispatch(removeEvent({ id: userDataFull?.id, meetings: String(id) }));
         } else {
             switchModalUnlogin();
         }
@@ -76,63 +75,73 @@ const MeetingView = (props) => {
     const found = userDataFull?.meetings?.find((el) => {
         return el.id === Number(location.pathname.split("/").filter((el) => el)[1]);
     });
-    console.log(userDataFull?.meetings);
-
-    console.log(found);
 
     return (
         <>
             {modalUnlogin ? <ModalUnauth switchModal={switchModalUnlogin} /> : null}
             {modalRemove ? <ModalRemoveMeeting switchModal={switchModalRemove} remove={remove} /> : null}
-
-            <div className={styles["wrapper"]}>
-                <div className={styles["header"]}>
-                    <div className={styles["img"]}>
-                        <Image className={styles["img__img"]} src={Room} alt="class" />
-                    </div>
-                    <div className={styles["header__main"]}>
-                        <div className={styles["header__main__title"]}>{event.title}</div>
-                        <div className={styles["header__main__name"]}>
-                            <div className={styles["header__main__name__time"]}>Время проведения</div>
-                            <div className={styles["header__main__name__place"]}>Место проведения</div>
-                            <div className={styles["header__main__name__date"]}>Дата проведения</div>
-                            <div className={styles["header__main__name__date"]}>Колличество мест</div>
-                        </div>
-                        <div className={styles["header__main__info"]}>
-                            <div className={styles["header__main__info__time"]}>
-                                {event?.timetable.start_time} – {event?.timetable.end_time}
-                            </div>
-                            <div className={styles["header__main__info__place"]}>{event?.timetable.place.office}</div>
-                            <div className={styles["header__main__info__date"]}>{event?.timetable.event_date}</div>
-                            <div className={styles["header__main__info__date"]}>{event?.timetable.place.max_participant}</div>
-                        </div>
+            {event?.error ? (
+                <div className={styles["message"]}>
+                    <span className={styles["message__text"]}>{event?.error}</span>
+                    <div className={styles["message__btn"]}>
+                        <Button onClick={() => router.push("/")} type="default">
+                            Вернуться на главную
+                        </Button>
                     </div>
                 </div>
-                {found !== undefined ? <div className={styles["message"]}>Вы записаны на данное мероприятие</div> : <div className={styles["empty"]} />}
-                <div className={styles["main"]}>
-                    <div className={styles["main__tag"]}>{event?.tags?.map((value, key) => <Tag key={key} value={value} myKey={key} />)}</div>
-                    <div className={styles["main__btn"]}>
-                        {found !== undefined ? (
-                            <Button type="default" onClick={() => switchModalRemove()}>
-                                Отменить запись
-                            </Button>
-                        ) : (
-                            <Button type="default" onClick={() => join()}>
-                                Записаться
-                            </Button>
-                        )}
+            ) : (
+                <div className={styles["wrapper"]}>
+                    <div className={styles["header"]}>
+                        <div className={styles["img"]}>
+                            <Image className={styles["img__img"]} src={Room} alt="class" />
+                        </div>
+                        <div className={styles["header__main"]}>
+                            <div className={styles["header__main__title"]}>{event.title}</div>
+                            <div className={styles["header__main__name"]}>
+                                <div className={styles["header__main__name__time"]}>Время проведения</div>
+                                <div className={styles["header__main__name__place"]}>Место проведения</div>
+                                <div className={styles["header__main__name__date"]}>Дата проведения</div>
+                                <div className={styles["header__main__name__date"]}>Колличество мест</div>
+                            </div>
+                            <div className={styles["header__main__info"]}>
+                                <div className={styles["header__main__info__time"]}>
+                                    {event?.timetable?.start_time} – {event?.timetable?.end_time}
+                                </div>
+                                <div className={styles["header__main__info__place"]}>{event?.timetable?.place.office}</div>
+                                <div className={styles["header__main__info__date"]}>{event?.timetable?.event_date}</div>
+                                <div className={styles["header__main__info__date"]}>{event?.timetable?.place.max_participant}</div>
+                            </div>
+                        </div>
                     </div>
-                    {found !== undefined ? (
-                        <div>
-                            <QrCode />
+                    {found !== undefined ? <div className={styles["record"]}>Вы записаны на данное мероприятие</div> : <div className={styles["empty"]} />}
+                    <div className={styles["main"]}>
+                        <div className={styles["main__tag"]}>{event?.tags?.map((value, key) => <Tag key={key} value={value} myKey={key} />)}</div>
+                        <div className={styles["main__btn"]}>
+                            {found !== undefined ? (
+                                <Button type="default" onClick={() => switchModalRemove()}>
+                                    Отменить запись
+                                </Button>
+                            ) : (
+                                <Button type="default" onClick={() => join()}>
+                                    Записаться
+                                </Button>
+                            )}
+                        </div>
+                        {found !== undefined ? (
+                            <div className={styles["main__qr"]}>
+                                <span className={styles["main__qr__text"]}>Ваш QR код для прохода на мероприятие</span>
+                                <QrCode />
+                            </div>
+                        ) : null}
+                    </div>
+                    {event?.body !== "" ? (
+                        <div className={styles["info"]}>
+                            <div className={styles["info__title"]}>Информация о мероприятии</div>
+                            <div className={styles["info__text"]}>{event?.body}</div>
                         </div>
                     ) : null}
                 </div>
-                <div className={styles["info"]}>
-                    <div className={styles["info__title"]}>Информация о мероприятии</div>
-                    <div className={styles["info__text"]}>{event?.body !== "" ? event?.body : "Информация о мероприятии отсутствует"}</div>
-                </div>
-            </div>
+            )}
         </>
     );
 };

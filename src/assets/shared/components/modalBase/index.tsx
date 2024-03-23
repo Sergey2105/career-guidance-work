@@ -4,10 +4,10 @@ import { clsx } from "clsx";
 import Cross from "/public/icons/cross.svg";
 
 const ModalBase = (props) => {
-    const { children, title, onCloseModal, footer, size = "default" } = props;
+    const { children, title, onCloseModal, footer, size = "default", zIndex = "50" } = props;
 
     return (
-        <div className={clsx(styles["modal"], styles[`modal__${size}`])} onClick={onCloseModal}>
+        <div className={clsx(styles["modal"], styles[`modal__${size}`])} onClick={onCloseModal} style={{ zIndex: zIndex }}>
             <div className={clsx(styles["modal__windows"], styles[`modal__${size}__windows`])} onClick={(e) => e.stopPropagation()}>
                 <div className={clsx(styles["modal__header"], styles[`modal__${size}__header`])}>
                     <span className={clsx(styles["modal__header__title"], styles[`modal__${size}__header__title`])}>{title}</span>

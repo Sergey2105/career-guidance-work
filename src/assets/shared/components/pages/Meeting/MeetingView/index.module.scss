@@ -1,3 +1,20 @@
+.message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 343px;
+    max-height: 100%;
+    text-align: center;
+    &__text {
+        font-size: 24px;
+        line-height: 34px;
+        font-weight: 600;
+    }
+    &__btn {
+        margin-top: 10px;
+    }
+}
 .wrapper {
     padding: 0 16px;
     max-width: 375px;
@@ -52,14 +69,28 @@
     }
 }
 .main {
-    display: grid;
-    grid-template-rows: repeat(3, 1fr);
+    // display: grid;
+    // grid-template-rows: repeat(3, 1fr);
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    gap: 40px;
     margin: 40px 0;
+    &__tag {
+    }
     &__btn {
         display: flex;
         align-items: center;
         margin: 0 auto;
         width: 100%;
+    }
+    &__qr {
+        margin: 0 auto;
+        &__text {
+            font-size: 14px;
+            line-height: 24px;
+            font-weight: 500;
+        }
     }
 }
 .info {
@@ -74,7 +105,7 @@
         margin-top: 10px;
     }
 }
-.message {
+.record {
     font-size: 14px;
     line-height: 20px;
     font-weight: 600;
@@ -169,7 +200,7 @@
             margin-top: 10px;
         }
     }
-    .message {
+    .record {
         font-size: 16px;
         line-height: 24px;
         font-weight: 600;
@@ -259,7 +290,7 @@
             margin-top: 10px;
         }
     }
-    .message {
+    .record {
         font-size: 18px;
         line-height: 28px;
         font-weight: 600;
@@ -349,7 +380,7 @@
             margin-top: 10px;
         }
     }
-    .message {
+    .record {
         font-size: 22px;
         line-height: 32px;
         font-weight: 600;

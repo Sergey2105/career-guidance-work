@@ -16,11 +16,11 @@ const ModalUnauth = (props) => {
                 size="login"
                 footer={
                     <>
-                        <Button type="default" onClick={() => router.push("/login")}>
-                            Вход
-                        </Button>
                         <Button type="white" onClick={switchModal}>
                             Закрыть
+                        </Button>
+                        <Button type="default" onClick={() => router.push("/login")}>
+                            Вход
                         </Button>
                     </>
                 }

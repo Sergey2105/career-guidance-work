@@ -16,11 +16,11 @@ const ModalRemoveMeeting = (props) => {
                 size="login"
                 footer={
                     <>
-                        <Button type="default" onClick={() => remove()}>
-                            Подтвердить отмену
-                        </Button>
                         <Button type="white" onClick={switchModal}>
                             Закрыть
+                        </Button>
+                        <Button type="default" onClick={() => remove()}>
+                            Подтвердить отмену
                         </Button>
                     </>
                 }

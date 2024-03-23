@@ -1,4 +1,4 @@
-import Center from "@/assets/shared/components/layout/center";
+import Center from "@/assets/shared/components/layout/Center";
 import { NextPage } from "next";
 import Head from "next/head";
 

@@ -14,7 +14,6 @@ const Data = () => {
     const userData = useSelector(selectUser);
     const userDataFull = useSelector(selectUserFull);
 
-    const [inputLogin, setInputLogin] = useState<string>("");
     const [inputEmail, setInputEmail] = useState<string>("");
     const [inputFirstName, setInputFirstName] = useState<string>("");
     const [inputLastName, setInputLastName] = useState<string>("");
@@ -24,7 +23,6 @@ const Data = () => {
 
     useEffect(() => {
         if (userDataFull) {
-            setInputLogin(userDataFull.username);
             setInputEmail(userDataFull.email);
             setInputFirstName(userDataFull.first_name);
             setInputLastName(userDataFull.last_name);
@@ -38,9 +36,6 @@ const Data = () => {
     const router = useRouter();
     const loading = useSelector(selectEventsUser);
 
-    const changeLogin = (e) => {
-        setInputLogin(e.target.value);
-    };
     const changeEmail = (e) => {
         setInputEmail(e.target.value);
     };
@@ -63,9 +58,6 @@ const Data = () => {
         setInputInfo(e.target.value);
     };
 
-    const changeLoginClear = () => {
-        setInputLogin("");
-    };
     const changeEmailClear = () => {
         setInputEmail("");
     };
@@ -85,7 +77,6 @@ const Data = () => {
     };
 
     const disabled =
-        inputLogin?.length == 0 ||
         setInputEmail?.length == 0 ||
         setInputFirstName?.length == 0 ||
         setInputLastName?.length == 0 ||
@@ -98,7 +89,6 @@ const Data = () => {
             data({
                 id: userDataFull.id,
                 email: inputEmail,
-                username: inputLogin,
                 first_name: inputFirstName,
                 last_name: inputLastName,
                 birthday: inputDate,
@@ -107,11 +97,12 @@ const Data = () => {
             }),
         ).then((res) => {
             if (res.type.includes("fulfilled")) {
-                router.push("/profile/${userData.id_profile}");
+                router.push(`/profile/${userData.id_profile}`);
             }
         });
     };
 
+    console.log(userData);
     return (
         <>
             {/* {!loading ? (
@@ -123,9 +114,6 @@ const Data = () => {
                     <div className={styles["header__zagolovok"]}>Обновите или добавьте данные профиля, чтобы настроить индивидуальный поиск мероприятий.</div>
                 </div>
                 <div className={styles["body"]}>
-                    <div className={styles["body__input"]}>
-                        <InputText placeholder={"Введите логин"} label={"Логин"} onChange={changeLogin} changeClear={changeLoginClear} defaultValue={inputLogin} />
-                    </div>
                     <div className={styles["body__input"]}>
                         <InputText placeholder={"Введите email"} label={"Email"} onChange={changeEmail} changeClear={changeEmailClear} defaultValue={inputEmail} />
                     </div>
@@ -162,7 +150,7 @@ const Data = () => {
                     </Button>
                     {userDataFull?.birthday !== null ? (
                         <Button type="white" onClick={() => router.push(`/profile/${userData.id_profile}`)} disabled={disabled}>
-                            Сохранить
+                            Назад
                         </Button>
                     ) : null}
                 </div>

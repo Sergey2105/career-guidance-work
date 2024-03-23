@@ -43,22 +43,6 @@ const MainLayout = (props) => {
         }
     }, [userDataFull]);
 
-    // if (typeof window !== "undefined" && window.localStorage) {
-    //     const token = localStorage.getItem("userToken");
-    //     console.log(token);
-    // }
-
-    // useEffect(() => {
-    // if (userData) {
-    //     router.push(`/referrer=${window.location.pathname}`);
-    // }
-    // if (userData.id && window.location.pathname == "/") {
-    //     router.push("/meeting");
-    // }
-    // }, [userData]);
-
-    // console.log(userData);
-
     return (
         <>
             <div className={styles["container"]}>
