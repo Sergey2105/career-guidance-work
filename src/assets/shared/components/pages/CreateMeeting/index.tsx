@@ -5,9 +5,12 @@ import { useDispatch, useSelector } from "../../store/hooks";
 import InputText from "../../inputs/inputText";
 import Button from "../../buttons/Button";
 import ModalCreateTimetable from "../../modal/ModalCreateTimetable";
+import ModalCreateMeeting from "../../modal/ModalCreateMeeting";
 
 const CreateMeeting = () => {
     const [modalCreateTimetable, setModalCreateTimetable] = useState<boolean>(false);
+    const [modalCreateMeeting, setModalCreateMeeting] = useState<boolean>(false);
+
     const router = useRouter();
     const dispatch = useDispatch();
 
@@ -24,6 +27,7 @@ const CreateMeeting = () => {
     return (
         <>
             {modalCreateTimetable ? <ModalCreateTimetable switchModalCreateTimetable={switchModalCreateTimetable} /> : null}
+            {modalCreateMeeting ? <ModalCreateMeeting /> : null}
             <div className={styles["list__wrapper"]}>
                 <div className={styles["list"]}>
                     <div className={styles["list__title"]}>Мои мероприятия</div>

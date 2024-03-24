@@ -77,12 +77,7 @@ const Data = () => {
     };
 
     const disabled =
-        setInputEmail?.length == 0 ||
-        setInputFirstName?.length == 0 ||
-        setInputLastName?.length == 0 ||
-        setInputDate?.length == 0 ||
-        setInputTelegram?.length == 0 ||
-        setInputInfo?.length == 0;
+        inputEmail?.length == 0 || inputFirstName?.length == 0 || inputLastName?.length == 0 || inputDate?.length == 0 || inputTelegram?.length == 0 || inputInfo?.length == 0;
 
     const change = () => {
         dispatch(

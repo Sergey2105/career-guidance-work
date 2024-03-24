@@ -42,6 +42,28 @@ const InputText = (props) => {
             autofix: true,
             lazy: true,
         },
+        {
+            type: "time",
+            mask: "HH:MM",
+            blocks: {
+                HH: {
+                    mask: IMask.MaskedRange,
+                    placeholderChar: "HH",
+                    from: 0,
+                    to: 23,
+                    maxLength: 2,
+                },
+                MM: {
+                    mask: IMask.MaskedRange,
+                    placeholderChar: "MM",
+                    from: 0,
+                    to: 59,
+                    maxLength: 2,
+                },
+            },
+            overwrite: true,
+            autofix: true,
+        },
     ]);
 
     const currentType = mask.find((item) => item.type === type) as Record<string, any>;

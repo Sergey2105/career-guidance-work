@@ -7,6 +7,7 @@ interface typeEvents {
     guests: Record<string, any>;
     meta: Record<string, any>;
     eventProps: Record<string, any>;
+    places: any;
     errors: { [key: string]: string[] };
 }
 
@@ -16,6 +17,7 @@ const initialState: typeEvents = {
         total_count: 0,
         page_count: 0,
     },
+    places: [],
     eventProps: {
         // id: 0,
         // author: "",
@@ -76,6 +78,48 @@ export const removeEvent = createAsyncThunk("event/removeEvent", async ({ id, me
     }
 });
 
+export const getPlaces = createAsyncThunk("event/getPlaces", async function () {
+    // const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/places_list/`).then((res) => res.json());
+    // console.log(response);
+    // return response;
+    const token = localStorage.getItem("userToken");
+    if (token !== null) {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/places_list/`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
+        });
+        const result = await response.json();
+        return result;
+    }
+});
+
+export const createTimetable = createAsyncThunk(
+    "event/createTimetable",
+    async ({ event_date, start_time, end_time, place }: { event_date: string; start_time: string; end_time: string; place: string }, thunkAPI) => {
+        // const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/places_list/`).then((res) => res.json());
+        // console.log(response);
+        // return response;
+        const token = localStorage.getItem("userToken");
+        if (token !== null) {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/timetable_create/`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${token}`,
+                },
+                body: JSON.stringify({ event_date, start_time, end_time, place }),
+            });
+            const result = await response.json();
+            return result;
+        }
+    },
+);
+
 const eventSlice = createSlice({
     name: "event",
     initialState,
@@ -86,11 +130,15 @@ const eventSlice = createSlice({
                 ...action.payload,
             };
         });
+        builder.addCase(getPlaces.fulfilled, (state, action) => {
+            state.places = action.payload;
+        });
     },
 });
 
 export const {} = eventSlice.actions;
 
 export const selectEventProps = (state: RootState) => state.eventSlice.eventProps;
+export const selectPlace = (state: RootState) => state.eventSlice.places;
 
 export default eventSlice.reducer;

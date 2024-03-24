@@ -3,8 +3,6 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/mymeeting": "pages/mymeeting.js",
-  "/scanner/[id]": "pages/scanner/[id].js",
-  "/meeting": "pages/meeting.js",
   "/profile/[id]": "pages/profile/[id].js",
-  "/meeting/[id]": "pages/meeting/[id].js"
+  "/data": "pages/data.js"
 }
