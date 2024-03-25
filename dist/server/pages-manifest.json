@@ -2,7 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/mymeeting": "pages/mymeeting.js",
-  "/profile/[id]": "pages/profile/[id].js",
-  "/data": "pages/data.js"
+  "/meeting/[id]": "pages/meeting/[id].js",
+  "/data": "pages/data.js",
+  "/login": "pages/login.js",
+  "/profile/[id]": "pages/profile/[id].js"
 }

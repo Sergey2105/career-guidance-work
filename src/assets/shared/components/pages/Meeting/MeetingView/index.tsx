@@ -53,8 +53,7 @@ const MeetingView = (props) => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         const token = localStorage.getItem("userToken");
         if (token !== null) {
-            window.location.reload();
-            dispatch(joinEvent({ id: userDataFull?.id, meetings: String(id) }));
+            dispatch(joinEvent({ id: userDataFull?.id, meetings: String(id) })).then(() => window.location.reload());
         } else {
             switchModalUnlogin();
         }
@@ -64,8 +63,7 @@ const MeetingView = (props) => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         const token = localStorage.getItem("userToken");
         if (token !== null) {
-            window.location.reload();
-            dispatch(removeEvent({ id: userDataFull?.id, meetings: String(id) }));
+            dispatch(removeEvent({ id: userDataFull?.id, meetings: String(id) })).then(() => window.location.reload());
         } else {
             switchModalUnlogin();
         }

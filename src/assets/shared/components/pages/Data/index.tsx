@@ -76,8 +76,27 @@ const Data = () => {
         setInputTelegram("");
     };
 
+    // const disabled =
+    //     (inputEmail?.length === 0 && inputEmail === null) ||
+    //     (inputFirstName?.length === 0 && inputFirstName === null) ||
+    //     (inputLastName?.length === 0 && inputLastName === null) ||
+    //     (inputDate?.length === 0 && inputDate === null) ||
+    //     (inputTelegram?.length === 0 && inputTelegram === null);
+
     const disabled =
-        inputEmail?.length == 0 || inputFirstName?.length == 0 || inputLastName?.length == 0 || inputDate?.length == 0 || inputTelegram?.length == 0 || inputInfo?.length == 0;
+        inputEmail?.length === 0 ||
+        inputEmail === null ||
+        inputFirstName?.length === 0 ||
+        inputFirstName === null ||
+        inputLastName?.length === 0 ||
+        inputLastName === null ||
+        inputDate?.length === 0 ||
+        inputDate === null ||
+        inputTelegram?.length === 0 ||
+        inputDate === null;
+
+    console.log(inputEmail, inputFirstName, inputLastName, inputDate, inputTelegram);
+    console.log(disabled);
 
     const change = () => {
         dispatch(
@@ -92,7 +111,7 @@ const Data = () => {
             }),
         ).then((res) => {
             if (res.type.includes("fulfilled")) {
-                router.push(`/profile/${userData.id_profile}`);
+                router.push(`/profile/${userData?.id_profile}`);
             }
         });
     };
@@ -144,7 +163,7 @@ const Data = () => {
                         Сохранить
                     </Button>
                     {userDataFull?.birthday !== null ? (
-                        <Button type="white" onClick={() => router.push(`/profile/${userData.id_profile}`)} disabled={disabled}>
+                        <Button type="white" onClick={() => router.push(`/profile/${userData.id_profile}`)}>
                             Назад
                         </Button>
                     ) : null}

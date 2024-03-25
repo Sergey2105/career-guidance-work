@@ -28,17 +28,17 @@ const MainLayout = (props) => {
 
     useEffect(() => {
         const token = localStorage.getItem("userToken");
-        if (Object.keys(userData).length !== 0 && token !== null) {
-            dispatch(getMeFull(String(userData?.id_profile)));
+        if (Object.keys(userData).length !== 0 && token !== null && userData?.id_profile !== "None") {
+            dispatch(getMeFull(String(userData.id_profile)));
         }
     }, [userData]);
 
     useEffect(() => {
-        if (userData.id_profile === "None") {
+        if (userData?.id_profile === "None") {
             dispatch(activated());
             router.push("/data");
         }
-        if (userDataFull.id && userDataFull?.birthday === null && userData.id_profile !== "None") {
+        if (userDataFull?.id && userDataFull?.birthday === null && userData?.id_profile !== "None") {
             router.push("/data");
         }
     }, [userDataFull]);

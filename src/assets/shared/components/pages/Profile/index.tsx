@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
-import { getAnotherFull, logout, selectErrors, selectEventsUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
+import { getAnotherFull, logout, selectErrors, selectEventsUser, selectUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
 import Image from "next/image";
 import Rock from "/public/img/johnson_dwayne.jpg";
 import Button from "../../buttons/Button";
@@ -14,33 +14,31 @@ const Profile = () => {
     const dispatch = useDispatch();
     const router = useRouter();
     const userDataFull = useSelector(selectUserFull);
+    const userData = useSelector(selectUser);
     const userDataFullAnother = useSelector(selectUserFullAnother);
+    // const [currentID, setCurrentID] = useState<string>("");
 
-    const [login, setLogin] = useState<string>("");
+    const [currentProfile, setCurrentProfile] = useState<boolean>(true);
     const messageError = useSelector(selectErrors);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
-        setLogin(id);
-        if (login !== "") dispatch(getAnotherFull(String(login)));
-    }, [login]);
+        dispatch(getAnotherFull(String(id)));
+    }, []);
 
-    console.log(userDataFullAnother);
-    // useEffect(() => {
-    //     const token = localStorage.getItem("userToken");
-    // }, []);
+    useEffect(() => {
+        if (userData?.id_profile === String(userDataFullAnother?.id)) {
+            setCurrentProfile(true);
+        } else {
+            setCurrentProfile(false);
+        }
+    }, [userDataFullAnother]);
+
     const logoutUser = () => {
         dispatch(logout()).then(() => {
             router.push("/");
         });
     };
-
-    // useEffect(() => {
-    //     const token = localStorage.getItem("userToken");
-    //     if (token === null) {
-    //         router.push("/register");
-    //     }
-    // }, []);
 
     return (
         <>
@@ -86,7 +84,7 @@ const Profile = () => {
                                     </div>
                                 ) : null}
                             </div>
-                            {login == userDataFull.id ? (
+                            {currentProfile ? (
                                 <div className={styles["body__btn"]}>
                                     <Button onClick={() => router.push("/data")} type="default">
                                         Изменить данные
@@ -97,6 +95,7 @@ const Profile = () => {
                                 </div>
                             ) : null}
                             {/* Сообщение? */}
+                            {/* 2121@mail.ru */}
                         </div>
                         <div className={styles["body__info"]}>
                             <div className={styles["body__info__title"]}>Мои записи на мероприятия</div>
