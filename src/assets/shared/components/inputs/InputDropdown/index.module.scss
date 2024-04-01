@@ -8,26 +8,14 @@
 .container {
     position: relative;
     width: 100%;
-    height: 48px;
+    min-height: 48px;
     border: 2px solid #b3b3b3;
     display: flex;
     align-items: center;
-    // gap: 10px;
     padding: 10px 35px 10px 15px;
     border-radius: 6px;
     outline: none;
 }
-// .icon {
-//     cursor: pointer;
-//     display: flex;
-//     align-items: center;
-//     position: absolute;
-//     top: 50%;
-//     right: 10px;
-//     transform: translateY(-50%);
-//     padding: 5px;
-//     gap: 5px;
-// }
 
 .container:focus {
     border-color: #000;
@@ -66,7 +54,7 @@
     align-items: center;
     position: absolute;
     top: 50%;
-    right: 10px;
+    right: 8px;
     transform: translateY(-50%);
     padding: 5px;
 }
@@ -78,7 +66,8 @@
 .divider {
     background-color: #777;
     align-self: stretch;
-    width: 0.05em;
+    width: 1px;
+    margin-right: 5px;
 }
 
 .caret {
@@ -92,7 +81,7 @@
     padding: 0;
     list-style: none;
     display: none;
-    max-height: 15em;
+    // max-height: 15em;
     overflow-y: auto;
     border: 2px solid #b3b3b3;
     border-radius: 6px;
@@ -113,7 +102,7 @@
 }
 
 .option.selected {
-    background-color: #8aaadf;
+    background-color: #325ea552;
 }
 
 .option.highlighted {
@@ -122,29 +111,21 @@
 }
 
 .option-badge {
+    cursor: pointer;
     display: flex;
     align-items: center;
     border: 2px solid #b3b3b3;
     border-radius: 6px;
-    padding: 0.15em 0.25em;
-    gap: 0.25em;
-    cursor: pointer;
+    padding: 2px 4px;
+    gap: 5px;
     background: none;
     outline: none;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 1.5px;
+    font-weight: 500;
 }
-
-.option-badge:hover,
-.option-badge:focus {
-    background-color: hsl(0, 100%, 90%);
-    border-color: hsl(0, 100%, 50%);
-}
-
-.option-badge:hover > .remove-btn,
-.option-badge:focus > .remove-btn {
-    color: hsl(0, 100%, 50%);
-}
-
-.option-badge > .remove-btn {
-    font-size: 1.25em;
-    color: #777;
+.remove-btn {
+    display: flex;
+    align-items: center;
 }

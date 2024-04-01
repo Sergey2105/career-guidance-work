@@ -4,7 +4,7 @@ import Cross from "/public/icons/cross.svg";
 import { IMask, IMaskInput, useIMask } from "react-imask";
 
 const InputText = (props) => {
-    const { placeholder, label, onChange, changeClear, type, error, defaultValue } = props;
+    const { placeholder, label, onChange, changeClear, type, error, value } = props;
     const [textValue, setTextValue] = useState<string>("");
 
     const [mask] = useState([
@@ -64,6 +64,13 @@ const InputText = (props) => {
             overwrite: true,
             autofix: true,
         },
+        {
+            type: "number",
+            mask: Number,
+            min: 1,
+            max: 999999,
+            autofix: true,
+        },
     ]);
 
     const currentType = mask.find((item) => item.type === type) as Record<string, any>;
@@ -75,12 +82,12 @@ const InputText = (props) => {
     });
 
     useEffect(() => {
-        if (defaultValue && ref.current) {
-            setTextValue(defaultValue);
-            ref.current.value = defaultValue;
+        if (value && ref.current) {
+            setTextValue(value);
+            ref.current.value = value;
             maskRef.current?.updateValue();
         }
-    }, [defaultValue, ref]);
+    }, [value, ref]);
 
     const onChangeText = (e) => {
         onChange?.(e);
@@ -105,7 +112,8 @@ const InputText = (props) => {
                     type="text"
                     placeholder={placeholder}
                     onChange={onChangeText}
-                    defaultValue={defaultValue}
+                    // value={value || ""}
+                    defaultValue={value}
                 ></input>
                 {textValue !== "" && textValue !== null ? (
                     <div className={styles["input__icon"]} onClick={deleteInput}>

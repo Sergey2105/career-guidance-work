@@ -1,7 +1,7 @@
 .wrapper {
     padding: 0 16px;
-    max-width: 375px;
-    margin: 0 auto;
+    // max-width: 375px;
+    // margin: 0 auto;
 }
 .header {
     padding-top: 100px;
@@ -23,13 +23,18 @@
     &__input {
         margin-bottom: 20px;
     }
+    &__btn {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
 }
 
 @media screen and (min-width: 768px) {
     .wrapper {
         padding: 0 24px;
-        max-width: 768px;
-        margin: 0 auto;
+        // max-width: 768px;
+        // margin: 0 auto;
     }
     .header {
         padding-top: 100px;

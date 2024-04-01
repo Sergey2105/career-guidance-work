@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../..";
-import Meeting from "@/pages/meeting";
 
 interface typeEvents {
     loading: boolean;
@@ -8,6 +7,8 @@ interface typeEvents {
     meta: Record<string, any>;
     eventProps: Record<string, any>;
     places: any;
+    tags: any;
+    timetable: any;
     errors: { [key: string]: string[] };
 }
 
@@ -18,6 +19,8 @@ const initialState: typeEvents = {
         page_count: 0,
     },
     places: [],
+    tags: [],
+    timetable: [],
     eventProps: {
         // id: 0,
         // author: "",
@@ -46,6 +49,35 @@ const initialState: typeEvents = {
 export const getEvent = createAsyncThunk("event/getEvent", async function (id: string) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${id}/`).then((res) => res.json());
     return response;
+});
+
+export const editEvents = createAsyncThunk("event/editEvents", async ({ id, author, title, body }: { id: string; author: number; title: string; body: string }, thunkAPI) => {
+    const token = localStorage.getItem("userToken");
+    if (token !== null) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${id}/`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
+            body: JSON.stringify({ author, title, body }),
+        });
+    }
+});
+
+export const deleteEvents = createAsyncThunk("event/deleteEvents", async ({ id }: { id: string }, thunkAPI) => {
+    const token = localStorage.getItem("userToken");
+    if (token !== null) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${id}/`, {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
+        });
+    }
 });
 
 export const joinEvent = createAsyncThunk("event/joinEvent", async ({ id, meetings }: { id: string; meetings: string }, thunkAPI) => {
@@ -79,9 +111,6 @@ export const removeEvent = createAsyncThunk("event/removeEvent", async ({ id, me
 });
 
 export const getPlaces = createAsyncThunk("event/getPlaces", async function () {
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/places_list/`).then((res) => res.json());
-    // console.log(response);
-    // return response;
     const token = localStorage.getItem("userToken");
     if (token !== null) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/places_list/`, {
@@ -120,6 +149,74 @@ export const createTimetable = createAsyncThunk(
     },
 );
 
+export const createMeeting = createAsyncThunk(
+    "event/createMeeting",
+    async ({ title, body, timetable, tags }: { title: string; body: string; timetable: string; tags: any }, thunkAPI) => {
+        const token = localStorage.getItem("userToken");
+        if (token !== null) {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting_create/`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${token}`,
+                },
+                body: JSON.stringify({ title, body, timetable, tags }),
+            });
+            const result = await response.json();
+            return result;
+        }
+    },
+);
+
+export const getTags = createAsyncThunk("event/getTags", async function () {
+    const token = localStorage.getItem("userToken");
+    if (token !== null) {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/tags_list/`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
+        });
+        const result = await response.json();
+        return result;
+    }
+});
+
+export const getTimetable = createAsyncThunk("event/getTimetable", async function () {
+    const token = localStorage.getItem("userToken");
+    if (token !== null) {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/timetable_list/`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
+        });
+        const result = await response.json();
+        return result;
+    }
+});
+
+export const getGuest = createAsyncThunk("event/getGuest", async (id: string) => {
+    const token = localStorage.getItem("userToken");
+    if (token !== null) {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/prifils/${id}/`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
+        });
+        const result = await response.json();
+        return result;
+    }
+});
+
 const eventSlice = createSlice({
     name: "event",
     initialState,
@@ -133,6 +230,15 @@ const eventSlice = createSlice({
         builder.addCase(getPlaces.fulfilled, (state, action) => {
             state.places = action.payload;
         });
+        builder.addCase(getTags.fulfilled, (state, action) => {
+            state.tags = action.payload;
+        });
+        builder.addCase(getTimetable.fulfilled, (state, action) => {
+            state.timetable = action.payload;
+        });
+        builder.addCase(getGuest.fulfilled, (state, action) => {
+            state.guests = action.payload;
+        });
     },
 });
 
@@ -140,5 +246,8 @@ export const {} = eventSlice.actions;
 
 export const selectEventProps = (state: RootState) => state.eventSlice.eventProps;
 export const selectPlace = (state: RootState) => state.eventSlice.places;
+export const selectTags = (state: RootState) => state.eventSlice.tags;
+export const selectTimetable = (state: RootState) => state.eventSlice.timetable;
+export const selectGuest = (state: RootState) => state.eventSlice.guests;
 
 export default eventSlice.reducer;

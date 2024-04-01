@@ -140,7 +140,7 @@ export const data = createAsyncThunk(
     }) {
         const token = localStorage.getItem("userToken");
         if (token !== null) {
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/users/${id}/`, {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/users/${id}/update/`, {
                 method: "PUT",
                 headers: {
                     Accept: "application/json",
@@ -215,6 +215,5 @@ export const selectErrors = (state: RootState) => state.authSlice.errors;
 export const selectUser = (state: RootState) => state.authSlice.userData;
 export const selectUserFull = (state: RootState) => state.authSlice.userDataFull;
 export const selectUserFullAnother = (state: RootState) => state.authSlice.userDataFullAnother;
-export const selectEventsUser = (state: RootState) => state.eventsSlice.loading;
 
 export default authSlice.reducer;

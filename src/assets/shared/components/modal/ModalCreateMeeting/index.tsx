@@ -7,69 +7,82 @@ import InputDate from "../../inputs/inputDate";
 import InputText from "../../inputs/inputText";
 import InputTime from "../../inputs/inputTime";
 import { useSelector } from "react-redux";
-import { createTimetable, getPlaces, selectPlace } from "../../store/slice/eventSlice";
+import { createMeeting, createTimetable, getPlaces, getTags, getTimetable, selectPlace, selectTags, selectTimetable } from "../../store/slice/eventSlice";
 import { useDispatch } from "../../store/hooks";
-import { InputDropdown } from "../../inputs/InputDropdown";
+import InputAria from "../../inputs/inputAria";
+import { InputDropdownTags } from "../../inputs/InputDropdown/Tags";
+import { InputDropdownTimetable } from "../../inputs/InputDropdown/Timetable";
+import { getMeFull, selectUser } from "../../store/slice/authSlice";
 
 const ModalCreateMeeting = (props) => {
-    const { switchModalCreateTimetable } = props;
+    const { switchModalCreateMeeting, switchModalCreateTimetable } = props;
     const dispatch = useDispatch();
-    const [title, setTitle] = useState<string>("");
-    const [seats, setSeats] = useState<number>();
-    const [inputTimetable, setInputTimetable] = useState<string>("");
+    const userData = useSelector(selectUser);
+    const [inputTitle, setInputTitle] = useState<string>("");
+    const [inputBody, setInputBody] = useState<string>("");
+    const [inputTimetable, setInputTimetable] = useState<any>([]);
     const [inputTags, setInputTags] = useState<any>([]);
 
+    const tags = useSelector(selectTags);
+
     useEffect(() => {
-        dispatch(getPlaces());
+        dispatch(getTimetable());
+        dispatch(getTags());
     }, []);
 
-    const placeTimetable = useSelector(selectPlace);
+    const timetable = useSelector(selectTimetable);
 
-    console.log(places);
+    // console.log(timetable);
 
-    const changeDate = (e) => {
-        setInputDate(e);
+    const changeTitle = (e) => {
+        setInputTitle(e.target.value);
     };
 
-    const changeDateClear = () => {
-        setInputDate("");
+    const changeTitleClear = () => {
+        setInputTitle("");
     };
 
-    const changeTimeStart = (e) => {
-        setInputTimeStart(e.target.value);
+    const changeBody = (e) => {
+        setInputBody(e.target.value);
     };
 
-    const changeTimeStartClear = () => {
-        setInputTimeStart("");
+    const changeBodyClear = () => {
+        setInputBody("");
     };
 
-    const changeTimeEnd = (e) => {
-        setInputTimeEnd(e.target.value);
-    };
-
-    const changeTimeEndClear = () => {
-        setInputTimeEnd("");
-    };
     const router = useRouter();
 
-    // const changeCreateMeeting = () => {
-    //     dispatch(createTimetable({ event_date: inputDate, start_time: inputTimeStart, end_time: inputTimeEnd, place: String(places.id) }));
-    // };
+    const objtags = inputTags.map((item) => {
+        return item.id;
+    });
 
-    // const disable = places.length === 0 && inputDate.length === 0 && inputTimeStart.length === 0 && inputTimeEnd.length === 0;
+    console.log(objtags);
+
+    const changeCreateMeeting = () => {
+        dispatch(createMeeting({ title: inputTitle, body: inputBody, timetable: inputTimetable.id, tags: objtags })).then(() => {
+            switchModalCreateMeeting();
+            dispatch(getMeFull(String(userData.id_profile)));
+        });
+    };
+
+    // const disable = inputTitle.length === 0 && inputBody.length === 0 && inputSeats.length === 0 && inputTimetable.length === 0 && inputTags.length === 0;
+
+    console.log(inputTitle, inputBody, inputTimetable, inputTags);
+    console.log(inputTags);
 
     return (
         <>
             <ModalBase
-                title={"Саздать запись"}
-                onCloseModal={switchModalCreateTimetable}
+                title={"Саздать мероприятие"}
+                onCloseModal={switchModalCreateMeeting}
                 size="large"
+                zIndex="60"
                 footer={
                     <>
-                        <Button type="white" onClick={switchModalCreateTimetable}>
+                        <Button type="white" onClick={switchModalCreateMeeting}>
                             Закрыть
                         </Button>
-                        <Button type="default" onClick={changeCreateTimetable} disable={disable}>
+                        <Button type="default" onClick={changeCreateMeeting}>
                             Создать
                         </Button>
                     </>
@@ -77,24 +90,16 @@ const ModalCreateMeeting = (props) => {
             >
                 <div className={styles["body"]}>
                     <div className={styles["body__input"]}>
-                        <InputDate
-                            placeholder={"Выберете дату"}
-                            label={"Дата проведения мероприятия"}
-                            type={"date"}
-                            onChange={changeDate}
-                            changeClear={changeDateClear}
-                            defaultValue={inputDate}
-                        />
+                        <InputText placeholder={"Введите название мероприятия"} label={"Название мероприятия"} onChange={changeTitle} changeClear={changeTitleClear} />
                     </div>
                     <div className={styles["body__input"]}>
-                        <InputTime type={"time"} placeholder={"ЧЧ:ММ"} label={"Время начала мероприятия"} onChange={changeTimeStart} changeClear={changeTimeStartClear} />
+                        <InputDropdownTimetable value={inputTimetable} onChange={setInputTimetable} options={timetable} label={"Запись мероприятия"} />
                     </div>
                     <div className={styles["body__input"]}>
-                        <InputTime type={"time"} placeholder={"ЧЧ:ММ"} label={"Время окончания мероприятия"} onChange={changeTimeEnd} changeClear={changeTimeEndClear} />
+                        <InputDropdownTags multiple value={inputTags} onChange={setInputTags} options={tags} label={"Теги мероприятия"} />
                     </div>
                     <div className={styles["body__input"]}>
-                        {/* <InputDropdown label={"Место проведения мероприятия"} defaultValue={place} /> */}
-                        <InputDropdown value={places} onChange={setPlaces} options={placeTimetable} label={"Место проведения мероприятия"} />
+                        <InputAria placeholder={"Введите информацию о мероприятии"} label={"Информация о мероприятии"} type={"text"} onChange={changeBody} />
                     </div>
                 </div>
             </ModalBase>

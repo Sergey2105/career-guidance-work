@@ -1,5 +1,5 @@
 import Center from "@/assets/shared/components/layout/Center";
-import MeetingView from "@/assets/shared/components/pages/Meeting/MeetingView";
+import CreateMeetingView from "@/assets/shared/components/pages/Meeting/CreateMeetingView";
 import { useSelector } from "@/assets/shared/components/store/hooks";
 import { selectEventProps } from "@/assets/shared/components/store/slice/eventSlice";
 import { NextPage } from "next";
@@ -15,7 +15,7 @@ const MeetingViewPage: NextPage = () => {
             </Head>
 
             <Center>
-                <MeetingView />
+                <CreateMeetingView />
             </Center>
         </>
     );

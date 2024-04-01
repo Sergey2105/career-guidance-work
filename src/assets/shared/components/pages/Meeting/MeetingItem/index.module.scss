@@ -46,6 +46,17 @@
             font-size: 14px;
             line-height: 20px;
             font-weight: 500;
+            span {
+                font-weight: 600;
+            }
+        }
+        &__seats {
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 500;
+            span {
+                font-weight: 600;
+            }
         }
     }
 }

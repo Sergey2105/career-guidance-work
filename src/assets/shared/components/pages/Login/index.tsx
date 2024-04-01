@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from "../../store/hooks";
 import InputText from "../../inputs/inputText";
 import { activated, login, selectErrors, selectUser } from "../../store/slice/authSlice";
 import Button from "../../buttons/Button";
-import { selectFullUser, userDate } from "../../store/slice/userSlice";
-import { log } from "console";
 import InputPassword from "../../inputs/inputPassword";
 
 const Login = () => {
@@ -15,7 +13,7 @@ const Login = () => {
     const [inputPassword, setInputPassword] = useState<string>("");
     const [error, setError] = useState<boolean>(false);
     const router = useRouter();
-    const userDataFull = useSelector(selectFullUser);
+    const userDataFull = useSelector(selectUser);
     const dispatch = useDispatch();
     const loginErrors = useSelector(selectErrors);
 

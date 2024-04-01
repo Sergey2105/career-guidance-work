@@ -5,8 +5,7 @@ import Empowered from "/public/img/empowered.jpg";
 import router from "next/router";
 import ModalLogin from "../../modal/ModalLogin";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { fetchEvents, selectEvents } from "../../store/slice/eventsSlice";
-import EventItem from "../Meeting/MeetingsItem";
+import EventItem from "../Meeting/MeetingItem";
 import { useDispatch, useSelector } from "../../store/hooks";
 import Swiper from "swiper";
 import "swiper/css";
@@ -26,11 +25,6 @@ const HomePage = () => {
     // }
 
     const dispatch = useDispatch();
-    const events = useSelector(selectEvents);
-
-    useEffect(() => {
-        dispatch(fetchEvents({ page: 1, search: "" }));
-    }, []);
 
     return (
         <>

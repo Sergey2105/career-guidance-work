@@ -3,16 +3,16 @@ import styles from "../index.module.scss";
 import Cross from "/public/icons/cross.svg";
 
 const InputTime = (props) => {
-    const { placeholder, label, onChange, changeClear, type = "", error, defaultValue } = props;
+    const { placeholder, label, onChange, changeClear, type = "", error, value } = props;
     const ref = useRef<any>();
     const [textValue, setTextValue] = useState<string>("");
 
     useEffect(() => {
-        if (defaultValue && ref.current) {
-            setTextValue(defaultValue);
-            ref.current.value = defaultValue;
+        if (value && ref.current) {
+            setTextValue(value);
+            ref.current.value = value;
         }
-    }, [defaultValue, ref]);
+    }, [value, ref]);
 
     const onChangeText = (e) => {
         onChange?.(e);
@@ -31,10 +31,10 @@ const InputTime = (props) => {
                 <input
                     ref={ref}
                     type="time"
-                    className={error ? styles["input__input__error"] : styles["input__input"]}
+                    className={error ? styles["input__time__error"] : styles["input__time"]}
                     placeholder={placeholder}
                     onChange={onChangeText}
-                    defaultValue={defaultValue}
+                    value={value}
                 ></input>
             </div>
         </div>

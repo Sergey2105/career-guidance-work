@@ -11,11 +11,11 @@ import moment from "moment";
 import "moment/locale/ru";
 
 const InputDate = (props) => {
-    const { placeholder, label, onChange, changeClear, error, defaultValue } = props;
+    const { placeholder, label, onChange, changeClear, error, value } = props;
     const ref = useRef<any>();
     const [selected, setSelected] = useState<Date>();
     const [isPopperOpen, setIsPopperOpen] = useState<boolean>(false);
-    const [textValue, setTextValue] = useState<string>(defaultValue);
+    const [textValue, setTextValue] = useState<string>(value);
     const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
 
     const popper = usePopper(ref.current, popperElement, {
@@ -43,11 +43,11 @@ const InputDate = (props) => {
     };
 
     useEffect(() => {
-        if (defaultValue && ref.current) {
-            setTextValue(defaultValue);
-            ref.current.value = defaultValue;
+        if (value && ref.current) {
+            setTextValue(value);
+            ref.current.value = value;
         }
-    }, [defaultValue, ref]);
+    }, [value, ref]);
 
     const onChangeText = (e) => {
         onChange?.(e);
@@ -69,7 +69,7 @@ const InputDate = (props) => {
                     className={error ? styles["input__input__error"] : styles["input__input"]}
                     placeholder={placeholder}
                     onChange={onChangeText}
-                    defaultValue={defaultValue}
+                    value={value || ""}
                     readOnly
                 ></input>
                 {textValue !== "" && textValue !== null ? (

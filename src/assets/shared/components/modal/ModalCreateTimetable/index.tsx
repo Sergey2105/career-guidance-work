@@ -9,10 +9,10 @@ import InputTime from "../../inputs/inputTime";
 import { useSelector } from "react-redux";
 import { createTimetable, getPlaces, selectPlace } from "../../store/slice/eventSlice";
 import { useDispatch } from "../../store/hooks";
-import { InputDropdown } from "../../inputs/InputDropdown";
+import { InputDropdownPlaces } from "../../inputs/InputDropdown/Places";
 
 const ModalCreateTimetable = (props) => {
-    const { switchModalCreateTimetable } = props;
+    const { switchModalCreateMeeting, switchModalCreateTimetable } = props;
     const dispatch = useDispatch();
     const [places, setPlaces] = useState<any>([]);
     const [inputDate, setInputDate] = useState<string>("");
@@ -23,9 +23,7 @@ const ModalCreateTimetable = (props) => {
         dispatch(getPlaces());
     }, []);
 
-    const placeTimetable = useSelector(selectPlace);
-
-    console.log(places);
+    const place = useSelector(selectPlace);
 
     const changeDate = (e) => {
         setInputDate(e);
@@ -53,10 +51,15 @@ const ModalCreateTimetable = (props) => {
     const router = useRouter();
 
     const changeCreateTimetable = () => {
-        dispatch(createTimetable({ event_date: inputDate, start_time: inputTimeStart, end_time: inputTimeEnd, place: String(places.id) }));
+        dispatch(createTimetable({ event_date: inputDate, start_time: inputTimeStart, end_time: inputTimeEnd, place: String(places.id) })).then(() => {
+            switchModalCreateTimetable();
+            switchModalCreateMeeting();
+        });
     };
 
     const disabled = places.length === 0 || inputDate.length === 0 || inputTimeStart.length === 0 || inputTimeEnd.length === 0;
+
+    console.log(places);
 
     return (
         <>
@@ -83,7 +86,7 @@ const ModalCreateTimetable = (props) => {
                             type={"date"}
                             onChange={changeDate}
                             changeClear={changeDateClear}
-                            defaultValue={inputDate}
+                            value={inputDate}
                         />
                     </div>
                     <div className={styles["body__input"]}>
@@ -93,8 +96,7 @@ const ModalCreateTimetable = (props) => {
                         <InputTime type={"time"} placeholder={"ЧЧ:ММ"} label={"Время окончания мероприятия"} onChange={changeTimeEnd} changeClear={changeTimeEndClear} />
                     </div>
                     <div className={styles["body__input"]}>
-                        {/* <InputDropdown label={"Место проведения мероприятия"} defaultValue={place} /> */}
-                        <InputDropdown value={places} onChange={setPlaces} options={placeTimetable} label={"Место проведения мероприятия"} />
+                        <InputDropdownPlaces value={places} onChange={setPlaces} options={place} label={"Место проведения мероприятия"} />
                     </div>
                 </div>
             </ModalBase>

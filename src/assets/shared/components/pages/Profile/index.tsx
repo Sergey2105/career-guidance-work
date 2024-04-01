@@ -2,24 +2,23 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
-import { getAnotherFull, logout, selectErrors, selectEventsUser, selectUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
+import { getAnotherFull, logout, selectErrors, selectUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
 import Image from "next/image";
 import Rock from "/public/img/johnson_dwayne.jpg";
 import Button from "../../buttons/Button";
 import Tag from "../../Tag";
-import MeetingItem from "../Meeting/MeetingsItem";
+import MeetingItem from "../Meeting/MeetingItem";
 import Loader from "../../Loader";
+import { useGetUserQuery } from "../../store/services/getUser";
 
 const Profile = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const userDataFull = useSelector(selectUserFull);
+    const { query } = router;
     const userData = useSelector(selectUser);
-    const userDataFullAnother = useSelector(selectUserFullAnother);
-    // const [currentID, setCurrentID] = useState<string>("");
 
     const [currentProfile, setCurrentProfile] = useState<boolean>(true);
-    const messageError = useSelector(selectErrors);
+    const userDataFullAnother = useSelector(selectUserFullAnother);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
@@ -42,6 +41,7 @@ const Profile = () => {
 
     return (
         <>
+            {!userDataFullAnother ? <Loader /> : null}
             {userDataFullAnother?.error ? (
                 <div className={styles["message"]}>
                     <span className={styles["message__text"]}>{userDataFullAnother?.error}</span>
@@ -75,6 +75,14 @@ const Profile = () => {
                                     <span className={styles["body__profile__info__title"]}>Дата рождения</span>
                                     <span className={styles["body__profile__info__text"]}>{userDataFullAnother?.birthday}</span>
                                 </div>
+                                <div className={styles["body__profile__info"]}>
+                                    <span className={styles["body__profile__info__title"]}>Telegram ID</span>
+                                    <span className={styles["body__profile__info__text"]}>{userDataFullAnother?.telegram}</span>
+                                </div>
+                                <div className={styles["body__profile__info"]}>
+                                    <span className={styles["body__profile__info__title"]}>Номер телефона</span>
+                                    <span className={styles["body__profile__info__text"]}>{userDataFullAnother?.phone}</span>
+                                </div>
                                 {userDataFullAnother?.tags?.length !== 0 ? (
                                     <div className={styles["body__profile__info"]}>
                                         <span className={styles["body__profile__info__title"]}>Теги</span>
@@ -95,10 +103,9 @@ const Profile = () => {
                                 </div>
                             ) : null}
                             {/* Сообщение? */}
-                            {/* 2121@mail.ru */}
                         </div>
                         <div className={styles["body__info"]}>
-                            <div className={styles["body__info__title"]}>Мои записи на мероприятия</div>
+                            <div className={styles["body__info__title"]}>Записи на мероприятия</div>
                             <div className={styles["body__info__list"]}>
                                 {userDataFullAnother?.meetings?.map((value, key) => <MeetingItem key={key} value={value} myKey={key} />)}
                             </div>

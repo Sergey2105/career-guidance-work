@@ -55,22 +55,22 @@ const Header = () => {
                         <div className={clsx(styles["header__menu__visible"], styles[`${menu ? "header__menu__visible__active" : "header__menu__visible__disabled"}`])}>
                             <ul className={styles["header__list"]}>
                                 <li>
-                                    <Link href="/" className={styles[`${pathname === "/" ? "link__active" : "link"}`]} onClick={() => dispatch(closeMenu())}>
+                                    <Link href="/" className={styles["link"]} onClick={() => dispatch(closeMenu())}>
                                         Главная
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/meeting" className={styles[`${pathname === "/meeting/" ? "link__active" : "link"}`]} onClick={() => dispatch(closeMenu())}>
+                                    <Link href="/meeting" className={styles["link"]} onClick={() => dispatch(closeMenu())}>
                                         Мероприятия
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/info" className={styles[`${pathname === "/info/" ? "link__active" : "link"}`]} onClick={() => dispatch(closeMenu())}>
+                                    <Link href="/info" className={styles["link"]} onClick={() => dispatch(closeMenu())}>
                                         Информация
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/mymeeting" className={styles[`${pathname === "/mymeeting/" ? "link__active" : "link"}`]} onClick={() => dispatch(closeMenu())}>
+                                    <Link href="/mymeeting" className={styles["link"]} onClick={() => dispatch(closeMenu())}>
                                         Мои мероприятия
                                     </Link>
                                 </li>

@@ -22,7 +22,12 @@ const MeetingItem = (props) => {
                 </div>
                 <div className={styles["item__footer"]}>
                     <span className={styles["item__footer__label"]}>{value.title}</span>
-                    <div className={styles["item__footer__location"]}>Место проведения: {value?.timetable.place.office}</div>
+                    <div className={styles["item__footer__location"]}>
+                        <span>Место проведения:</span> {value?.timetable.place.office}
+                    </div>
+                    <div className={styles["item__footer__seats"]}>
+                        <span>Колличество свободных мест:</span> {value?.seats}
+                    </div>
                 </div>
             </div>
         </>

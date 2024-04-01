@@ -3,16 +3,16 @@ import styles from "../index.module.scss";
 import Cross from "/public/icons/cross.svg";
 
 const InputAria = (props) => {
-    const { placeholder, label, onChange, changeClear, type = "", error, defaultValue } = props;
+    const { placeholder, label, onChange, changeClear, type = "", error, value } = props;
     const ref = useRef<any>();
     const [textValue, setTextValue] = useState<string>("");
 
     useEffect(() => {
-        if (defaultValue && ref.current) {
-            setTextValue(defaultValue);
-            ref.current.value = defaultValue;
+        if (value && ref.current) {
+            setTextValue(value);
+            ref.current.value = value;
         }
-    }, [defaultValue, ref]);
+    }, [value, ref]);
 
     const onChangeText = (e) => {
         onChange?.(e);
@@ -33,7 +33,7 @@ const InputAria = (props) => {
                     className={error ? styles["input__area__error"] : styles["input__area"]}
                     placeholder={placeholder}
                     onChange={onChangeText}
-                    defaultValue={defaultValue}
+                    value={value}
                 ></textarea>
             </div>
         </div>

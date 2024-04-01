@@ -53,7 +53,15 @@ const MeetingView = (props) => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         const token = localStorage.getItem("userToken");
         if (token !== null) {
-            dispatch(joinEvent({ id: userDataFull?.id, meetings: String(id) })).then(() => window.location.reload());
+            dispatch(joinEvent({ id: userDataFull?.id, meetings: id }))
+                .then(() => {
+                    dispatch(getEvent(String(event.id)));
+                    dispatch(getMeFull(String(userData.id_profile)));
+                })
+                .catch(() => {
+                    dispatch(getEvent(String(event.id)));
+                    dispatch(getMeFull(String(userData.id_profile)));
+                });
         } else {
             switchModalUnlogin();
         }
@@ -63,13 +71,22 @@ const MeetingView = (props) => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         const token = localStorage.getItem("userToken");
         if (token !== null) {
-            dispatch(removeEvent({ id: userDataFull?.id, meetings: String(id) })).then(() => window.location.reload());
+            dispatch(removeEvent({ id: userDataFull?.id, meetings: id }))
+                .then(() => {
+                    dispatch(getEvent(String(event.id)));
+                    dispatch(getMeFull(String(userData.id_profile)));
+                    switchModalRemove();
+                })
+                .catch(() => {
+                    dispatch(getEvent(String(event.id)));
+                    dispatch(getMeFull(String(userData.id_profile)));
+                    switchModalRemove();
+                });
         } else {
             switchModalUnlogin();
         }
     };
 
-    // const ue = userDataFull.meetings((item) => item.location.pathname.split("/").filter((el) => el)[1]);
     const found = userDataFull?.meetings?.find((el) => {
         return el.id === Number(location.pathname.split("/").filter((el) => el)[1]);
     });
@@ -107,7 +124,7 @@ const MeetingView = (props) => {
                                 </div>
                                 <div className={styles["header__main__info__place"]}>{event?.timetable?.place.office}</div>
                                 <div className={styles["header__main__info__date"]}>{event?.timetable?.event_date}</div>
-                                <div className={styles["header__main__info__date"]}>{event?.timetable?.place.max_participant}</div>
+                                <div className={styles["header__main__info__date"]}>{event?.seats !== 0 ? event?.seats : "Запись закрыта, все места заняты"}</div>
                             </div>
                         </div>
                     </div>
@@ -120,7 +137,7 @@ const MeetingView = (props) => {
                                     Отменить запись
                                 </Button>
                             ) : (
-                                <Button type="default" onClick={() => join()}>
+                                <Button type="default" onClick={() => join()} disabled={!event?.seats_bool}>
                                     Записаться
                                 </Button>
                             )}

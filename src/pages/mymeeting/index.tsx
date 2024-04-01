@@ -1,7 +1,7 @@
 import Center from "@/assets/shared/components/layout/Center";
 import { NextPage } from "next";
 import Head from "next/head";
-import CreateMeeting from "@/assets/shared/components/pages/CreateMeeting";
+import CreateMeeting from "@/assets/shared/components/pages/Meeting/CreateMeeting";
 
 const MeetingPage: NextPage = () => {
     return (
