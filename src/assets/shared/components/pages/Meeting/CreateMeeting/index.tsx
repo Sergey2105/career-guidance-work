@@ -12,6 +12,7 @@ import MeetingItemCreate from "./components/CreateMeetingItem";
 import MeetingItemHeader from "./components/CreateMeetingHeader";
 import CreateMeetingHeader from "./components/CreateMeetingHeader";
 import CreateMeetingItem from "./components/CreateMeetingItem";
+import InputSearch from "../../../inputs/inputSeach";
 
 const CreateMeeting = () => {
     const [modalCreateTimetable, setModalCreateTimetable] = useState<boolean>(false);
@@ -43,22 +44,35 @@ const CreateMeeting = () => {
 
     return (
         <>
-            {modalCreateTimetable ? <ModalCreateTimetable switchModalCreateTimetable={switchModalCreateTimetable} switchModalCreateMeeting={switchModalCreateMeeting} /> : null}
+            {!modalCreateTimetable ? <ModalCreateTimetable switchModalCreateTimetable={switchModalCreateTimetable} switchModalCreateMeeting={switchModalCreateMeeting} /> : null}
             {modalCreateMeeting ? <ModalCreateMeeting switchModalCreateMeeting={switchModalCreateMeeting} switchModalCreateTimetable={switchModalCreateTimetable} /> : null}
             <div className={styles["list__wrapper"]}>
                 <div className={styles["list"]}>
                     <div className={styles["list__title"]}>Мои мероприятия</div>
                     <div className={styles["list__header"]}>
                         <div className={styles["list__search"]}>
-                            <InputText />
+                            <InputSearch />
                         </div>
                         <Button type="default" onClick={switchModalCreateTimetable}>
                             Создать
                         </Button>
                     </div>
-                    <div className={styles["list__meeting"]}>
-                        <CreateMeetingHeader>{userDataFull?.my_meeting?.map((value, key) => <CreateMeetingItem key={key} value={value} myKey={key} />)}</CreateMeetingHeader>
-                    </div>
+                    {userDataFull?.my_meeting?.length !== 0 ? (
+                        <div className={styles["list__meeting"]}>
+                            <CreateMeetingHeader>{userDataFull?.my_meeting?.map((value, key) => <CreateMeetingItem key={key} value={value} myKey={key} />)}</CreateMeetingHeader>
+                        </div>
+                    ) : (
+                        <>
+                            <div className={styles["list__message"]}>
+                                <span>У вас нет созданных событий</span>
+                                <div className={styles["list__message__btn"]}>
+                                    <Button type="default" onClick={switchModalCreateTimetable}>
+                                        Создать
+                                    </Button>
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </>

@@ -1,53 +1,42 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import Cross from "/public/icons/cross.svg";
 import Arrow from "/public/icons/arrow.svg";
 import styles from "../index.module.scss";
 
-export type SelectOption = {
-    label: string;
-    value: string | number;
-};
-
-type MultipleSelectProps = {
-    multiple?: true;
-    value: SelectOption[];
-    onChange: (value: SelectOption[]) => void;
-};
-
-type SingleSelectProps = {
-    multiple?: false;
-    value?: SelectOption;
-    onChange: (value: SelectOption | undefined) => void;
-};
-
-type SelectProps = {
-    options: SelectOption[];
-} & (SingleSelectProps | MultipleSelectProps);
-
 export function InputDropdownTags(props) {
-    const { multiple, value, onChange, options, placeholder, label, changeClear, type, error } = props;
+    const { multiple, value = [], onChange, options, placeholder, label, changeClear, type, error } = props;
     const [isOpen, setIsOpen] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
+
+    console.log(value);
 
     function clearOptions() {
         multiple ? onChange([]) : onChange("");
     }
 
-    function selectOption(option: SelectOption) {
+    function selectOption(option) {
         if (multiple) {
-            if (value.includes(option)) {
-                onChange(value.filter((o) => o !== option));
+            const isOptionAlreadySelected = value.some((v) => v.id === option.id);
+            if (isOptionAlreadySelected) {
+                // Если элемент уже выбран, удаляем его из списка value
+                onChange(value.filter((o) => o.id !== option.id));
             } else {
+                // Иначе добавляем новый элемент в список value
                 onChange([...value, option]);
             }
         } else {
-            if (option !== value) onChange(option);
+            if (option.id !== value?.id) onChange(option);
         }
     }
 
-    function isOptionSelected(option: SelectOption) {
-        return multiple ? value.includes(option) : option === value;
+    function isOptionSelected(option) {
+        if (multiple) {
+            return value.some((v) => v.id === option.id);
+        } else {
+            return value?.id === option.id;
+        }
     }
 
     useEffect(() => {

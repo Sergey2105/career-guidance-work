@@ -101,7 +101,7 @@ export function InputDropdownPlaces(props) {
                     <Arrow />
                 </div>
                 <ul className={`${styles.options} ${isOpen ? styles.show : ""}`}>
-                    {options.length !== 0 ? (
+                    {options?.length !== 0 ? (
                         <>
                             {options.map((option, index) => (
                                 <li

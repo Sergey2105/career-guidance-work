@@ -1,12 +1,26 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../..";
+import { error } from "console";
+
+interface ApiError {
+    non_field_errors: string;
+    email: string;
+    username: string;
+    first_name: string;
+    last_name: string;
+    password: string;
+    message: string;
+    code?: number;
+}
 
 interface type {
     user: {} | null;
     isLogin: boolean;
     auth_token: string | null;
     loading: boolean;
-    errors: { [key: string]: string[] };
+    // errors: { [key: string]: string[] };
+    errors: ApiError | null;
+
     // error?: Record<string, any> | unknown;
     userData: Record<string, any>;
     userDataFull: Record<string, any>;
@@ -18,7 +32,7 @@ const initialState: type = {
     isLogin: false,
     auth_token: null,
     loading: true,
-    errors: {},
+    errors: null,
     userData: {},
     userDataFull: {},
     userDataFullAnother: {},
@@ -127,7 +141,9 @@ export const data = createAsyncThunk(
         first_name,
         last_name,
         birthday,
+        phone,
         telegram,
+        tags,
         info,
     }: {
         id: string;
@@ -135,7 +151,9 @@ export const data = createAsyncThunk(
         first_name: string;
         last_name: string;
         birthday: string;
+        phone: string;
         telegram: string;
+        tags: any;
         info: string;
     }) {
         const token = localStorage.getItem("userToken");
@@ -152,7 +170,9 @@ export const data = createAsyncThunk(
                     first_name,
                     last_name,
                     birthday,
+                    phone,
                     telegram,
+                    tags,
                     info,
                 }),
             });
@@ -164,19 +184,32 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        addToken: (state) => {
-            state.auth_token = localStorage.getItem("userToken");
-        },
-        addUser: (state) => {
-            state.user = localStorage.getItem("user");
+        // addToken: (state) => {
+        //     state.auth_token = localStorage.getItem("userToken");
+        // },
+        // addUser: (state) => {
+        //     state.user = localStorage.getItem("user");
+        // },
+        clearError: (state) => {
+            state.errors = null;
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(login.fulfilled, (state, action) => {});
-        builder.addCase(login.pending, (state, action) => {});
-        builder.addCase(login.rejected, (state, action) => {
-            state.errors = action.payload;
+        builder.addCase(register.fulfilled, (state, action) => {});
+        builder.addCase(register.pending, (state, action) => {});
+        builder.addCase(register.rejected, (state, action) => {
+            state.errors = action.payload as ApiError;
             // console.log( action.payload);
+        });
+        builder.addCase(login.fulfilled, (state, action) => {
+            console.log(action);
+        });
+        builder.addCase(login.pending, (state, action) => {
+            console.log(action);
+        });
+        builder.addCase(login.rejected, (state, action) => {
+            state.errors = action.payload as ApiError;
+            console.log(action);
         });
         builder.addCase(getMe.fulfilled, (state, action) => {
             state.userData = action.payload;
@@ -200,18 +233,25 @@ const authSlice = createSlice({
         });
         builder.addCase(getAnotherFull.fulfilled, (state, action) => {
             state.userDataFullAnother = action.payload;
+            console.log(action);
         });
-        builder.addCase(getAnotherFull.pending, (state, action) => {});
-        builder.addCase(getAnotherFull.rejected, (state, action) => {});
+        builder.addCase(getAnotherFull.pending, (state, action) => {
+            console.log(action);
+        });
+        builder.addCase(getAnotherFull.rejected, (state, action) => {
+            console.log(action);
+        });
         builder.addCase(logout.fulfilled, (state, action) => {
             state.userDataFull = {};
             state.userData = {};
         });
     },
 });
-export const { addToken } = authSlice.actions;
+// export const { addToken } = authSlice.actions;
+export const { clearError } = authSlice.actions;
 
-export const selectErrors = (state: RootState) => state.authSlice.errors;
+export const selectErrorsRegister = (state: RootState) => state.authSlice.errors;
+export const selectErrorsLogin = (state: RootState) => state.authSlice.errors;
 export const selectUser = (state: RootState) => state.authSlice.userData;
 export const selectUserFull = (state: RootState) => state.authSlice.userDataFull;
 export const selectUserFullAnother = (state: RootState) => state.authSlice.userDataFullAnother;

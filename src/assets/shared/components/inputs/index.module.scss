@@ -54,6 +54,15 @@
         right: 10px;
         transform: translateY(-50%);
         padding: 5px;
+        &__search {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            padding: 5px;
+        }
     }
     &__area {
         font-family: "Montserrat", sans-serif;
@@ -123,6 +132,41 @@
             color: #000;
         }
     }
+    &__search {
+        width: 100%;
+        height: 48px;
+        padding: 10px 35px 10px 45px;
+        border: none;
+        border: 2px solid #b3b3b3;
+        border-radius: 8px;
+        outline: none;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+        color: #000;
+        &__error {
+            width: 100%;
+            height: 48px;
+            padding: 10px 35px 10px 45px;
+            border: none;
+            border: 2px solid #ff4570;
+            border-radius: 6px;
+            outline: none;
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            color: #000;
+        }
+    }
+    &__search:hover {
+        border: 2px solid #000;
+        outline: none;
+    }
+    &__search:focus {
+        border: 2px solid #000;
+        outline: none;
+    }
 }
 .date {
     font-family: "Montserrat" !important;
@@ -141,4 +185,11 @@
 .rdp {
     margin: 0 !important;
     font-family: "Montserrat" !important;
+}
+.error {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    color: #ff4570;
+    margin-top: 5px;
 }

@@ -1,3 +1,8 @@
+.wrapper {
+    padding: 0 16px;
+    //max-width: 375px;
+    //margin: 0 auto;
+}
 .message {
     position: absolute;
     top: 50%;
@@ -7,21 +12,38 @@
     max-height: 100%;
     text-align: center;
     &__text {
-        font-size: 24px;
-        line-height: 34px;
+        font-size: 22px;
+        line-height: 30px;
         font-weight: 600;
     }
     &__btn {
         margin-top: 10px;
     }
 }
-
-.wrapper {
-    padding: 0 16px;
-    //max-width: 375px;
-    //margin: 0 auto;
+.tabs {
+    display: flex;
+    gap: 5px;
+    position: absolute;
+    top: 11%;
+    z-index: 2;
+    &__tab {
+        cursor: pointer;
+        background-color: transparent;
+        border: 2px solid #b3b3b3;
+        border-radius: 6px;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 500;
+        padding: 5px 10px;
+        width: 120px;
+        // height: 40px;
+        &__active {
+            background-color: #325ea552;
+        }
+    }
 }
 .body {
+    position: relative;
     display: flex;
     // flex-direction: column;
     gap: 12px;
@@ -82,12 +104,54 @@
             justify-content: center;
             gap: 12px;
         }
+        &__message {
+            span {
+                font-size: 16px;
+                line-height: 26px;
+                font-weight: 600;
+                color: rgba(0, 0, 0, 0.6);
+            }
+            a {
+                cursor: pointer;
+                color: #1e4a91;
+                text-decoration: none;
+            }
+        }
     }
     &__btn {
         display: flex;
         flex-direction: column;
         gap: 10px;
         margin-top: 10px;
+    }
+    &__qr {
+        // margin: 0 auto;
+        margin-top: 10px;
+        &__text {
+            display: flex;
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 600;
+            // text-align: center;
+        }
+    }
+}
+@media screen and (min-width: 480px) {
+    .wrapper {
+        padding: 0 24px;
+        //max-width: 768px;
+        //margin: 0 auto;
+    }
+    .body {
+        &__info {
+            &__list {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: auto;
+                justify-content: center;
+                gap: 12px;
+            }
+        }
     }
 }
 

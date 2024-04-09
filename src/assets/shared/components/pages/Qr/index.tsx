@@ -3,8 +3,17 @@ import QrReader from "react-qr-scanner";
 import styles from "./index.module.scss";
 import Scanner from "/public/icons/scanner.svg";
 import ProfileScanner from "/public/icons/profilescanner.svg";
+import Notification from "/public/icons/notification.svg";
 import List from "/public/icons/list.svg";
-
+import QrGuest from "./components/QrMeeting";
+import QrMeeting from "./components/QrGuest";
+import clsx from "clsx";
+import { useDispatch, useSelector } from "../../store/hooks";
+import { getAnotherFull, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
+import Button from "../../buttons/Button";
+import { getEvent, joinEvent, selectEventProps } from "../../store/slice/eventSlice";
+import { useRouter } from "next/router";
+import Message from "../../Message";
 interface Idevices {
     cameraId: string;
     deviceId: string;
@@ -13,12 +22,17 @@ interface Idevices {
 }
 
 const Qr = () => {
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const userDataFullAnother = useSelector(selectUserFullAnother);
+    const userDataFull = useSelector(selectUserFull);
+
+    console.log(userDataFullAnother);
+
     const [dontShow, setDontShow] = useState(true);
     const [data, setData] = useState<any>({});
-    const [userData, setUserData] = useState({
-        id: "",
-    });
     const [devices, setDevices] = useState<Idevices | Record<string, string>>({});
+    const [qrReaderVisible, setQrReaderVisible] = useState<boolean>(true);
     const [registration, setRegistration] = useState<boolean>(false);
     const [currentCameraId, setCurrentCameraId] = useState<string>();
     const [title, setTitle] = useState<string>("Сканер");
@@ -26,36 +40,56 @@ const Qr = () => {
     const [guest, setGuest] = useState<boolean>(false);
     const [events, setEvents] = useState<boolean>(false);
 
+    console.log(data);
+
     const switchScanner = () => {
         setTitle("Сканер");
         setScanner(true);
         setGuest(false);
         setEvents(false);
+        refresh();
     };
     const switchGuest = () => {
-        setTitle("Гости");
+        setTitle("Участники");
         setScanner(false);
         setGuest(true);
         setEvents(false);
+        refresh();
     };
     const switchEvents = () => {
         setTitle("Мероприятия");
         setScanner(false);
         setGuest(false);
         setEvents(true);
+        refresh();
     };
 
     const handleScan = (e) => {
         if (e?.text) {
             setData(e);
         }
+        if (data) {
+            // dispatch(getAnotherFull(String(data.text)));
+        }
     };
 
-    console.log(data);
+    useEffect(() => {
+        const id = location.pathname.split("/").filter((el) => el)[1];
+        dispatch(getEvent(String(id)));
+    }, []);
+
+    const event = useSelector(selectEventProps);
+
+    useEffect(() => {
+        if (Object.keys(data).length !== 0) {
+            dispatch(getAnotherFull(String(data.text)));
+        }
+    }, [data]);
 
     const refresh = () => {
         changeCamera(currentCameraId);
-        console.log(currentCameraId);
+        const id = location.pathname.split("/").filter((el) => el)[1];
+        dispatch(getEvent(String(id)));
     };
 
     const handleError = (err) => {
@@ -78,15 +112,12 @@ const Qr = () => {
                 })
                 .then((devices) => {
                     setDevices({
-                        cameraId: devices[0].deviceId,
-                        deviceId: devices[0].deviceId,
-                        // cameraId: devices.length == 1 ? devices[0].deviceId : devices[1].deviceId,
-                        // deviceId: devices.length == 1 ? devices[0].deviceId : devices[1].deviceId,
+                        cameraId: devices.length == 1 ? devices[0].deviceId : devices[1].deviceId,
+                        deviceId: devices.length == 1 ? devices[0].deviceId : devices[1].deviceId,
                         devices,
                         loading: false,
                     });
-                    setCurrentCameraId(devices[0].deviceId);
-                    // setCurrentCameraId(devices.length == 1 ? devices[0].deviceId : devices[1].deviceId);
+                    setCurrentCameraId(devices.length == 1 ? devices[0].deviceId : devices[1].deviceId);
                 });
             setDontShow(false);
         });
@@ -102,9 +133,9 @@ const Qr = () => {
     const changeCamera = (cameraId) => {
         setData({});
         setCurrentCameraId(cameraId);
-        setScanner(false);
+        setQrReaderVisible(false);
         setTimeout(() => {
-            setScanner(true);
+            setQrReaderVisible(true);
             setDevices({
                 ...devices,
                 cameraId,
@@ -113,75 +144,166 @@ const Qr = () => {
     };
 
     const registrationGuest = () => {
-        fetch("")
-            .then((res) => res.json())
-            .then(() => {
+        dispatch(joinEvent({ id: userDataFullAnother?.id, meetings: event.id })).then(() => {
+            refresh();
+            setRegistration(true);
+            dispatch(getAnotherFull(String(data.text)));
+            setTimeout(() => {
                 refresh();
-                setRegistration(true);
-                setTimeout(() => {
-                    refresh();
-                    setRegistration(false);
-                }, 3000);
-            });
+                setRegistration(false);
+            }, 3000);
+        });
     };
+
+    const found = userDataFullAnother?.meetings?.find((el) => {
+        return el.id === event.id;
+    });
+
+    console.log(data);
 
     if (dontShow) return null;
 
     return (
-        <div className={styles["container"]}>
-            <div className={styles["header"]}>
-                <span className={styles["header__label"]}>{title}</span>
-            </div>
-            {!Object.keys(data || {}).length && scanner ? (
-                <QrReader
-                    className={styles["scanner"]}
-                    onScan={handleScan}
-                    delay={500}
-                    onError={handleError}
-                    constraints={
-                        devices.cameraId && {
-                            audio: false,
-                            video: { deviceId: devices.cameraId },
-                        }
-                    }
-                />
-            ) : null}
-            {events ? <div className={styles["content"]}>events</div> : null}
-            {guest ? <div className={styles["content"]}>guest</div> : null}
-            {data.text ? (
-                <div className={styles["content__guest"]}>
-                    {/http/.test(data.text) ? (
-                        <iframe src={data.text} />
-                    ) : (
-                        <>
-                            <div>{data.text}</div>
-                        </>
-                    )}
-                </div>
-            ) : null}
-            <div className={styles["footer"]}>
-                <div className={styles["footer__elements"]}>
-                    <div className={styles["footer__elements__link"]}>
-                        <div className={styles["footer__elements__icon"]} onClick={switchGuest}>
-                            <ProfileScanner />
-                        </div>
-                        <span className={styles["footer__elements__label"]}>Участники</span>
-                    </div>
-                    <div className={styles["footer__elements__link"]}>
-                        <div className={styles["footer__elements__icon"]} onClick={switchScanner}>
-                            <Scanner />
-                        </div>
-                        <span className={styles["footer__elements__label"]}>Сканер</span>
-                    </div>
-                    <div className={styles["footer__elements__link"]}>
-                        <div className={styles["footer__elements__icon"]} onClick={switchEvents}>
-                            <List />
-                        </div>
-                        <span className={styles["footer__elements__label"]}>Мероприятия</span>
+        <>
+            {event?.error || userDataFull.id !== event.author ? (
+                <div className={styles["message"]}>
+                    <span className={styles["message__text"]}>{event?.error ? event?.error : userDataFull.id !== event.author ? `У вас нет доступа к этому мероприятию` : ""}</span>
+                    <div className={styles["message__btn"]}>
+                        <Button onClick={() => router.push("/")} type="default">
+                            Вернуться на главную
+                        </Button>
                     </div>
                 </div>
-            </div>
-        </div>
+            ) : (
+                <div className={styles["container"]}>
+                    <div className={styles["header"]}>
+                        <span className={styles["header__label"]}>{title}</span>
+                    </div>
+                    {registration ? (
+                        <div className={styles["modal"]}>
+                            <Message>Пользователь успешно зарегестрирован!</Message>
+                        </div>
+                    ) : null}
+                    {!Object.keys(data || {}).length && qrReaderVisible && !guest && !events ? (
+                        <QrReader
+                            className={guest || events ? styles["scanner__inactive"] : styles["scanner"]}
+                            onScan={handleScan}
+                            delay={500}
+                            onError={handleError}
+                            constraints={
+                                devices.cameraId && {
+                                    audio: false,
+                                    video: { deviceId: devices.cameraId },
+                                }
+                            }
+                        />
+                    ) : null}
+                    {events ? (
+                        <div className={styles["content__guests"]}>
+                            <QrGuest />
+                        </div>
+                    ) : null}
+                    {guest ? (
+                        <div className={styles["content__meeting"]}>
+                            <QrMeeting />
+                        </div>
+                    ) : null}
+                    {data.text ? (
+                        <div className={styles["content__guest"]}>
+                            {/http/.test(data.text) ? (
+                                <iframe src={data.text} />
+                            ) : (
+                                <div className={styles["wrapper"]}>
+                                    <div className={styles["guest"]}>
+                                        <div className={styles["content__guest__list"]}>
+                                            <div className={styles["content__guest__list__header"]}>Участник</div>
+                                            <div className={styles["content__guest__list__item"]}>
+                                                <div className={styles["content__guest__list__item__header"]}>Имя</div>
+                                                <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.first_name}</span>
+                                            </div>
+                                            <div className={styles["content__guest__list__item"]}>
+                                                <div className={styles["content__guest__list__item__header"]}>Фамилия</div>
+                                                <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.last_name}</span>
+                                            </div>
+                                            <div className={styles["content__guest__list__item"]}>
+                                                <div className={styles["content__guest__list__item__header"]}>Email</div>
+                                                <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.email}</span>
+                                            </div>
+                                            {userDataFullAnother?.birthday ? (
+                                                <div className={styles["content__guest__list__item"]}>
+                                                    <div className={styles["content__guest__list__item__header"]}>Дата рождемения</div>
+                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.birthday}</span>
+                                                </div>
+                                            ) : null}
+                                            {userDataFullAnother?.phone ? (
+                                                <div className={styles["content__guest__list__item"]}>
+                                                    <div className={styles["content__guest__list__item__header"]}>Номер телефона</div>
+                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.phone}</span>
+                                                </div>
+                                            ) : null}
+                                            {userDataFullAnother?.telegram ? (
+                                                <div className={styles["content__guest__list__item"]}>
+                                                    <div className={styles["content__guest__list__item__header"]}>Telegram ID</div>
+                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.telegram}</span>
+                                                </div>
+                                            ) : null}
+                                        </div>
+                                        <div className={styles["guest__btn"]}>
+                                            <Button type="default" disabled={found} onClick={registrationGuest}>
+                                                {!found ? `Зарегистрировать` : event.seats_bool ? `Пользователь зарегистрирован` : `Мест нет`}
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    ) : null}
+                    <div className={styles["footer"]}>
+                        <div className={styles["footer__elements"]}>
+                            <div className={styles["footer__elements__link"]}>
+                                <div className={styles["footer__elements__icon"]} onClick={switchGuest}>
+                                    <ProfileScanner className={guest ? styles[`icon__active`] : styles[`icon__inactive`]} />
+                                </div>
+                                <span
+                                    className={clsx(
+                                        styles["footer__elements__text"],
+                                        guest ? styles["footer__elements__text__active"] : styles["footer__elements__text__inactive"],
+                                    )}
+                                >
+                                    Участники
+                                </span>
+                            </div>
+                            <div className={styles["footer__elements__link"]}>
+                                <div className={styles["footer__elements__icon"]} onClick={switchScanner}>
+                                    <Scanner className={scanner ? styles[`icon__active`] : styles[`icon__inactive`]} />
+                                </div>
+                                <span
+                                    className={clsx(
+                                        styles["footer__elements__text"],
+                                        scanner ? styles["footer__elements__text__active"] : styles["footer__elements__text__inactive"],
+                                    )}
+                                >
+                                    Сканер
+                                </span>
+                            </div>
+                            <div className={styles["footer__elements__link"]}>
+                                <div className={styles["footer__elements__icon"]} onClick={switchEvents}>
+                                    <List className={events ? styles[`icon__active`] : styles[`icon__inactive`]} />
+                                </div>
+                                <span
+                                    className={clsx(
+                                        styles["footer__elements__text"],
+                                        events ? styles["footer__elements__text__active"] : styles["footer__elements__text__inactive"],
+                                    )}
+                                >
+                                    Мероприятия
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 

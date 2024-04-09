@@ -7,9 +7,10 @@ import InputDate from "../../inputs/inputDate";
 import InputText from "../../inputs/inputText";
 import InputTime from "../../inputs/inputTime";
 import { useSelector } from "react-redux";
-import { createTimetable, getPlaces, selectPlace } from "../../store/slice/eventSlice";
+import { createTimetable, getPlaces, selectErrorsTimetable, selectPlace } from "../../store/slice/eventSlice";
 import { useDispatch } from "../../store/hooks";
 import { InputDropdownPlaces } from "../../inputs/InputDropdown/Places";
+import Message from "../../Message";
 
 const ModalCreateTimetable = (props) => {
     const { switchModalCreateMeeting, switchModalCreateTimetable } = props;
@@ -18,6 +19,9 @@ const ModalCreateTimetable = (props) => {
     const [inputDate, setInputDate] = useState<string>("");
     const [inputTimeStart, setInputTimeStart] = useState<string>("");
     const [inputTimeEnd, setInputTimeEnd] = useState<string>("");
+    const [success, setSuccess] = useState<boolean>(false);
+    const messageError = useSelector(selectErrorsTimetable);
+    console.log(messageError);
 
     useEffect(() => {
         dispatch(getPlaces());
@@ -51,18 +55,40 @@ const ModalCreateTimetable = (props) => {
     const router = useRouter();
 
     const changeCreateTimetable = () => {
-        dispatch(createTimetable({ event_date: inputDate, start_time: inputTimeStart, end_time: inputTimeEnd, place: String(places.id) })).then(() => {
-            switchModalCreateTimetable();
-            switchModalCreateMeeting();
+        dispatch(createTimetable({ event_date: inputDate, start_time: inputTimeStart, end_time: inputTimeEnd, place: String(places.id) })).then((res) => {
+            if (res.type.includes("fulfilled")) {
+                setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                    switchModalCreateTimetable();
+                    switchModalCreateMeeting();
+                }, 2000);
+            } else {
+                setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 2000);
+            }
         });
+        // .catch(() => {
+        //     switchModalCreateTimetable();
+        //     switchModalCreateMeeting();
+        // });
     };
 
     const disabled = places.length === 0 || inputDate.length === 0 || inputTimeStart.length === 0 || inputTimeEnd.length === 0;
 
-    console.log(places);
+    // console.log(success);
+    console.log(messageError);
+    //success не очищается и нужно 3 условия
 
     return (
         <>
+            {success ? (
+                <div className={styles["modal"]}>
+                    <Message error={messageError}>{messageError?.error != null ? messageError?.error : "Запись успешно создана"}</Message>
+                </div>
+            ) : null}
             <ModalBase
                 title={"Саздать запись"}
                 onCloseModal={switchModalCreateTimetable}

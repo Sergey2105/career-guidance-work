@@ -8,6 +8,8 @@ import Loader from "../../../Loader";
 import InputText from "../../../inputs/inputText";
 import useDebounce from "@/hooks/useDebounce";
 import { useGetMetingQuery } from "../../../store/services/getMeeting";
+import InputSearch from "../../../inputs/inputSeach";
+import { fetchEvents, selectEvents } from "../../../store/slice/eventsSlice";
 
 const MeetingList = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -24,20 +26,21 @@ const MeetingList = () => {
         setInputSearch("");
     };
 
-    // useEffect(() => {
-    //     dispatch(fetchEvents({ page: currentPage, search: inputSearch }));
-    // }, [currentPage]);
+    useEffect(() => {
+        dispatch(fetchEvents({ page: currentPage, search: inputSearch }));
+    }, [currentPage]);
 
-    // useEffect(() => {
-    //     setCurrentPage(1);
-    //     dispatch(fetchEvents({ page: 1, search: inputSearch })).then(() => {
-    //         // router.push("");
-    //     });
-    // }, [inputSearch]);
+    useEffect(() => {
+        setCurrentPage(1);
+        dispatch(fetchEvents({ page: 1, search: inputSearch })).then(() => {
+            // router.push("");
+        });
+    }, [inputSearch]);
 
     const dispatch = useDispatch();
-    const { isLoading, isFetching, data, error } = useGetMetingQuery({ page: currentPage, search: inputSearch });
-    console.log(data);
+    const { isLoading, isFetching, data, error } = useGetMetingQuery({ page: currentPage, search: debouncedSearchTerm });
+
+    const events = useSelector(selectEvents);
 
     return (
         <>
@@ -47,14 +50,18 @@ const MeetingList = () => {
                     <div className={styles["list__title"]}>Все мероприятия</div>
                     <div className={styles["list__header"]}>
                         <div className={styles["list__search"]}>
-                            <InputText value={inputSearch} onChange={changeSearch} changeClear={changeLoginSearch} />
+                            <InputSearch value={inputSearch} onChange={changeSearch} changeClear={changeLoginSearch} />
                         </div>
-                        <div className={styles["list__data"]}>fsfdsfsd</div>
+                        {/* <div className={styles["list__data"]}>fsfdsfsd</div> */}
                     </div>
-                    <div className={styles["list__list"]}>{data?.results?.map((value, key) => <MeetingsItem key={key} value={value} myKey={key} />)}</div>
-                    {data && data?.meta?.page_count > 1 && data?.results.length !== 0 ? (
+                    {events && events?.meta?.total_count > 0 ? (
+                        <div className={styles["list__list"]}>{events?.results?.map((value, key) => <MeetingsItem key={key} value={value} myKey={key} />)}</div>
+                    ) : (
+                        <div className={styles["list__list__message"]}>Мероприятия отсутствуют</div>
+                    )}
+                    {events && events?.meta?.page_count > 1 && events?.results.length !== 0 ? (
                         <div className={styles["pagination"]}>
-                            <Pagination howManyPages={data?.meta?.page_count} onChange={setCurrentPage} inputSearch={debouncedSearchTerm} />
+                            <Pagination howManyPages={events?.meta?.page_count} onChange={setCurrentPage} inputSearch={debouncedSearchTerm} />
                         </div>
                     ) : null}
                 </div>

@@ -26,7 +26,7 @@ const MeetingItem = (props) => {
                         <span>Место проведения:</span> {value?.timetable.place.office}
                     </div>
                     <div className={styles["item__footer__seats"]}>
-                        <span>Колличество свободных мест:</span> {value?.seats}
+                        <span>Колличество мест:</span> {value?.seats}
                     </div>
                 </div>
             </div>

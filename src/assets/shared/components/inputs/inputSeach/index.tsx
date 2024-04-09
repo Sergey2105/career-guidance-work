@@ -1,9 +1,10 @@
 import { LegacyRef, lazy, useEffect, useRef, useState } from "react";
 import styles from "../index.module.scss";
 import Cross from "/public/icons/cross.svg";
+import Search from "/public/icons/search.svg";
 import { IMask, IMaskInput, useIMask } from "react-imask";
 
-const InputText = (props) => {
+const InputSearch = (props) => {
     const { placeholder, label, onChange, changeClear, type, error, value } = props;
     const [textValue, setTextValue] = useState<string>("");
 
@@ -108,21 +109,23 @@ const InputText = (props) => {
             <div className={styles["input__group"]}>
                 <input
                     ref={ref as LegacyRef<HTMLInputElement> | undefined}
-                    className={error ? styles["input__input__error"] : styles["input__input"]}
+                    className={error ? styles["input__search__error"] : styles["input__search"]}
                     type="text"
                     placeholder={placeholder}
                     onChange={onChangeText}
                     // value={value || ""}
                     defaultValue={value}
                 ></input>
+                <div className={styles["input__icon__search"]}>
+                    <Search />
+                </div>
                 {textValue !== "" && textValue !== null ? (
                     <div className={styles["input__icon"]} onClick={deleteInput}>
                         <Cross />
                     </div>
                 ) : null}
             </div>
-            <div className={styles["error"]}>{error}</div>
         </div>
     );
 };
-export default InputText;
+export default InputSearch;

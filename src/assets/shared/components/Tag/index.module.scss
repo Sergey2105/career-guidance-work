@@ -1,5 +1,5 @@
 .tag {
-    background-color: #615f5f;
+    background-color: rgba(50, 94, 165, 0.3215686275);
     border-radius: 50px;
     padding: 5px 10px;
     display: inline-flex;
@@ -8,15 +8,15 @@
     &__color {
         width: 10px;
         height: 10px;
-        background: red;
+        background: #1e4a91;
         border-radius: 50%;
     }
     &__name {
         font-size: 14px;
         line-height: 20px;
         letter-spacing: 1.5px;
-        font-weight: 500;
-        color: #fff;
+        font-weight: 600;
+        color: #000;
         margin-left: 10px;
     }
 }

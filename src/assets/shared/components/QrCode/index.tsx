@@ -17,7 +17,7 @@ const QrCode = (props) => {
 
     return (
         <div className={styles["qr"]}>
-            <div className={styles["qr__block"]}>{userDataFull.id ? <QRCode value={id} width="" height="" /> : null}</div>
+            <div className={styles["qr__block"]}>{id ? <QRCode renderAs="svg" value={id} width="" height="" /> : null}</div>
         </div>
     );
 };

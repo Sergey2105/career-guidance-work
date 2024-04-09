@@ -44,6 +44,8 @@ const Pagination = (props) => {
         setCurrentButton(1);
     }, [inputSearch]);
 
+    console.log(currentButton);
+
     return (
         <div className={styles["pagination__container"]}>
             <Link
@@ -86,7 +88,7 @@ const Pagination = (props) => {
                     if (noNavigation) e.preventDefault();
                     setCurrentButton((prev) => (prev >= howManyPages ? prev : prev + 1));
                 }}
-                href={noNavigation ? "" : `?page=${currentButton + 1}`}
+                href={noNavigation ? "" : `${currentButton === howManyPages ? `?page=${currentButton}` : `?page=${currentButton + 1}`}`}
 
                 // href={`${currentButton === howManyPages ? "" : `?page=${currentButton + 1}`}`}
             >

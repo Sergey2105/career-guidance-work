@@ -10,7 +10,7 @@
         font-size: 24px;
         line-height: 34px;
         font-weight: 600;
-        margin-bottom: 5px;
+        margin-bottom: 20px;
     }
     &__header {
         display: flex;
@@ -23,13 +23,37 @@
     }
     &__list {
         display: grid;
-        grid-template-columns: repeat(1, 343px);
+        grid-template-columns: repeat(1, 1fr);
+        // grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: min-content;
         justify-content: center;
-        gap: 20px;
+        width: 100%;
+        gap: 12px;
+        &__message {
+            font-size: 16px;
+            line-height: 26px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.6);
+        }
     }
 }
 .pagination {
     margin: 20px auto;
+}
+@media screen and (min-width: 480px) {
+    .wrapper {
+        padding: 0 24px;
+        //max-width: 768px;
+        //margin: 0 auto;
+    }
+    .list {
+        &__list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            justify-content: center;
+            gap: 12px;
+        }
+    }
 }
 
 @media screen and (min-width: 768px) {

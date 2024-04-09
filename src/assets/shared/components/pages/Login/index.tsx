@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
 import InputText from "../../inputs/inputText";
-import { activated, login, selectErrors, selectUser } from "../../store/slice/authSlice";
+import { activated, login, selectErrorsLogin, selectUser } from "../../store/slice/authSlice";
 import Button from "../../buttons/Button";
 import InputPassword from "../../inputs/inputPassword";
 
@@ -15,7 +15,7 @@ const Login = () => {
     const router = useRouter();
     const userDataFull = useSelector(selectUser);
     const dispatch = useDispatch();
-    const loginErrors = useSelector(selectErrors);
+    const loginErrors = useSelector(selectErrorsLogin);
 
     const changeLogin = (e) => {
         setInputLogin(e.target.value);

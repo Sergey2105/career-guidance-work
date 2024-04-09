@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
 import InputText from "../../inputs/inputText";
 import InputPassword from "../../inputs/inputPassword";
-import { activated, register, selectErrors } from "../../store/slice/authSlice";
+import { activated, register, selectErrorsRegister } from "../../store/slice/authSlice";
 import Button from "../../buttons/Button";
 
 const Register = () => {
@@ -14,10 +14,9 @@ const Register = () => {
     const [inputPassword, setInputPassword] = useState<string>("");
     const [inputFirstName, setInputFirstName] = useState<string>("");
     const [inputLastName, setInputLastName] = useState<string>("");
-    const [error, setError] = useState<boolean>(false);
     const router = useRouter();
     const dispatch = useDispatch();
-    const messageError = useSelector(selectErrors);
+    const messageError = useSelector(selectErrorsRegister);
 
     const changeEmail = (e) => {
         setInputEmail(e.target.value);
@@ -63,13 +62,12 @@ const Register = () => {
                 // } else {
                 //     router.push(referrer);
                 // }
-                setError(false);
                 router.push("/login");
             } else if (res.type.includes("rejected")) {
-                setError(true);
             }
         });
     };
+    console.log(messageError);
     // console.log(Object.keys(messageError));
     // const handleSubmit = (e) => {
     //     e.preventDefault();
@@ -91,21 +89,42 @@ const Register = () => {
                             label={"Email"}
                             onChange={changeEmail}
                             changeClear={changeEmailClear}
-                            error={error}
+                            error={messageError?.email}
                             value={inputEmail}
                         />
                     </div>
                     <div className={styles["form__input"]}>
-                        <InputText placeholder={"Введите логин"} label={"Логин"} onChange={changeLogin} changeClear={changeLoginClear} error={error} value={inputLogin} />
+                        <InputText
+                            placeholder={"Введите логин"}
+                            label={"Логин"}
+                            onChange={changeLogin}
+                            changeClear={changeLoginClear}
+                            error={messageError?.username}
+                            value={inputLogin}
+                        />
                     </div>
                     <div className={styles["form__input"]}>
-                        <InputText placeholder={"Введите имя"} label={"Имя"} onChange={changeFirstName} changeClear={changeFirstNameClear} value={inputFirstName} />
+                        <InputText
+                            placeholder={"Введите имя"}
+                            label={"Имя"}
+                            onChange={changeFirstName}
+                            changeClear={changeFirstNameClear}
+                            error={messageError?.first_name}
+                            value={inputFirstName}
+                        />
                     </div>
                     <div className={styles["form__input"]}>
-                        <InputText placeholder={"Введите фамилию"} label={"Фамилия"} onChange={changeLastName} changeClear={changeLastNameClear} value={inputLastName} />
+                        <InputText
+                            placeholder={"Введите фамилию"}
+                            label={"Фамилия"}
+                            onChange={changeLastName}
+                            changeClear={changeLastNameClear}
+                            error={messageError?.last_name}
+                            value={inputLastName}
+                        />
                     </div>
                     <div className={styles["form__input"]}>
-                        <InputPassword placeholder={"Введите пароль"} label={"Пароль"} onChange={changePassword} error={error} value={inputPassword} />
+                        <InputPassword placeholder={"Введите пароль"} label={"Пароль"} onChange={changePassword} error={messageError?.password} value={inputPassword} />
                     </div>
                 </div>
                 <div className={styles["form__error"]}>

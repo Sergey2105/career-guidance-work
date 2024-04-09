@@ -1,6 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../..";
 
+interface ApiError {
+    non_field_errors: string;
+    message: string;
+    error: string;
+    code?: number;
+}
+
 interface typeEvents {
     loading: boolean;
     guests: Record<string, any>;
@@ -9,7 +16,7 @@ interface typeEvents {
     places: any;
     tags: any;
     timetable: any;
-    errors: { [key: string]: string[] };
+    errors: ApiError | null;
 }
 
 const initialState: typeEvents = {
@@ -43,7 +50,7 @@ const initialState: typeEvents = {
         // voting: [],
     },
     loading: true,
-    errors: {},
+    errors: null,
 };
 
 export const getEvent = createAsyncThunk("event/getEvent", async function (id: string) {
@@ -144,6 +151,11 @@ export const createTimetable = createAsyncThunk(
                 body: JSON.stringify({ event_date, start_time, end_time, place }),
             });
             const result = await response.json();
+
+            if (response.status === 200 || response.status === 201) {
+            } else {
+                return thunkAPI.rejectWithValue(result);
+            }
             return result;
         }
     },
@@ -164,6 +176,11 @@ export const createMeeting = createAsyncThunk(
                 body: JSON.stringify({ title, body, timetable, tags }),
             });
             const result = await response.json();
+
+            if (response.status === 200 || response.status === 201) {
+            } else {
+                return thunkAPI.rejectWithValue(result);
+            }
             return result;
         }
     },
@@ -239,6 +256,24 @@ const eventSlice = createSlice({
         builder.addCase(getGuest.fulfilled, (state, action) => {
             state.guests = action.payload;
         });
+        builder.addCase(createTimetable.fulfilled, (state, action) => {
+            state.errors = null;
+        });
+        builder.addCase(createTimetable.pending, (state, action) => {
+            state.errors = null;
+        });
+        builder.addCase(createTimetable.rejected, (state, action) => {
+            state.errors = action.payload as ApiError;
+        });
+        builder.addCase(createMeeting.fulfilled, (state, action) => {
+            state.errors = null;
+        });
+        builder.addCase(createMeeting.pending, (state, action) => {
+            state.errors = null;
+        });
+        builder.addCase(createMeeting.rejected, (state, action) => {
+            state.errors = action.payload as ApiError;
+        });
     },
 });
 
@@ -249,5 +284,9 @@ export const selectPlace = (state: RootState) => state.eventSlice.places;
 export const selectTags = (state: RootState) => state.eventSlice.tags;
 export const selectTimetable = (state: RootState) => state.eventSlice.timetable;
 export const selectGuest = (state: RootState) => state.eventSlice.guests;
+
+export const selectErrorsTimetable = (state: RootState) => state.eventSlice.errors;
+export const selectErrorsMeeting = (state: RootState) => state.eventSlice.errors;
+
 
 export default eventSlice.reducer;

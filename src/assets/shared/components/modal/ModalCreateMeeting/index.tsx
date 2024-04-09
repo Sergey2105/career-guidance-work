@@ -7,12 +7,13 @@ import InputDate from "../../inputs/inputDate";
 import InputText from "../../inputs/inputText";
 import InputTime from "../../inputs/inputTime";
 import { useSelector } from "react-redux";
-import { createMeeting, createTimetable, getPlaces, getTags, getTimetable, selectPlace, selectTags, selectTimetable } from "../../store/slice/eventSlice";
+import { createMeeting, createTimetable, getPlaces, getTags, getTimetable, selectErrorsMeeting, selectPlace, selectTags, selectTimetable } from "../../store/slice/eventSlice";
 import { useDispatch } from "../../store/hooks";
 import InputAria from "../../inputs/inputAria";
 import { InputDropdownTags } from "../../inputs/InputDropdown/Tags";
 import { InputDropdownTimetable } from "../../inputs/InputDropdown/Timetable";
 import { getMeFull, selectUser } from "../../store/slice/authSlice";
+import Message from "../../Message";
 
 const ModalCreateMeeting = (props) => {
     const { switchModalCreateMeeting, switchModalCreateTimetable } = props;
@@ -22,6 +23,9 @@ const ModalCreateMeeting = (props) => {
     const [inputBody, setInputBody] = useState<string>("");
     const [inputTimetable, setInputTimetable] = useState<any>([]);
     const [inputTags, setInputTags] = useState<any>([]);
+    const [success, setSuccess] = useState<boolean>(false);
+    const messageError = useSelector(selectErrorsMeeting);
+    console.log(messageError);
 
     const tags = useSelector(selectTags);
 
@@ -56,33 +60,46 @@ const ModalCreateMeeting = (props) => {
         return item.id;
     });
 
-    console.log(objtags);
+    // console.log(objtags);
 
     const changeCreateMeeting = () => {
-        dispatch(createMeeting({ title: inputTitle, body: inputBody, timetable: inputTimetable.id, tags: objtags })).then(() => {
-            switchModalCreateMeeting();
-            dispatch(getMeFull(String(userData.id_profile)));
+        dispatch(createMeeting({ title: inputTitle, body: inputBody, timetable: inputTimetable.id, tags: objtags })).then((res) => {
+            if (res.type.includes("fulfilled")) {
+                setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                    switchModalCreateMeeting();
+                    dispatch(getMeFull(String(userData.id_profile)));
+                }, 2000);
+            } else {
+                setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 2000);
+            }
         });
     };
 
-    // const disable = inputTitle.length === 0 && inputBody.length === 0 && inputSeats.length === 0 && inputTimetable.length === 0 && inputTags.length === 0;
-
-    console.log(inputTitle, inputBody, inputTimetable, inputTags);
-    console.log(inputTags);
+    const disabled = inputTitle.length === 0 || inputTimetable.length === 0 || inputTimetable.length === 0;
 
     return (
         <>
+            {success ? (
+                <div className={styles["modal"]}>
+                    <Message error={messageError}>{messageError?.error != null ? messageError?.error : "Мероприятие успешно создано"}</Message>
+                </div>
+            ) : null}
             <ModalBase
                 title={"Саздать мероприятие"}
                 onCloseModal={switchModalCreateMeeting}
                 size="large"
-                zIndex="60"
+                // zIndex="60"
                 footer={
                     <>
                         <Button type="white" onClick={switchModalCreateMeeting}>
                             Закрыть
                         </Button>
-                        <Button type="default" onClick={changeCreateMeeting}>
+                        <Button type="default" onClick={changeCreateMeeting} disabled={disabled}>
                             Создать
                         </Button>
                     </>

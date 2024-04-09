@@ -5,14 +5,14 @@ import { ThunkAction, configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 import menuSlice from "./slice/menuSlice";
 import authSlice from "./slice/authSlice";
-// import eventsSlice from "./slice/eventsSlice";
+import eventsSlice from "./slice/eventsSlice";
 import eventSlice from "./slice/eventSlice";
 import { getUser } from "./services/getUser";
 
 const rootReducer = combineReducers({
     menuSlice: menuSlice,
     authSlice: authSlice,
-    // eventsSlice: eventsSlice,
+    eventsSlice: eventsSlice,
     eventSlice: eventSlice,
     [getMeting.reducerPath]: getMeting.reducer,
     [getUser.reducerPath]: getUser.reducer,

@@ -12,6 +12,9 @@ import "swiper/css";
 import Button from "../../buttons/Button";
 import Loader from "../../Loader";
 import { selectUserFull } from "../../store/slice/authSlice";
+import { Splide, SplideTrack, SplideSlide } from "@splidejs/react-splide";
+import { fetchEvents, selectEvents } from "../../store/slice/eventsSlice";
+import "@splidejs/react-splide/css";
 
 const HomePage = () => {
     const [openLogin, setOpenLogin] = useState<boolean>(false);
@@ -23,14 +26,16 @@ const HomePage = () => {
 
     // if (typeof window !== "undefined") {
     // }
+    useEffect(() => {
+        dispatch(fetchEvents({ page: 1, search: "" }));
+    }, []);
+
+    const events = useSelector(selectEvents);
 
     const dispatch = useDispatch();
 
     return (
         <>
-            {/* {!userDataFull.id ? (
-                <Loader />
-            ) : ( */}
             <div className={styles["home"]}>
                 <div className={styles["home__wrapper"]}>
                     <div className={styles["home__main"]}>
@@ -52,11 +57,48 @@ const HomePage = () => {
                 </div>
                 <div className={styles["home__events"]}>
                     <div className={styles["home__wrapper"]}>
-                        {/* <div className={styles["home__events__item"]}>{events?.results?.map((value, key) => <EventItem key={key} value={value} myKey={key} />)}</div> */}
-                        <div className={styles["home__events__btn"]}>
-                            <Button type="default" onClick={() => router.push("/meeting")}>
-                                Больше мероприятий
-                            </Button>
+                        <div className={styles["home__events__item"]}>
+                            <div className={styles["slider"]}>
+                                <Splide
+                                    options={{
+                                        rewind: true,
+                                        perPage: 2,
+                                        breakpoints: {
+                                            375: {
+                                                perPage: 1,
+                                                gap: "12px",
+                                            },
+                                            480: {
+                                                perPage: 1,
+                                                gap: "12px",
+                                            },
+                                            768: {
+                                                perPage: 2,
+                                                gap: "12px",
+                                            },
+                                            1024: {
+                                                perPage: 2,
+                                                gap: "16px",
+                                            },
+                                            1280: {
+                                                perPage: 2,
+                                                gap: "20px",
+                                            },
+                                        },
+                                    }}
+                                >
+                                    {events?.results?.map((value, key) => (
+                                        <SplideSlide key={key}>
+                                            <EventItem value={value} myKey={key} />
+                                        </SplideSlide>
+                                    ))}
+                                </Splide>
+                            </div>
+                            <div className={styles["home__events__btn"]}>
+                                <Button type="default" onClick={() => router.push("/meeting")}>
+                                    Больше мероприятий
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -74,7 +116,6 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-            {/* )} */}
         </>
     );
 };

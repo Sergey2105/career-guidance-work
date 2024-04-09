@@ -12,11 +12,13 @@ import { getMeFull, selectUser, selectUserFull } from "../../../store/slice/auth
 import ModalUnauth from "../../../modal/ModalUnauth";
 import ModalRemoveMeeting from "../../../modal/ModalRemoveMeeting";
 import QrCode from "../../../QrCode";
+import { fetchEvents } from "../../../store/slice/eventsSlice";
+import Message from "../../../Message";
 
 const MeetingView = (props) => {
-    const [id, setID] = useState("");
     const [modalUnlogin, setModalUnlogin] = useState<boolean>(false);
     const [modalRemove, setModalRemove] = useState<boolean>(false);
+    const [success, setSuccess] = useState<boolean>(false);
 
     const dispatch = useDispatch();
     const router = useRouter();
@@ -57,10 +59,18 @@ const MeetingView = (props) => {
                 .then(() => {
                     dispatch(getEvent(String(event.id)));
                     dispatch(getMeFull(String(userData.id_profile)));
+                    setSuccess(true);
+                    setTimeout(() => {
+                        setSuccess(false);
+                    }, 2000);
                 })
                 .catch(() => {
                     dispatch(getEvent(String(event.id)));
                     dispatch(getMeFull(String(userData.id_profile)));
+                    setSuccess(true);
+                    setTimeout(() => {
+                        setSuccess(false);
+                    }, 2000);
                 });
         } else {
             switchModalUnlogin();
@@ -105,57 +115,81 @@ const MeetingView = (props) => {
                     </div>
                 </div>
             ) : (
-                <div className={styles["wrapper"]}>
-                    <div className={styles["header"]}>
-                        <div className={styles["img"]}>
-                            <Image className={styles["img__img"]} src={Room} alt="class" />
+                <>
+                    {success ? (
+                        <div className={styles["modal"]}>
+                            <Message>Вы успешно записаны на мероприятие!</Message>
                         </div>
-                        <div className={styles["header__main"]}>
-                            <div className={styles["header__main__title"]}>{event.title}</div>
-                            <div className={styles["header__main__name"]}>
-                                <div className={styles["header__main__name__time"]}>Время проведения</div>
-                                <div className={styles["header__main__name__place"]}>Место проведения</div>
-                                <div className={styles["header__main__name__date"]}>Дата проведения</div>
-                                <div className={styles["header__main__name__date"]}>Колличество мест</div>
+                    ) : null}
+                    <div className={styles["wrapper"]}>
+                        <div className={styles["header"]}>
+                            <div className={styles["img"]}>
+                                <Image className={styles["img__img"]} src={Room} alt="class" />
                             </div>
-                            <div className={styles["header__main__info"]}>
-                                <div className={styles["header__main__info__time"]}>
-                                    {event?.timetable?.start_time} – {event?.timetable?.end_time}
+                            <div className={styles["header__main"]}>
+                                <div className={styles["header__main__title"]}>{event.title}</div>
+                                <div className={styles["header__main__name"]}>
+                                    <div className={styles["header__main__name__time"]}>Время проведения</div>
+                                    <div className={styles["header__main__name__place"]}>Место проведения</div>
+                                    <div className={styles["header__main__name__date"]}>Дата проведения</div>
+                                    <div className={styles["header__main__name__date"]}>Колличество мест</div>
                                 </div>
-                                <div className={styles["header__main__info__place"]}>{event?.timetable?.place.office}</div>
-                                <div className={styles["header__main__info__date"]}>{event?.timetable?.event_date}</div>
-                                <div className={styles["header__main__info__date"]}>{event?.seats !== 0 ? event?.seats : "Запись закрыта, все места заняты"}</div>
+                                <div className={styles["header__main__info"]}>
+                                    <div className={styles["header__main__info__time"]}>
+                                        {event?.timetable?.start_time} – {event?.timetable?.end_time}
+                                    </div>
+                                    <div className={styles["header__main__info__place"]}>{event?.timetable?.place.office}</div>
+                                    <div className={styles["header__main__info__date"]}>{event?.timetable?.event_date}</div>
+                                    <div className={styles["header__main__info__date"]}>{event?.seats !== 0 ? event?.seats : "Запись закрыта, все места заняты"}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    {found !== undefined ? <div className={styles["record"]}>Вы записаны на данное мероприятие</div> : <div className={styles["empty"]} />}
-                    <div className={styles["main"]}>
-                        <div className={styles["main__tag"]}>{event?.tags?.map((value, key) => <Tag key={key} value={value} myKey={key} />)}</div>
-                        <div className={styles["main__btn"]}>
-                            {found !== undefined ? (
+                        {found !== undefined ? (
+                            userDataFull.id !== event.author ? (
+                                <div className={styles["record"]}>Вы организатор данного мероприятия</div>
+                            ) : (
+                                <div className={styles["record"]}>Вы записаны на данное мероприятие</div>
+                            )
+                        ) : (
+                            <div className={styles["empty"]}></div>
+                        )}
+                        <div className={styles["main"]}>
+                            <div className={styles["main__tag"]}>{event?.tags?.map((value, key) => <Tag key={key} value={value} myKey={key} />)}</div>
+                            <div className={styles["main__btn"]}>
+                                {/* {found !== undefined ? (
                                 <Button type="default" onClick={() => switchModalRemove()}>
-                                    Отменить запись
+                                Отменить запись
                                 </Button>
                             ) : (
                                 <Button type="default" onClick={() => join()} disabled={!event?.seats_bool}>
-                                    Записаться
+                                Записаться
                                 </Button>
-                            )}
+                            )} */}
+                                {found !== undefined ? (
+                                    userDataFull.id === event.author ? (
+                                        <Button type="default" onClick={() => join()} disabled={true}>
+                                            Вы организатор
+                                        </Button>
+                                    ) : (
+                                        <Button type="default" onClick={() => switchModalRemove()}>
+                                            Отменить запись
+                                        </Button>
+                                    )
+                                ) : (
+                                    <Button type="default" onClick={() => join()} disabled={!event?.seats_bool}>
+                                        {!event?.seats_bool ? "Все места заняты" : "Записаться"}
+                                    </Button>
+                                )}
+                            </div>
                         </div>
-                        {found !== undefined ? (
-                            <div className={styles["main__qr"]}>
-                                <span className={styles["main__qr__text"]}>Ваш QR код для прохода на мероприятие</span>
-                                <QrCode />
+                        {event?.body !== "" ? (
+                            <div className={styles["info"]}>
+                                <div className={styles["info__title"]}>Информация о мероприятии</div>
+                                <div className={styles["info__text"]}>{event?.body}</div>
                             </div>
                         ) : null}
                     </div>
-                    {event?.body !== "" ? (
-                        <div className={styles["info"]}>
-                            <div className={styles["info__title"]}>Информация о мероприятии</div>
-                            <div className={styles["info__text"]}>{event?.body}</div>
-                        </div>
-                    ) : null}
-                </div>
+                </>
             )}
         </>
     );

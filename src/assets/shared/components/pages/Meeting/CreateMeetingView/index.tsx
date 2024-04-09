@@ -28,7 +28,6 @@ const CreateMeetingView = (props) => {
     }, []);
 
     const guest = useSelector(selectGuest);
-    console.log(guest);
 
     useEffect(() => {
         if (event) {
@@ -68,37 +67,58 @@ const CreateMeetingView = (props) => {
 
     return (
         <>
-            <div className={styles["wrapper"]}>
-                <div className={styles["body"]}>
-                    <div className={styles["body__title"]}>
-                        <span>{event.title}</span>
-                    </div>
-                    <div className={styles["body__input"]}>
-                        <InputText
-                            placeholder={"Введите название мероприятия"}
-                            label={"Название мероприятия"}
-                            onChange={changeTitle}
-                            changeClear={changeTitleClear}
-                            value={inputTitle}
-                        />
-                    </div>
-                    <div className={styles["body__input"]}>
-                        <InputAria placeholder={"Введите информацию о мероприятии"} label={"Информация о мероприятии"} type={"text"} onChange={changeBody} value={inputBody} />
-                    </div>
-                    <div className={styles["btn"]}>
-                        <Button type="default" onClick={changeData}>
-                            Изменить
+            {event?.error || userDataFull.id !== event.author ? (
+                <div className={styles["message"]}>
+                    <span className={styles["message__text"]}>{event?.error ? event?.error : userDataFull.id !== event.author ? `У вас нет доступа к этому мероприятию` : ""}</span>
+                    <div className={styles["message__btn"]}>
+                        <Button onClick={() => router.push("/")} type="default">
+                            Вернуться на главную
                         </Button>
-                        <Button type="delete" onClick={deleteMeeting}>
-                            Удалить
-                        </Button>
-                    </div>
-
-                    <div className={styles["body__guest"]}>
-                        <CreateMeetingViewHeader>{guest?.profile_list?.map((value, key) => <CreateMeetingViewItem key={key} value={value} myKey={key} />)}</CreateMeetingViewHeader>
                     </div>
                 </div>
-            </div>
+            ) : (
+                <div className={styles["wrapper"]}>
+                    <div className={styles["body"]}>
+                        <div className={styles["body__title"]}>
+                            <span>{event.title}</span>
+                        </div>
+                        <div className={styles["body__input"]}>
+                            <InputText
+                                placeholder={"Введите название мероприятия"}
+                                label={"Название мероприятия"}
+                                onChange={changeTitle}
+                                changeClear={changeTitleClear}
+                                value={inputTitle}
+                            />
+                        </div>
+                        <div className={styles["body__input"]}>
+                            <InputAria placeholder={"Введите информацию о мероприятии"} label={"Информация о мероприятии"} type={"text"} onChange={changeBody} value={inputBody} />
+                        </div>
+                        <div className={styles["btn"]}>
+                            <Button type="default" onClick={changeData}>
+                                Изменить
+                            </Button>
+                            <Button type="delete" onClick={deleteMeeting}>
+                                Удалить
+                            </Button>
+                        </div>
+                        <div className={styles["body__guest__header"]}>
+                            <span className={styles["body__guest__header__title"]}>Список участников</span>
+                            <div className={styles["body__guest__header__btn"]}>
+                                <Button type="default" onClick={() => router.push(`/scanner/${event.id}`)}>
+                                    Сканнер
+                                </Button>
+                            </div>
+                        </div>
+                        <div className={styles["body__guest__header__message"]}>Перейдите к сканеру, чтобы зарегестрировать новых участников.</div>
+                        <div className={styles["body__guest"]}>
+                            <CreateMeetingViewHeader>
+                                {guest?.profile_list?.map((value, key) => <CreateMeetingViewItem key={key} value={value} myKey={key} />)}
+                            </CreateMeetingViewHeader>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 };
