@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "../../../store/hooks";
-import InputText from "../../../inputs/inputText";
+import { useSelector } from "../../../store/hooks";
 import Button from "../../../buttons/Button";
 import ModalCreateTimetable from "../../../modal/ModalCreateTimetable";
 import ModalCreateMeeting from "../../../modal/ModalCreateMeeting";
 import { selectUserFull } from "../../../store/slice/authSlice";
-import MeetingItem from "../MeetingItem";
-import MeetingItemCreate from "./components/CreateMeetingItem";
-import MeetingItemHeader from "./components/CreateMeetingHeader";
 import CreateMeetingHeader from "./components/CreateMeetingHeader";
 import CreateMeetingItem from "./components/CreateMeetingItem";
 import InputSearch from "../../../inputs/inputSeach";
@@ -18,9 +13,6 @@ const CreateMeeting = () => {
     const [modalCreateTimetable, setModalCreateTimetable] = useState<boolean>(false);
     const [modalCreateMeeting, setModalCreateMeeting] = useState<boolean>(false);
     const userDataFull = useSelector(selectUserFull);
-
-    const router = useRouter();
-    const dispatch = useDispatch();
 
     const switchModalCreateTimetable = () => {
         if (modalCreateTimetable) {
@@ -44,7 +36,7 @@ const CreateMeeting = () => {
 
     return (
         <>
-            {!modalCreateTimetable ? <ModalCreateTimetable switchModalCreateTimetable={switchModalCreateTimetable} switchModalCreateMeeting={switchModalCreateMeeting} /> : null}
+            {modalCreateTimetable ? <ModalCreateTimetable switchModalCreateTimetable={switchModalCreateTimetable} switchModalCreateMeeting={switchModalCreateMeeting} /> : null}
             {modalCreateMeeting ? <ModalCreateMeeting switchModalCreateMeeting={switchModalCreateMeeting} switchModalCreateTimetable={switchModalCreateTimetable} /> : null}
             <div className={styles["list__wrapper"]}>
                 <div className={styles["list"]}>

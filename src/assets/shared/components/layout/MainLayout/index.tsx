@@ -6,8 +6,6 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
 import { activated, getMe, getMeFull, selectUser, selectUserFull } from "../../store/slice/authSlice";
 import { useEffect } from "react";
-import Loader from "../../Loader";
-import { getEvent } from "../../store/slice/eventSlice";
 
 const MainLayout = (props) => {
     const { children } = props;
@@ -37,7 +35,7 @@ const MainLayout = (props) => {
     }, [userData]);
 
     useEffect(() => {
-        if (userDataFull?.id && userDataFull?.birthday === null && userDataFull?.birthday === "") {
+        if (userDataFull?.id && userDataFull?.birthday === null && userDataFull?.birthday === "" && userDataFull?.phone === null && userDataFull?.phone === "") {
             router.push("/data");
         }
     }, [userDataFull]);

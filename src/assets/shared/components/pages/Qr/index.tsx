@@ -3,7 +3,6 @@ import QrReader from "react-qr-scanner";
 import styles from "./index.module.scss";
 import Scanner from "/public/icons/scanner.svg";
 import ProfileScanner from "/public/icons/profilescanner.svg";
-import Notification from "/public/icons/notification.svg";
 import List from "/public/icons/list.svg";
 import QrGuest from "./components/QrMeeting";
 import QrMeeting from "./components/QrGuest";
@@ -229,12 +228,11 @@ const Qr = () => {
                                                 <div className={styles["content__guest__list__item__header"]}>Email</div>
                                                 <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.email}</span>
                                             </div>
-                                            {userDataFullAnother?.birthday ? (
-                                                <div className={styles["content__guest__list__item"]}>
-                                                    <div className={styles["content__guest__list__item__header"]}>Дата рождемения</div>
-                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.birthday}</span>
-                                                </div>
-                                            ) : null}
+
+                                            <div className={styles["content__guest__list__item"]}>
+                                                <div className={styles["content__guest__list__item__header"]}>Дата рождемения</div>
+                                                <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.birthday}</span>
+                                            </div>
                                             {userDataFullAnother?.phone ? (
                                                 <div className={styles["content__guest__list__item"]}>
                                                     <div className={styles["content__guest__list__item__header"]}>Номер телефона</div>

@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../../store/hooks";
-import { deleteEvents, editEvents, getEvent, getGuest, selectEventProps, selectGuest } from "../../../store/slice/eventSlice";
+import { deleteEvents, editEvents, getEvent, getGuest, getTags, selectEventProps, selectGuest, selectTags } from "../../../store/slice/eventSlice";
 import { selectUser, selectUserFull } from "../../../store/slice/authSlice";
 import InputText from "../../../inputs/inputText";
 import InputAria from "../../../inputs/inputAria";
 import Button from "../../../buttons/Button";
 import CreateMeetingViewItem from "./components/CreateMeetingViewItem";
 import CreateMeetingViewHeader from "./components/CreateMeetingViewHeader";
+import ModalEditTimetable from "../../../modal/ModalEditTimetable";
+import { InputDropdownTags } from "../../../inputs/InputDropdown/Tags";
 
 const CreateMeetingView = (props) => {
     const router = useRouter();
@@ -18,6 +20,8 @@ const CreateMeetingView = (props) => {
     const userDataFull = useSelector(selectUserFull);
     const [inputTitle, setInputTitle] = useState<string>(event.title);
     const [inputBody, setInputBody] = useState<string>(event.body);
+    const [inputTags, setInputTags] = useState<any>(event.tags);
+    const [modalEdit, setModalEdit] = useState<boolean>(false);
 
     console.log(event);
 
@@ -25,7 +29,10 @@ const CreateMeetingView = (props) => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         dispatch(getEvent(String(id)));
         dispatch(getGuest(String(id)));
+        dispatch(getTags());
     }, []);
+
+    const tags = useSelector(selectTags);
 
     const guest = useSelector(selectGuest);
 
@@ -34,6 +41,7 @@ const CreateMeetingView = (props) => {
             // dispatch(getEvent(String(event.id)));
             setInputTitle(event.title);
             setInputBody(event.body);
+            setInputTags(event.tags);
         }
     }, [event]);
 
@@ -65,6 +73,18 @@ const CreateMeetingView = (props) => {
         });
     };
 
+    const switchModalEdit = () => {
+        if (modalEdit) {
+            setModalEdit(false);
+            document.body.style.overflow = "visible";
+            dispatch(getEvent(String(event.id)));
+        } else {
+            setModalEdit(true);
+            document.body.style.overflow = "hidden";
+            dispatch(getEvent(String(event.id)));
+        }
+    };
+
     return (
         <>
             {event?.error || userDataFull.id !== event.author ? (
@@ -77,47 +97,82 @@ const CreateMeetingView = (props) => {
                     </div>
                 </div>
             ) : (
-                <div className={styles["wrapper"]}>
-                    <div className={styles["body"]}>
-                        <div className={styles["body__title"]}>
-                            <span>{event.title}</span>
-                        </div>
-                        <div className={styles["body__input"]}>
-                            <InputText
-                                placeholder={"Введите название мероприятия"}
-                                label={"Название мероприятия"}
-                                onChange={changeTitle}
-                                changeClear={changeTitleClear}
-                                value={inputTitle}
-                            />
-                        </div>
-                        <div className={styles["body__input"]}>
-                            <InputAria placeholder={"Введите информацию о мероприятии"} label={"Информация о мероприятии"} type={"text"} onChange={changeBody} value={inputBody} />
-                        </div>
-                        <div className={styles["btn"]}>
-                            <Button type="default" onClick={changeData}>
-                                Изменить
-                            </Button>
-                            <Button type="delete" onClick={deleteMeeting}>
-                                Удалить
-                            </Button>
-                        </div>
-                        <div className={styles["body__guest__header"]}>
-                            <span className={styles["body__guest__header__title"]}>Список участников</span>
-                            <div className={styles["body__guest__header__btn"]}>
-                                <Button type="default" onClick={() => router.push(`/scanner/${event.id}`)}>
-                                    Сканнер
+                <>
+                    {modalEdit ? <ModalEditTimetable switchModalEdit={switchModalEdit} event={event} /> : null}
+                    <div className={styles["wrapper"]}>
+                        <div className={styles["body"]}>
+                            <div className={styles["body__title"]}>
+                                <span>{event.title}</span>
+                            </div>
+                            <div className={styles["body__input"]}>
+                                <InputText
+                                    placeholder={"Введите название мероприятия"}
+                                    label={"Название мероприятия"}
+                                    onChange={changeTitle}
+                                    changeClear={changeTitleClear}
+                                    value={inputTitle}
+                                />
+                            </div>
+                            <div className={styles["body__input"]}>
+                                <InputDropdownTags multiple value={inputTags} onChange={setInputTags} options={tags} label={"Теги пользователя"} />
+                            </div>
+                            <div className={styles["body__input"]}>
+                                <InputAria
+                                    placeholder={"Введите информацию о мероприятии"}
+                                    label={"Информация о мероприятии"}
+                                    type={"text"}
+                                    onChange={changeBody}
+                                    value={inputBody}
+                                />
+                            </div>
+                            <div className={styles["btn"]}>
+                                <Button type="default" onClick={changeData}>
+                                    Изменить
+                                </Button>
+                                <Button type="delete" onClick={deleteMeeting}>
+                                    Удалить
                                 </Button>
                             </div>
-                        </div>
-                        <div className={styles["body__guest__header__message"]}>Перейдите к сканеру, чтобы зарегестрировать новых участников.</div>
-                        <div className={styles["body__guest"]}>
-                            <CreateMeetingViewHeader>
-                                {guest?.profile_list?.map((value, key) => <CreateMeetingViewItem key={key} value={value} myKey={key} />)}
-                            </CreateMeetingViewHeader>
+                            <div className={styles["timetable"]}>
+                                <div className={styles["timetable__item"]}>
+                                    <span className={styles["timetable__item__title"]}>Время проведения мероприятия</span>
+                                    <span className={styles["timetable__item__text"]}>
+                                        {event?.timetable?.start_time} - {event?.timetable?.end_time}
+                                    </span>
+                                </div>
+                                <div className={styles["timetable__item"]}>
+                                    <span className={styles["timetable__item__title"]}>Дата проведения мероприятия</span>
+                                    <span className={styles["timetable__item__text"]}>{event?.timetable?.event_date}</span>
+                                </div>
+                                <div className={styles["timetable__item"]}>
+                                    <span className={styles["timetable__item__title"]}>Место проведения мероприятия</span>
+                                    <span className={styles["timetable__item__text"]}>
+                                        {event?.timetable?.place?.office} ({event?.timetable?.place?.max_participant})
+                                    </span>
+                                </div>
+                                <div className={styles["timetable__btn"]}>
+                                    <Button type="default" onClick={switchModalEdit}>
+                                        Изменить запись
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className={styles["body__guest__header"]}>
+                                <span className={styles["body__guest__header__title"]}>Список участников</span>
+                                <div className={styles["body__guest__header__btn"]}>
+                                    <Button type="default" onClick={() => router.push(`/scanner/${event.id}`)}>
+                                        Сканнер
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className={styles["body__guest__header__message"]}>Перейдите к сканеру, чтобы зарегистрировать новых участников.</div>
+                            <div className={styles["body__guest"]}>
+                                <CreateMeetingViewHeader>
+                                    {guest?.profile_list?.map((value, key) => <CreateMeetingViewItem key={key} value={value} myKey={key} />)}
+                                </CreateMeetingViewHeader>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </>
             )}
         </>
     );

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Room from "/public/img/room.jpg";
 import { useRouter } from "next/router";
@@ -11,8 +10,6 @@ import Tag from "../../../Tag";
 import { getMeFull, selectUser, selectUserFull } from "../../../store/slice/authSlice";
 import ModalUnauth from "../../../modal/ModalUnauth";
 import ModalRemoveMeeting from "../../../modal/ModalRemoveMeeting";
-import QrCode from "../../../QrCode";
-import { fetchEvents } from "../../../store/slice/eventsSlice";
 import Message from "../../../Message";
 
 const MeetingView = (props) => {
@@ -145,7 +142,7 @@ const MeetingView = (props) => {
                             </div>
                         </div>
                         {found !== undefined ? (
-                            userDataFull.id !== event.author ? (
+                            userDataFull.id === event.author ? (
                                 <div className={styles["record"]}>Вы организатор данного мероприятия</div>
                             ) : (
                                 <div className={styles["record"]}>Вы записаны на данное мероприятие</div>
@@ -156,15 +153,6 @@ const MeetingView = (props) => {
                         <div className={styles["main"]}>
                             <div className={styles["main__tag"]}>{event?.tags?.map((value, key) => <Tag key={key} value={value} myKey={key} />)}</div>
                             <div className={styles["main__btn"]}>
-                                {/* {found !== undefined ? (
-                                <Button type="default" onClick={() => switchModalRemove()}>
-                                Отменить запись
-                                </Button>
-                            ) : (
-                                <Button type="default" onClick={() => join()} disabled={!event?.seats_bool}>
-                                Записаться
-                                </Button>
-                            )} */}
                                 {found !== undefined ? (
                                     userDataFull.id === event.author ? (
                                         <Button type="default" onClick={() => join()} disabled={true}>

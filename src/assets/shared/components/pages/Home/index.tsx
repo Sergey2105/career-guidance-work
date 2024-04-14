@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import styles from "./index.module.scss";
 import Empowered from "/public/img/empowered.jpg";
 import router from "next/router";
-import ModalLogin from "../../modal/ModalLogin";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import EventItem from "../Meeting/MeetingItem";
 import { useDispatch, useSelector } from "../../store/hooks";
-import Swiper from "swiper";
 import "swiper/css";
 import Button from "../../buttons/Button";
 import Loader from "../../Loader";
 import { selectUserFull } from "../../store/slice/authSlice";
-import { Splide, SplideTrack, SplideSlide } from "@splidejs/react-splide";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { fetchEvents, selectEvents } from "../../store/slice/eventsSlice";
 import "@splidejs/react-splide/css";
 
 const HomePage = () => {
-    const [openLogin, setOpenLogin] = useState<boolean>(false);
-    const Mobile = useMediaQuery(375);
-    const Tablet = useMediaQuery(768);
-    const Laptop = useMediaQuery(1024);
-    const Desktop = useMediaQuery(1360);
     const userDataFull = useSelector(selectUserFull);
 
-    // if (typeof window !== "undefined") {
-    // }
     useEffect(() => {
         dispatch(fetchEvents({ page: 1, search: "" }));
     }, []);
@@ -42,7 +32,6 @@ const HomePage = () => {
                         <div className={styles["home__main__label"]}>Твой календарь мероприятий, твой путь к профессиональному росту!</div>
                         <div>
                             <div className={styles["home__main__img"]}>
-                                {/* <img src="/public/img/empowered.jpg" alt="Empowered" /> */}
                                 <Image className={styles["home__main__img__img"]} src={Empowered} alt="class" />
                             </div>
                         </div>
@@ -63,26 +52,35 @@ const HomePage = () => {
                                     options={{
                                         rewind: true,
                                         perPage: 2,
+                                        mediaQuery: "min",
                                         breakpoints: {
-                                            375: {
-                                                perPage: 1,
-                                                gap: "12px",
-                                            },
-                                            480: {
-                                                perPage: 1,
-                                                gap: "12px",
-                                            },
-                                            768: {
+                                            1440: {
                                                 perPage: 2,
-                                                gap: "12px",
+                                                gap: "20px",
+                                            },
+                                            1280: {
+                                                perPage: 2,
+                                                gap: "20px",
                                             },
                                             1024: {
                                                 perPage: 2,
                                                 gap: "16px",
                                             },
-                                            1280: {
+                                            768: {
                                                 perPage: 2,
-                                                gap: "20px",
+                                                gap: "12px",
+                                            },
+                                            480: {
+                                                perPage: 2,
+                                                gap: "12px",
+                                            },
+                                            375: {
+                                                perPage: 1,
+                                                gap: "12px",
+                                            },
+                                            1: {
+                                                perPage: 1,
+                                                gap: "12px",
                                             },
                                         },
                                     }}
@@ -105,8 +103,6 @@ const HomePage = () => {
                 <div className={styles["home__wrapper"]}>
                     <div className={styles["home__join"]}>
                         <div className={styles["home__join__label"]}>
-                            {/* Откройте мир профессиональных возможностей! Узнайте больше о наших мероприятиях и программе профориентации. Информация, которая поможет вам выбрать свое
-                        будущее. */}
                             Исследуйте ваше профессиональное будущее с нашим разнообразным списком мероприятий! Открытие дверей к новым карьерным возможностям начинается здесь.
                             Узнайте о наших образовательных и профориентационных программ для осознанного выбора вашего пути в мире труда.
                         </div>

@@ -18,16 +18,6 @@ const rootReducer = combineReducers({
     [getUser.reducerPath]: getUser.reducer,
 });
 
-// export const makeStore = () => {
-//     return configureStore({
-//         reducer: {
-//             rootReducer,
-//             [getMeting.reducerPath]: getMeting.reducer,
-//         },
-//         devTools: process.env.NEXT_PUBLIC_API_URL !== "production",
-//         middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([getMeting.middleware]),
-//     });
-// };
 export const makeStore = () => {
     return configureStore({
         reducer: rootReducer,
@@ -39,15 +29,6 @@ export const makeStore = () => {
 export const store = makeStore();
 
 setupListeners(store.dispatch);
-// export type RootState = ReturnType<typeof store.getState>;
-// export type AppDispatch = typeof store.dispatch;
-// export type RootState = ReturnType<typeof rootReducer>;
-// export type AppStore = ReturnType<typeof makeStore>;
-// export type AppState = ReturnType<AppStore["getState"]>;
-// export type AppDispatch = AppStore["dispatch"];
-// export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unknown, Action>;
-
-// export const wrapper = createWrapper<AppStore>(makeStore);
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = ReturnType<typeof makeStore>;

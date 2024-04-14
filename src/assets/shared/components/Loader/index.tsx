@@ -7,7 +7,6 @@ const Loader = () => {
         <>
             <div className={styles["loader"]}>
                 <div className={styles["loader__tail"]}></div>
-                {/* <TailSpin visible={true} height="50" width="50" color="#000" ariaLabel="tail-spin-loading" radius="10" wrapperStyle={{}} wrapperClass="" /> */}
             </div>
         </>
     );

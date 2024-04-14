@@ -31,7 +31,7 @@ const Reset = () => {
         <div className={styles["container"]}>
             <div className={styles["body"]}>
                 <div className={styles["form__greetings"]}>Добро пожаловать</div>
-                <div className={styles["form__title"]}>Востановить пароль</div>
+                <div className={styles["form__title"]}>Восстановить пароль</div>
                 <form className={styles["form"]}>
                     <div className={styles["form__input"]}>
                         <InputText type={"email"} placeholder={"Введите email"} label={"Email"} onChange={changeEmail} changeClear={changeEmailClear} value={inputEmail} />

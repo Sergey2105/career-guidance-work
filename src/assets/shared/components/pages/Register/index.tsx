@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
 import InputText from "../../inputs/inputText";
 import InputPassword from "../../inputs/inputPassword";
-import { activated, register, selectErrorsRegister } from "../../store/slice/authSlice";
+import { register, selectErrorsRegister } from "../../store/slice/authSlice";
 import Button from "../../buttons/Button";
 
 const Register = () => {
@@ -56,23 +56,11 @@ const Register = () => {
     const reg = () => {
         dispatch(register({ username: inputLogin, password: inputPassword, email: inputEmail, first_name: inputFirstName, last_name: inputLastName })).then((res) => {
             if (res.type.includes("fulfilled")) {
-                // const referrer = new URLSearchParams(window.location.search)?.get("referrer") || "/meeting/";
-                // if (!referrer.includes("meeting")) {
-                //     window.location.href = `${window.location.origin}${referrer}`;
-                // } else {
-                //     router.push(referrer);
-                // }
                 router.push("/login");
             } else if (res.type.includes("rejected")) {
             }
         });
     };
-    console.log(messageError);
-    // console.log(Object.keys(messageError));
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     reg();
-    // };
 
     const disabled = inputLogin.length == 0 || inputPassword.length == 0 || inputEmail.length == 0 || inputFirstName.length == 0 || inputLastName.length == 0;
 
@@ -80,7 +68,7 @@ const Register = () => {
         <div className={styles["container"]}>
             <div className={styles["body"]}>
                 <div className={styles["form__greetings"]}>Добро пожаловать</div>
-                <div className={styles["form__title"]}>Зарегестрируйтесь</div>
+                <div className={styles["form__title"]}>Зарегистрируйтесь</div>
                 <div className={styles["form"]}>
                     <div className={styles["form__input"]}>
                         <InputText
@@ -127,12 +115,7 @@ const Register = () => {
                         <InputPassword placeholder={"Введите пароль"} label={"Пароль"} onChange={changePassword} error={messageError?.password} value={inputPassword} />
                     </div>
                 </div>
-                <div className={styles["form__error"]}>
-                    {/* {Object.keys(messageError).map((element, index) => (
-                        // eslint-disable-next-line react/jsx-key
-                        <div>{element}</div>
-                    ))} */}
-                </div>
+                <div className={styles["form__error"]}></div>
                 <div className={styles["form__btn"]}>
                     <Button type="default" onClick={() => reg()} disabled={disabled}>
                         Регигистрация

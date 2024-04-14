@@ -12,7 +12,7 @@ const CreateMeetingHeader = (props) => {
                 <div className={styles["header__title"]}>
                     <span>Название мероприятия</span>
                     <span>Дата проведения</span>
-                    <span>Колличество мест</span>
+                    <span>Количество мест</span>
                     <span>Место проведения</span>
                 </div>
                 <div className={styles["line"]}></div>

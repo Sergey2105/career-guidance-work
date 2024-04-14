@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import ArrowLeft from "/public/icons/arrowleft.svg";
 import ArrowRight from "/public/icons/arrowright.svg";
@@ -89,8 +88,6 @@ const Pagination = (props) => {
                     setCurrentButton((prev) => (prev >= howManyPages ? prev : prev + 1));
                 }}
                 href={noNavigation ? "" : `${currentButton === howManyPages ? `?page=${currentButton}` : `?page=${currentButton + 1}`}`}
-
-                // href={`${currentButton === howManyPages ? "" : `?page=${currentButton + 1}`}`}
             >
                 <ArrowRight />
             </Link>

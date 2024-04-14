@@ -47,7 +47,7 @@
                 font-weight: 600;
             }
             &__btn {
-                width: 343px;
+                width: 100%;
                 margin-top: 20px;
             }
             &__message {
@@ -64,7 +64,30 @@
     display: flex;
     gap: 16px;
 }
-
+.timetable {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    &__item {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+        &__title {
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 600;
+        }
+        &__text {
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+    }
+    &__btn {
+        margin-top: 20px;
+    }
+}
 @media screen and (min-width: 768px) {
     .wrapper {
         padding: 0 24px;

@@ -3,9 +3,7 @@ import styles from "./index.module.scss";
 import MeetingsItem from "../MeetingItem";
 import Pagination from "../../../Pagination";
 import { useDispatch, useSelector } from "../../../store/hooks";
-import { useRouter } from "next/router";
 import Loader from "../../../Loader";
-import InputText from "../../../inputs/inputText";
 import useDebounce from "@/hooks/useDebounce";
 import { useGetMetingQuery } from "../../../store/services/getMeeting";
 import InputSearch from "../../../inputs/inputSeach";
@@ -15,8 +13,8 @@ const MeetingList = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [inputSearch, setInputSearch] = useState<string>("");
     const debouncedSearchTerm = useDebounce(inputSearch, 500);
-
-    const router = useRouter();
+    const dispatch = useDispatch();
+    const events = useSelector(selectEvents);
 
     const changeSearch = (e) => {
         setInputSearch(e.target.value);
@@ -32,15 +30,10 @@ const MeetingList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-        dispatch(fetchEvents({ page: 1, search: inputSearch })).then(() => {
-            // router.push("");
-        });
+        dispatch(fetchEvents({ page: 1, search: inputSearch })).then(() => {});
     }, [inputSearch]);
 
-    const dispatch = useDispatch();
     const { isLoading, isFetching, data, error } = useGetMetingQuery({ page: currentPage, search: debouncedSearchTerm });
-
-    const events = useSelector(selectEvents);
 
     return (
         <>
@@ -52,7 +45,6 @@ const MeetingList = () => {
                         <div className={styles["list__search"]}>
                             <InputSearch value={inputSearch} onChange={changeSearch} changeClear={changeLoginSearch} />
                         </div>
-                        {/* <div className={styles["list__data"]}>fsfdsfsd</div> */}
                     </div>
                     {events && events?.meta?.total_count > 0 ? (
                         <div className={styles["list__list"]}>{events?.results?.map((value, key) => <MeetingsItem key={key} value={value} myKey={key} />)}</div>

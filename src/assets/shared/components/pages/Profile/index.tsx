@@ -135,7 +135,7 @@ const Profile = () => {
                                     ) : null}
                                     {currentProfile ? (
                                         <div className={styles["body__qr"]}>
-                                            <span className={styles["body__qr__text"]}>Ваш QR код для прохода на мероприятия</span>
+                                            <span className={styles["body__qr__text"]}>Ваш QR-код для прохода на мероприятия</span>
                                             <QrCode />
                                         </div>
                                     ) : null}

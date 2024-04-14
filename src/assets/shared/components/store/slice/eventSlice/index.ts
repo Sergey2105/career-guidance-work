@@ -5,6 +5,7 @@ interface ApiError {
     non_field_errors: string;
     message: string;
     error: string;
+    detail: any;
     code?: number;
 }
 
@@ -73,6 +74,31 @@ export const editEvents = createAsyncThunk("event/editEvents", async ({ id, auth
     }
 });
 
+export const editTimetable = createAsyncThunk(
+    "event/editTimetable",
+    async ({ id, event_date, start_time, end_time, place }: { id: string; event_date: string; start_time: string; end_time: string; place: string }, thunkAPI) => {
+        const token = localStorage.getItem("userToken");
+        if (token !== null) {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/timetable_update/${id}/`, {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${token}`,
+                },
+                body: JSON.stringify({ event_date, start_time, end_time, place }),
+            });
+            const result = await response.json();
+
+            if (response.status === 200 || response.status === 201) {
+            } else {
+                return thunkAPI.rejectWithValue(result);
+            }
+            return result;
+        }
+    },
+);
+
 export const deleteEvents = createAsyncThunk("event/deleteEvents", async ({ id }: { id: string }, thunkAPI) => {
     const token = localStorage.getItem("userToken");
     if (token !== null) {
@@ -136,9 +162,6 @@ export const getPlaces = createAsyncThunk("event/getPlaces", async function () {
 export const createTimetable = createAsyncThunk(
     "event/createTimetable",
     async ({ event_date, start_time, end_time, place }: { event_date: string; start_time: string; end_time: string; place: string }, thunkAPI) => {
-        // const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/places_list/`).then((res) => res.json());
-        // console.log(response);
-        // return response;
         const token = localStorage.getItem("userToken");
         if (token !== null) {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/timetable_create/`, {
@@ -274,6 +297,15 @@ const eventSlice = createSlice({
         builder.addCase(createMeeting.rejected, (state, action) => {
             state.errors = action.payload as ApiError;
         });
+        builder.addCase(editTimetable.fulfilled, (state, action) => {
+            state.errors = null;
+        });
+        builder.addCase(editTimetable.pending, (state, action) => {
+            state.errors = null;
+        });
+        builder.addCase(editTimetable.rejected, (state, action) => {
+            state.errors = action.payload as ApiError;
+        });
     },
 });
 
@@ -287,6 +319,6 @@ export const selectGuest = (state: RootState) => state.eventSlice.guests;
 
 export const selectErrorsTimetable = (state: RootState) => state.eventSlice.errors;
 export const selectErrorsMeeting = (state: RootState) => state.eventSlice.errors;
-
+export const selectErrorsEditTimetable = (state: RootState) => state.eventSlice.errors;
 
 export default eventSlice.reducer;

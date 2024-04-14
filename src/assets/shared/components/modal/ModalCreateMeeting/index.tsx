@@ -1,13 +1,10 @@
 import styles from "./index.module.scss";
 import React, { useEffect, useState } from "react";
 import ModalBase from "../../modalBase";
-import { useRouter } from "next/router";
 import Button from "../../buttons/Button";
-import InputDate from "../../inputs/inputDate";
 import InputText from "../../inputs/inputText";
-import InputTime from "../../inputs/inputTime";
 import { useSelector } from "react-redux";
-import { createMeeting, createTimetable, getPlaces, getTags, getTimetable, selectErrorsMeeting, selectPlace, selectTags, selectTimetable } from "../../store/slice/eventSlice";
+import { createMeeting, getTags, getTimetable, selectErrorsMeeting, selectPlace, selectTags, selectTimetable } from "../../store/slice/eventSlice";
 import { useDispatch } from "../../store/hooks";
 import InputAria from "../../inputs/inputAria";
 import { InputDropdownTags } from "../../inputs/InputDropdown/Tags";
@@ -36,8 +33,6 @@ const ModalCreateMeeting = (props) => {
 
     const timetable = useSelector(selectTimetable);
 
-    // console.log(timetable);
-
     const changeTitle = (e) => {
         setInputTitle(e.target.value);
     };
@@ -54,13 +49,9 @@ const ModalCreateMeeting = (props) => {
         setInputBody("");
     };
 
-    const router = useRouter();
-
     const objtags = inputTags.map((item) => {
         return item.id;
     });
-
-    // console.log(objtags);
 
     const changeCreateMeeting = () => {
         dispatch(createMeeting({ title: inputTitle, body: inputBody, timetable: inputTimetable.id, tags: objtags })).then((res) => {
@@ -86,14 +77,13 @@ const ModalCreateMeeting = (props) => {
         <>
             {success ? (
                 <div className={styles["modal"]}>
-                    <Message error={messageError}>{messageError?.error != null ? messageError?.error : "Мероприятие успешно создано"}</Message>
+                    <Message error={messageError}>{messageError?.detail != null ? messageError?.detail : "Мероприятие успешно создано"}</Message>
                 </div>
             ) : null}
             <ModalBase
-                title={"Саздать мероприятие"}
+                title={"Создать мероприятие"}
                 onCloseModal={switchModalCreateMeeting}
                 size="large"
-                // zIndex="60"
                 footer={
                     <>
                         <Button type="white" onClick={switchModalCreateMeeting}>

@@ -1,4 +1,4 @@
-import { LegacyRef, lazy, useEffect, useRef, useState } from "react";
+import { LegacyRef, useEffect, useState } from "react";
 import styles from "../index.module.scss";
 import Cross from "/public/icons/cross.svg";
 import { IMask, IMaskInput, useIMask } from "react-imask";
@@ -121,7 +121,7 @@ const InputText = (props) => {
                     </div>
                 ) : null}
             </div>
-            <div className={styles["error"]}>{error}</div>
+            {error ? <div className={styles["error"]}>{error}</div> : null}
         </div>
     );
 };

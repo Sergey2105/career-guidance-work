@@ -18,10 +18,7 @@ interface type {
     isLogin: boolean;
     auth_token: string | null;
     loading: boolean;
-    // errors: { [key: string]: string[] };
     errors: ApiError | null;
-
-    // error?: Record<string, any> | unknown;
     userData: Record<string, any>;
     userDataFull: Record<string, any>;
     userDataFullAnother: Record<string, any>;
@@ -41,11 +38,6 @@ const initialState: type = {
 export const register = createAsyncThunk(
     "auth/register",
     async ({ username, password, email, first_name, last_name }: { username: string; password: string; email: string; first_name: string; last_name: string }, thunkAPI) => {
-        // const data = {
-        //     username: "",
-        //     email: "",
-        //     password: "",
-        // };
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/user_register/`, {
             method: "POST",
             headers: {

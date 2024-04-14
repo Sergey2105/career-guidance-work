@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./index.module.scss";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
-import Room from "/public/img/room.jpg";
 import { useRouter } from "next/router";
 
 const CreateMeetingItem = (props) => {

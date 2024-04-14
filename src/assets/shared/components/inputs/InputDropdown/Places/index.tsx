@@ -25,7 +25,7 @@ type SelectProps = {
 } & (SingleSelectProps | MultipleSelectProps);
 
 export function InputDropdownPlaces(props) {
-    const { value, onChange, options, label } = props;
+    const { value, onChange, options, label, multiple } = props;
     const [isOpen, setIsOpen] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -34,17 +34,28 @@ export function InputDropdownPlaces(props) {
         onChange("");
     }
 
-    function selectOption(option: SelectOption) {
-        if (option !== value) onChange(option);
+    function selectOption(option) {
+        if (multiple) {
+            const isOptionAlreadySelected = value.some((v) => v.id === option.id);
+            if (isOptionAlreadySelected) {
+                // Если элемент уже выбран, удаляем его из списка value
+                onChange(value.filter((o) => o.id !== option.id));
+            } else {
+                // Иначе добавляем новый элемент в список value
+                onChange([...value, option]);
+            }
+        } else {
+            if (option.id !== value?.id) onChange(option);
+        }
     }
 
-    function isOptionSelected(option: SelectOption) {
-        option === value;
+    function isOptionSelected(option) {
+        if (multiple) {
+            return value.some((v) => v.id === option.id);
+        } else {
+            return value?.id === option.id;
+        }
     }
-
-    useEffect(() => {
-        if (isOpen) setHighlightedIndex(0);
-    }, [isOpen]);
 
     useEffect(() => {
         const handler = (e: KeyboardEvent) => {
@@ -86,7 +97,7 @@ export function InputDropdownPlaces(props) {
         <>
             {label ? <span className={styles["label"]}>{label}</span> : null}
             <div ref={containerRef} onBlur={() => setIsOpen(false)} onClick={() => setIsOpen((prev) => !prev)} tabIndex={0} className={styles.container}>
-                <span className={styles.value}>{value.length !== 0 ? `${value?.office} ( ${value.max_participant} )` : ""}</span>
+                <span className={styles.value}>{value ? `${value?.office} (${value.max_participant})` : ""}</span>
                 <button
                     onClick={(e) => {
                         e.stopPropagation();
@@ -103,7 +114,7 @@ export function InputDropdownPlaces(props) {
                 <ul className={`${styles.options} ${isOpen ? styles.show : ""}`}>
                     {options?.length !== 0 ? (
                         <>
-                            {options.map((option, index) => (
+                            {options?.map((option, index) => (
                                 <li
                                     onClick={(e) => {
                                         e.stopPropagation();
@@ -114,7 +125,7 @@ export function InputDropdownPlaces(props) {
                                     key={option.id}
                                     className={`${styles.option} ${index === highlightedIndex ? styles.highlighted : ""}`}
                                 >
-                                    {option.office} ( {option.max_participant} )
+                                    {option.office} ({option.max_participant})
                                 </li>
                             ))}
                         </>
