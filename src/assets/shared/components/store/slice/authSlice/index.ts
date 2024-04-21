@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../..";
 import { error } from "console";
 
@@ -34,6 +34,8 @@ const initialState: type = {
     userDataFull: {},
     userDataFullAnother: {},
 };
+
+export const clearErrorsAction = createAction("CLEAR_ERRORS");
 
 export const register = createAsyncThunk(
     "auth/register",
@@ -127,30 +129,33 @@ export const getAnotherFull = createAsyncThunk("auth/getMeFullAnother", async fu
 
 export const data = createAsyncThunk(
     "auth/data",
-    async function ({
-        id,
-        email,
-        first_name,
-        last_name,
-        birthday,
-        phone,
-        telegram,
-        tags,
-        info,
-    }: {
-        id: string;
-        email: string;
-        first_name: string;
-        last_name: string;
-        birthday: string;
-        phone: string;
-        telegram: string;
-        tags: any;
-        info: string;
-    }) {
+    async function (
+        {
+            id,
+            email,
+            first_name,
+            last_name,
+            birthday,
+            phone,
+            telegram,
+            tags,
+            info,
+        }: {
+            id: string;
+            email: string;
+            first_name: string;
+            last_name: string;
+            birthday: string;
+            phone: string;
+            telegram: string;
+            tags: any;
+            info: string;
+        },
+        thunkAPI,
+    ) {
         const token = localStorage.getItem("userToken");
         if (token !== null) {
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/users/${id}/update/`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/users/${id}/update/`, {
                 method: "PUT",
                 headers: {
                     Accept: "application/json",
@@ -168,6 +173,13 @@ export const data = createAsyncThunk(
                     info,
                 }),
             });
+            const result = await response.json();
+
+            if (response.status === 200 || response.status === 201) {
+            } else {
+                return thunkAPI.rejectWithValue(result);
+            }
+            return result;
         }
     },
 );
@@ -187,21 +199,22 @@ const authSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
+        builder.addCase(clearErrorsAction, (state) => {
+            state.errors = null; // очищаем ошибки
+        });
         builder.addCase(register.fulfilled, (state, action) => {});
         builder.addCase(register.pending, (state, action) => {});
         builder.addCase(register.rejected, (state, action) => {
             state.errors = action.payload as ApiError;
-            // console.log( action.payload);
         });
         builder.addCase(login.fulfilled, (state, action) => {
-            console.log(action);
+            state.errors = null;
         });
         builder.addCase(login.pending, (state, action) => {
-            console.log(action);
+            state.errors = null;
         });
         builder.addCase(login.rejected, (state, action) => {
             state.errors = action.payload as ApiError;
-            console.log(action);
         });
         builder.addCase(getMe.fulfilled, (state, action) => {
             state.userData = action.payload;
@@ -225,27 +238,41 @@ const authSlice = createSlice({
         });
         builder.addCase(getAnotherFull.fulfilled, (state, action) => {
             state.userDataFullAnother = action.payload;
-            console.log(action);
+            state.loading = false;
         });
         builder.addCase(getAnotherFull.pending, (state, action) => {
-            console.log(action);
+            state.loading = true;
         });
         builder.addCase(getAnotherFull.rejected, (state, action) => {
-            console.log(action);
+            state.loading = true;
         });
         builder.addCase(logout.fulfilled, (state, action) => {
             state.userDataFull = {};
             state.userData = {};
         });
+        builder.addCase(data.fulfilled, (state, action) => {
+            state.errors = null;
+        });
+        builder.addCase(data.pending, (state, action) => {
+            state.errors = null;
+        });
+        builder.addCase(data.rejected, (state, action) => {
+            state.errors = action.payload as ApiError;
+        });
     },
 });
-// export const { addToken } = authSlice.actions;
 export const { clearError } = authSlice.actions;
 
-export const selectErrorsRegister = (state: RootState) => state.authSlice.errors;
-export const selectErrorsLogin = (state: RootState) => state.authSlice.errors;
 export const selectUser = (state: RootState) => state.authSlice.userData;
 export const selectUserFull = (state: RootState) => state.authSlice.userDataFull;
 export const selectUserFullAnother = (state: RootState) => state.authSlice.userDataFullAnother;
+
+export const selectErrorsRegister = (state: RootState) => state.authSlice.errors;
+export const selectErrorsLogin = (state: RootState) => state.authSlice.errors;
+export const selectErrorsData = (state: RootState) => state.eventSlice.errors;
+
+// export const selectLoadingUser = (state: RootState) => state.authSlice.loading;
+export const selectLoadingUser = (state: RootState) => state.authSlice.loading;
+// export const selectLoadingUserFullAnother = (state: RootState) => state.authSlice.loading;
 
 export default authSlice.reducer;

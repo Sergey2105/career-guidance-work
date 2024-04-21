@@ -6,6 +6,7 @@ interface ApiError {
     message: string;
     error: string;
     detail: any;
+    title: string;
     code?: number;
 }
 
@@ -62,7 +63,7 @@ export const getEvent = createAsyncThunk("event/getEvent", async function (id: s
 export const editEvents = createAsyncThunk("event/editEvents", async ({ id, author, title, body }: { id: string; author: number; title: string; body: string }, thunkAPI) => {
     const token = localStorage.getItem("userToken");
     if (token !== null) {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${id}/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${id}/`, {
             method: "PUT",
             headers: {
                 Accept: "application/json",
@@ -71,6 +72,13 @@ export const editEvents = createAsyncThunk("event/editEvents", async ({ id, auth
             },
             body: JSON.stringify({ author, title, body }),
         });
+        const result = await response.json();
+
+        if (response.status === 200 || response.status === 201) {
+        } else {
+            return thunkAPI.rejectWithValue(result);
+        }
+        return result;
     }
 });
 
@@ -102,7 +110,7 @@ export const editTimetable = createAsyncThunk(
 export const deleteEvents = createAsyncThunk("event/deleteEvents", async ({ id }: { id: string }, thunkAPI) => {
     const token = localStorage.getItem("userToken");
     if (token !== null) {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${id}/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${id}/`, {
             method: "DELETE",
             headers: {
                 Accept: "application/json",
@@ -110,6 +118,13 @@ export const deleteEvents = createAsyncThunk("event/deleteEvents", async ({ id }
                 Authorization: `Token ${token}`,
             },
         });
+        const result = await response.json();
+
+        if (response.status === 200 || response.status === 201) {
+        } else {
+            return thunkAPI.rejectWithValue(result);
+        }
+        return result;
     }
 });
 
@@ -266,6 +281,13 @@ const eventSlice = createSlice({
             state.eventProps = {
                 ...action.payload,
             };
+            state.loading = false;
+        });
+        builder.addCase(getEvent.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(getEvent.rejected, (state, action) => {
+            state.loading = true;
         });
         builder.addCase(getPlaces.fulfilled, (state, action) => {
             state.places = action.payload;
@@ -306,6 +328,15 @@ const eventSlice = createSlice({
         builder.addCase(editTimetable.rejected, (state, action) => {
             state.errors = action.payload as ApiError;
         });
+        builder.addCase(editEvents.fulfilled, (state, action) => {
+            state.errors = null;
+        });
+        builder.addCase(editEvents.pending, (state, action) => {
+            state.errors = null;
+        });
+        builder.addCase(editEvents.rejected, (state, action) => {
+            state.errors = action.payload as ApiError;
+        });
     },
 });
 
@@ -320,5 +351,8 @@ export const selectGuest = (state: RootState) => state.eventSlice.guests;
 export const selectErrorsTimetable = (state: RootState) => state.eventSlice.errors;
 export const selectErrorsMeeting = (state: RootState) => state.eventSlice.errors;
 export const selectErrorsEditTimetable = (state: RootState) => state.eventSlice.errors;
+export const selectErrorsEditEvents = (state: RootState) => state.eventSlice.errors;
+
+export const selectLoadingMeeting = (state: RootState) => state.eventSlice.loading;
 
 export default eventSlice.reducer;

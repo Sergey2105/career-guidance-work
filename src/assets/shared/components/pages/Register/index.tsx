@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
 import InputText from "../../inputs/inputText";
 import InputPassword from "../../inputs/inputPassword";
-import { register, selectErrorsRegister } from "../../store/slice/authSlice";
+import { clearErrorsAction, register, selectErrorsRegister } from "../../store/slice/authSlice";
 import Button from "../../buttons/Button";
 
 const Register = () => {
@@ -17,6 +17,10 @@ const Register = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const messageError = useSelector(selectErrorsRegister);
+
+    useEffect(() => {
+        dispatch(clearErrorsAction());
+    }, [inputEmail, inputLogin, inputPassword, inputFirstName, inputLastName]);
 
     const changeEmail = (e) => {
         setInputEmail(e.target.value);

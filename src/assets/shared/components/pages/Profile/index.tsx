@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
-import { getAnotherFull, logout, selectUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
+import { getAnotherFull, logout, selectLoadingUser, selectUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
 import Image from "next/image";
 import Rock from "/public/img/johnson_dwayne.jpg";
 import Button from "../../buttons/Button";
 import Tag from "../../Tag";
 import MeetingItem from "../Meeting/MeetingItem";
 import Loader from "../../Loader";
-import { useGetUserQuery } from "../../store/services/getUser";
 import Link from "next/link";
 import QrCode from "../../QrCode";
 import clsx from "clsx";
@@ -28,6 +27,8 @@ const Profile = () => {
     const [isProfile, setIsProfile] = useState<boolean>(true);
     const [isMeeting, setIsMeeting] = useState<boolean>(false);
     const userDataFullAnother = useSelector(selectUserFullAnother);
+    const loading = useSelector(selectLoadingUser);
+
     const changeProfile = () => {
         setIsProfile(true);
         setIsMeeting(false);
@@ -65,15 +66,13 @@ const Profile = () => {
             router.push("/");
         });
     };
-    const { isLoading, isFetching, data, error } = useGetUserQuery({ id: String(typeof window !== "undefined" && location.pathname.split("/").filter((el) => el)[1]) });
-    console.log(error);
 
     return (
         <>
-            {isLoading ? <Loader /> : null}
-            {userDataFullAnother?.error ? (
+            {loading ? <Loader /> : null}
+            {userDataFullAnother?.detail ? (
                 <div className={styles["message"]}>
-                    <span className={styles["message__text"]}>{userDataFullAnother?.error}</span>
+                    <span className={styles["message__text"]}>{userDataFullAnother?.detail}</span>
                     <div className={styles["message__btn"]}>
                         <Button onClick={() => router.push("/")} type="default">
                             Вернуться на главную
@@ -101,19 +100,25 @@ const Profile = () => {
                                     </div>
                                     <div className={styles["body__profile__info"]}>
                                         <span className={styles["body__profile__info__title"]}>Имя</span>
-                                        <span className={styles["body__profile__info__text"]}>{userDataFullAnother?.first_name}</span>
+                                        <span className={styles["body__profile__info__text"]}>
+                                            {userDataFullAnother?.first_name ? userDataFullAnother?.first_name : "Данные отсутвуют"}
+                                        </span>
                                     </div>
                                     <div className={styles["body__profile__info"]}>
                                         <span className={styles["body__profile__info__title"]}>Фамилия</span>
-                                        <span className={styles["body__profile__info__text"]}>{userDataFullAnother?.last_name}</span>
+                                        <span className={styles["body__profile__info__text"]}>
+                                            {userDataFullAnother?.last_name ? userDataFullAnother?.last_name : "Данные отсутвуют"}
+                                        </span>
                                     </div>
                                     <div className={styles["body__profile__info"]}>
                                         <span className={styles["body__profile__info__title"]}>Email</span>
-                                        <span className={styles["body__profile__info__text"]}>{userDataFullAnother?.email}</span>
+                                        <span className={styles["body__profile__info__text"]}>{userDataFullAnother?.email ? userDataFullAnother?.email : "Данные отсутвуют"}</span>
                                     </div>
                                     <div className={styles["body__profile__info"]}>
                                         <span className={styles["body__profile__info__title"]}>Дата рождения</span>
-                                        <span className={styles["body__profile__info__text"]}>{userDataFullAnother?.birthday}</span>
+                                        <span className={styles["body__profile__info__text"]}>
+                                            {userDataFullAnother?.birthday ? userDataFullAnother?.birthday : "Данные отсутвуют"}
+                                        </span>
                                     </div>
                                     <div className={styles["body__profile__info"]}>
                                         <span className={styles["body__profile__info__title"]}>Telegram ID</span>
@@ -136,7 +141,7 @@ const Profile = () => {
                                     {currentProfile ? (
                                         <div className={styles["body__qr"]}>
                                             <span className={styles["body__qr__text"]}>Ваш QR-код для прохода на мероприятия</span>
-                                            <QrCode />
+                                            <QrCode id={userDataFullAnother?.id} />
                                         </div>
                                     ) : null}
                                 </div>

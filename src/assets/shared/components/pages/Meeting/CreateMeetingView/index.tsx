@@ -2,8 +2,19 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../../store/hooks";
-import { deleteEvents, editEvents, getEvent, getGuest, getTags, selectEventProps, selectGuest, selectTags } from "../../../store/slice/eventSlice";
-import { selectUser, selectUserFull } from "../../../store/slice/authSlice";
+import {
+    deleteEvents,
+    editEvents,
+    getEvent,
+    getGuest,
+    getTags,
+    selectErrorsEditEvents,
+    selectEventProps,
+    selectGuest,
+    selectLoadingMeeting,
+    selectTags,
+} from "../../../store/slice/eventSlice";
+import { selectLoadingUser, selectUser, selectUserFull } from "../../../store/slice/authSlice";
 import InputText from "../../../inputs/inputText";
 import InputAria from "../../../inputs/inputAria";
 import Button from "../../../buttons/Button";
@@ -11,6 +22,8 @@ import CreateMeetingViewItem from "./components/CreateMeetingViewItem";
 import CreateMeetingViewHeader from "./components/CreateMeetingViewHeader";
 import ModalEditTimetable from "../../../modal/ModalEditTimetable";
 import { InputDropdownTags } from "../../../inputs/InputDropdown/Tags";
+import Message from "../../../Message";
+import Loader from "../../../Loader";
 
 const CreateMeetingView = (props) => {
     const router = useRouter();
@@ -22,6 +35,12 @@ const CreateMeetingView = (props) => {
     const [inputBody, setInputBody] = useState<string>(event.body);
     const [inputTags, setInputTags] = useState<any>(event.tags);
     const [modalEdit, setModalEdit] = useState<boolean>(false);
+    const [success, setSuccess] = useState<boolean>(false);
+    const messageError = useSelector(selectErrorsEditEvents);
+    const loadingMeeting = useSelector(selectLoadingMeeting);
+    const loadingUser = useSelector(selectLoadingUser);
+
+    console.log(messageError);
 
     console.log(event);
 
@@ -58,13 +77,21 @@ const CreateMeetingView = (props) => {
     };
 
     const changeData = () => {
-        dispatch(editEvents({ id: event.id, author: userDataFull.id, title: inputTitle, body: inputBody }))
-            .then(() => {
+        dispatch(editEvents({ id: event.id, author: userDataFull.id, title: inputTitle, body: inputBody })).then((res) => {
+            if (res.type.includes("fulfilled")) {
+                setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 2000);
                 dispatch(getEvent(String(event.id)));
-            })
-            .catch(() => {
+            } else {
+                setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 2000);
                 dispatch(getEvent(String(event.id)));
-            });
+            }
+        });
     };
 
     const deleteMeeting = () => {
@@ -81,15 +108,18 @@ const CreateMeetingView = (props) => {
         } else {
             setModalEdit(true);
             document.body.style.overflow = "hidden";
-            dispatch(getEvent(String(event.id)));
+            // dispatch(getEvent(String(event.id)));
         }
     };
 
     return (
         <>
-            {event?.error || userDataFull.id !== event.author ? (
+            {loadingMeeting || loadingUser ? <Loader /> : null}
+            {event?.detail || userDataFull?.id !== event?.author ? (
                 <div className={styles["message"]}>
-                    <span className={styles["message__text"]}>{event?.error ? event?.error : userDataFull.id !== event.author ? `У вас нет доступа к этому мероприятию` : ""}</span>
+                    <span className={styles["message__text"]}>
+                        {event?.detail ? event?.detail : userDataFull?.id !== event?.author ? `У вас нет доступа к этому мероприятию` : ""}
+                    </span>
                     <div className={styles["message__btn"]}>
                         <Button onClick={() => router.push("/")} type="default">
                             Вернуться на главную
@@ -98,6 +128,11 @@ const CreateMeetingView = (props) => {
                 </div>
             ) : (
                 <>
+                    {success ? (
+                        <div className={styles["modal"]}>
+                            <Message error={messageError}>{messageError?.title != null ? "Название мероприятия не может быть пустым" : "Данные успешно изменены!"}</Message>
+                        </div>
+                    ) : null}
                     {modalEdit ? <ModalEditTimetable switchModalEdit={switchModalEdit} event={event} /> : null}
                     <div className={styles["wrapper"]}>
                         <div className={styles["body"]}>

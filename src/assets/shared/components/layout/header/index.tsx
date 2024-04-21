@@ -15,20 +15,12 @@ import Logo from "/public/img/logo.png";
 import Image from "next/image";
 
 const Header = () => {
-    const [openLogin, setOpenLogin] = useState<boolean>(false);
+    const [isToken, setIsToken] = useState(false);
     const pathname = usePathname();
     const dispatch = useDispatch();
     const router = useRouter();
     const menu = useSelector(selectMenu);
     const userData = useSelector(selectUser);
-
-    // выход
-
-    // const logout = () => {
-    //     dispatch(logout()).then(() => {
-    //         router.push("/");
-    //     });
-    // };
 
     const pathLogin = () => {
         if (localStorage.getItem("userToken")) {
@@ -43,6 +35,17 @@ const Header = () => {
         }
         dispatch(closeMenu());
     };
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const token = localStorage.getItem("userToken");
+            if (token === null) {
+                setIsToken(false);
+            } else {
+                setIsToken(true);
+            }
+        }
+    }, []);
 
     return (
         <header className={styles["header"]}>
@@ -69,11 +72,13 @@ const Header = () => {
                                         Информация
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link href="/mymeeting" className={styles["link"]} onClick={() => dispatch(closeMenu())}>
-                                        Мои мероприятия
-                                    </Link>
-                                </li>
+                                {isToken ? (
+                                    <li>
+                                        <Link href="/mymeeting" className={styles["link"]} onClick={() => dispatch(closeMenu())}>
+                                            Мои мероприятия
+                                        </Link>
+                                    </li>
+                                ) : null}
                             </ul>
                             <div className={styles["header__user"]}>
                                 <User onClick={pathLogin} />

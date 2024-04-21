@@ -75,7 +75,7 @@ const ModalCreateTimetable = (props) => {
         <>
             {success ? (
                 <div className={styles["modal"]}>
-                    <Message error={messageError}>{messageError?.detail != null ? messageError?.detail : "Запись успешно создана"}</Message>
+                    <Message error={messageError}>{messageError?.detail != null ? messageError?.detail : "Запись успешно создана!"}</Message>
                 </div>
             ) : null}
             <ModalBase

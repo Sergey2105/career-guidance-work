@@ -4,13 +4,14 @@ import Image from "next/image";
 import Room from "/public/img/room.jpg";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../../store/hooks";
-import { getEvent, joinEvent, removeEvent, selectEventProps } from "../../../store/slice/eventSlice";
+import { getEvent, joinEvent, removeEvent, selectEventProps, selectLoadingMeeting } from "../../../store/slice/eventSlice";
 import Button from "../../../buttons/Button";
 import Tag from "../../../Tag";
 import { getMeFull, selectUser, selectUserFull } from "../../../store/slice/authSlice";
 import ModalUnauth from "../../../modal/ModalUnauth";
 import ModalRemoveMeeting from "../../../modal/ModalRemoveMeeting";
 import Message from "../../../Message";
+import Loader from "../../../Loader";
 
 const MeetingView = (props) => {
     const [modalUnlogin, setModalUnlogin] = useState<boolean>(false);
@@ -22,6 +23,8 @@ const MeetingView = (props) => {
     const event = useSelector(selectEventProps);
     const userData = useSelector(selectUser);
     const userDataFull = useSelector(selectUserFull);
+    const loading = useSelector(selectLoadingMeeting);
+
     console.log(event);
 
     useEffect(() => {
@@ -100,11 +103,12 @@ const MeetingView = (props) => {
 
     return (
         <>
+            {loading ? <Loader /> : null}
             {modalUnlogin ? <ModalUnauth switchModal={switchModalUnlogin} /> : null}
             {modalRemove ? <ModalRemoveMeeting switchModal={switchModalRemove} remove={remove} /> : null}
-            {event?.error ? (
+            {event?.detail ? (
                 <div className={styles["message"]}>
-                    <span className={styles["message__text"]}>{event?.error}</span>
+                    <span className={styles["message__text"]}>{event?.detail}</span>
                     <div className={styles["message__btn"]}>
                         <Button onClick={() => router.push("/")} type="default">
                             Вернуться на главную

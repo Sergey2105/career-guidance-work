@@ -35,7 +35,8 @@
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
-    "swiper": "^11.0.6"
+    "swiper": "^11.0.6",
+    "webrtc-adapter": "^9.0.1"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",

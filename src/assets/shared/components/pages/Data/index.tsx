@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
-import { data, getAnotherFull, getMe, getMeFull, selectUser, selectUserFull } from "../../store/slice/authSlice";
+import { data, getAnotherFull, getMe, getMeFull, selectErrorsData, selectUser, selectUserFull } from "../../store/slice/authSlice";
 import Button from "../../buttons/Button";
 import InputText from "../../inputs/inputText";
 import InputAria from "../../inputs/inputAria";
@@ -24,6 +24,7 @@ const Data = () => {
     const [inputTags, setInputTags] = useState<any>([]);
     const [inputInfo, setInputInfo] = useState<string>("");
     const [success, setSuccess] = useState<boolean>(false);
+    const messageError = useSelector(selectErrorsData);
 
     useEffect(() => {
         if (userDataFull) {
@@ -44,6 +45,7 @@ const Data = () => {
     useEffect(() => {
         dispatch(getTags());
     }, []);
+
     const tags = useSelector(selectTags);
 
     const changeEmail = (e) => {
@@ -151,9 +153,10 @@ const Data = () => {
             <div className={styles["wrapper"]}>
                 {success ? (
                     <div className={styles["modal"]}>
-                        <Message>Данные успешно измненены!</Message>
+                        <Message error={messageError}>{messageError?.detail != null ? messageError?.detail : "Данные успешно измненены!"}</Message>
                     </div>
                 ) : null}
+
                 <div className={styles["header"]}>
                     <div className={styles["header__title"]}>Заполните данные</div>
                     <div className={styles["header__zagolovok"]}>Обновите или добавьте данные профиля, чтобы настроить индивидуальный поиск мероприятий.</div>

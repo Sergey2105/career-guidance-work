@@ -43,7 +43,7 @@ const Pagination = (props) => {
         setCurrentButton(1);
     }, [inputSearch]);
 
-    console.log(currentButton);
+    // console.log(currentButton);
 
     return (
         <div className={styles["pagination__container"]}>

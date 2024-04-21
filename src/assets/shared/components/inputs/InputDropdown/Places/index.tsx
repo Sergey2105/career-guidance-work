@@ -97,7 +97,11 @@ export function InputDropdownPlaces(props) {
         <>
             {label ? <span className={styles["label"]}>{label}</span> : null}
             <div ref={containerRef} onBlur={() => setIsOpen(false)} onClick={() => setIsOpen((prev) => !prev)} tabIndex={0} className={styles.container}>
-                <span className={styles.value}>{value ? `${value?.office} (${value.max_participant})` : ""}</span>
+                {value && Object.keys(value).length > 0 ? (
+                    <span className={styles.value}>{`${value?.office} (${value.max_participant})`}</span>
+                ) : (
+                    <span className={styles.value}></span>
+                )}
                 <button
                     onClick={(e) => {
                         e.stopPropagation();

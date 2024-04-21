@@ -5,7 +5,9 @@ import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
 import { activated, getMe, getMeFull, selectUser, selectUserFull } from "../../store/slice/authSlice";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { useGetUserQuery } from "../../store/services/getUser";
+import Loader from "../../Loader";
 
 const MainLayout = (props) => {
     const { children } = props;
@@ -18,7 +20,7 @@ const MainLayout = (props) => {
 
     useEffect(() => {
         const token = localStorage.getItem("userToken");
-        if (token !== null) {
+        if (token !== null && Object.keys(userData).length === 0) {
             dispatch(getMe());
         }
     }, []);
@@ -26,7 +28,7 @@ const MainLayout = (props) => {
     useEffect(() => {
         const token = localStorage.getItem("userToken");
         if (Object.keys(userData).length !== 0 && token !== null && userData?.id_profile !== "None") {
-            dispatch(getMeFull(String(userData.id_profile)));
+            dispatch(getMeFull(String(userData?.id_profile)));
         }
         if (userData?.id_profile === "None") {
             dispatch(activated());

@@ -77,7 +77,7 @@ const ModalCreateMeeting = (props) => {
         <>
             {success ? (
                 <div className={styles["modal"]}>
-                    <Message error={messageError}>{messageError?.detail != null ? messageError?.detail : "Мероприятие успешно создано"}</Message>
+                    <Message error={messageError}>{messageError?.detail != null ? messageError?.detail : "Мероприятие успешно создано!"}</Message>
                 </div>
             ) : null}
             <ModalBase

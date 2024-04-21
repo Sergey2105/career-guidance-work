@@ -92,7 +92,7 @@ const ModalEditTimetable = (props) => {
         <>
             {success ? (
                 <div className={styles["modal"]}>
-                    <Message error={messageError}>{messageError?.detail != null ? messageError?.detail : "Запись успешно изменена"}</Message>
+                    <Message error={messageError}>{messageError?.detail != null ? messageError?.detail : "Запись успешно изменена!"}</Message>
                 </div>
             ) : null}
             <ModalBase

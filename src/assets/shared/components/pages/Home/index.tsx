@@ -5,16 +5,17 @@ import Empowered from "/public/img/empowered.jpg";
 import router from "next/router";
 import EventItem from "../Meeting/MeetingItem";
 import { useDispatch, useSelector } from "../../store/hooks";
-import "swiper/css";
 import Button from "../../buttons/Button";
 import Loader from "../../Loader";
 import { selectUserFull } from "../../store/slice/authSlice";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
-import { fetchEvents, selectEvents } from "../../store/slice/eventsSlice";
+import { fetchEvents, selectEvents, selectEventsLoading } from "../../store/slice/eventsSlice";
 import "@splidejs/react-splide/css";
+// import "@splidejs/react-splide/css/core";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 const HomePage = () => {
     const userDataFull = useSelector(selectUserFull);
+    const loading = useSelector(selectEventsLoading);
 
     useEffect(() => {
         dispatch(fetchEvents({ page: 1, search: "" }));
@@ -26,6 +27,7 @@ const HomePage = () => {
 
     return (
         <>
+            {loading ? <Loader /> : null}
             <div className={styles["home"]}>
                 <div className={styles["home__wrapper"]}>
                     <div className={styles["home__main"]}>

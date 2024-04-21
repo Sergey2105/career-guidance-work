@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
 import InputText from "../../inputs/inputText";
-import { activated, login, selectErrorsLogin, selectUser } from "../../store/slice/authSlice";
+import { activated, clearErrorsAction, login, selectErrorsLogin, selectUser } from "../../store/slice/authSlice";
 import Button from "../../buttons/Button";
 import InputPassword from "../../inputs/inputPassword";
 
@@ -16,6 +16,10 @@ const Login = () => {
     const userDataFull = useSelector(selectUser);
     const dispatch = useDispatch();
     const loginErrors = useSelector(selectErrorsLogin);
+
+    useEffect(() => {
+        dispatch(clearErrorsAction());
+    }, [inputLogin, inputPassword]);
 
     const changeLogin = (e) => {
         setInputLogin(e.target.value);

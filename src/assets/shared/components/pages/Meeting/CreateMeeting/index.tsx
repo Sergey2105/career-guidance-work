@@ -4,15 +4,18 @@ import { useSelector } from "../../../store/hooks";
 import Button from "../../../buttons/Button";
 import ModalCreateTimetable from "../../../modal/ModalCreateTimetable";
 import ModalCreateMeeting from "../../../modal/ModalCreateMeeting";
-import { selectUserFull } from "../../../store/slice/authSlice";
+import { selectLoadingUser, selectUserFull } from "../../../store/slice/authSlice";
 import CreateMeetingHeader from "./components/CreateMeetingHeader";
 import CreateMeetingItem from "./components/CreateMeetingItem";
 import InputSearch from "../../../inputs/inputSeach";
+import Loader from "../../../Loader";
 
 const CreateMeeting = () => {
     const [modalCreateTimetable, setModalCreateTimetable] = useState<boolean>(false);
     const [modalCreateMeeting, setModalCreateMeeting] = useState<boolean>(false);
+    const [inputSearch, setInputSearch] = useState<string>("");
     const userDataFull = useSelector(selectUserFull);
+    const loading = useSelector(selectLoadingUser);
 
     const switchModalCreateTimetable = () => {
         if (modalCreateTimetable) {
@@ -36,6 +39,7 @@ const CreateMeeting = () => {
 
     return (
         <>
+            {loading ? <Loader /> : null}
             {modalCreateTimetable ? <ModalCreateTimetable switchModalCreateTimetable={switchModalCreateTimetable} switchModalCreateMeeting={switchModalCreateMeeting} /> : null}
             {modalCreateMeeting ? <ModalCreateMeeting switchModalCreateMeeting={switchModalCreateMeeting} switchModalCreateTimetable={switchModalCreateTimetable} /> : null}
             <div className={styles["list__wrapper"]}>
@@ -49,10 +53,24 @@ const CreateMeeting = () => {
                             Создать
                         </Button>
                     </div>
-                    {userDataFull?.my_meeting?.length !== 0 ? (
-                        <div className={styles["list__meeting"]}>
-                            <CreateMeetingHeader>{userDataFull?.my_meeting?.map((value, key) => <CreateMeetingItem key={key} value={value} myKey={key} />)}</CreateMeetingHeader>
-                        </div>
+                    {userDataFull?.my_meeting?.length !== 0 || inputSearch.length !== 0 ? (
+                        <>
+                            {userDataFull?.my_meeting?.length !== 0 ? (
+                                <div className={styles["list__meeting"]}>
+                                    <CreateMeetingHeader>
+                                        {userDataFull?.my_meeting?.map((value, key) => <CreateMeetingItem key={key} value={value} myKey={key} />)}
+                                    </CreateMeetingHeader>
+                                </div>
+                            ) : (
+                                <>
+                                    {userDataFull?.my_meeting?.length === 0 || inputSearch.length !== 0 ? (
+                                        <div className={styles["list__message"]}>
+                                            <span>Мероприятия отсутствуют, измените данные для поиска</span>
+                                        </div>
+                                    ) : null}
+                                </>
+                            )}
+                        </>
                     ) : (
                         <>
                             <div className={styles["list__message"]}>

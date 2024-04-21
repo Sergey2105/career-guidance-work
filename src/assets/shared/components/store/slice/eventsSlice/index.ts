@@ -40,8 +40,8 @@ const eventsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchEvents.fulfilled, (state, action) => {
-            state.loading = false;
             state.data = action.payload;
+            state.loading = false;
         });
         builder.addCase(fetchEvents.pending, (state) => {
             state.loading = true;
@@ -59,4 +59,3 @@ export const selectEvents = (state: RootState) => state.eventsSlice.data;
 export const selectEventsLoading = (state: RootState) => state.eventsSlice.loading;
 
 export default eventsSlice.reducer;
-
