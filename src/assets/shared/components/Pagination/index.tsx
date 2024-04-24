@@ -6,8 +6,8 @@ import ArrowRight from "/public/icons/arrowright.svg";
 import clsx from "clsx";
 
 const Pagination = (props) => {
-    const { onChange, howManyPages, inputSearch, noNavigation = false } = props;
-    const [currentButton, setCurrentButton] = useState<number>(1);
+    const { onChange, howManyPages, inputSearch, noNavigation = false, currentButton } = props;
+    // const [currentButton, setCurrentButton] = useState<number>(1);
     const [pagEls, setPagEls] = useState<{ [key: string]: number | string }>();
 
     useEffect(() => {
@@ -39,11 +39,11 @@ const Pagination = (props) => {
         setPagEls(newEls);
     }, [currentButton, howManyPages]);
 
-    useEffect(() => {
-        setCurrentButton(1);
-    }, [inputSearch]);
+    // useEffect(() => {
+    //     onChange(1);
+    // }, [inputSearch]);
 
-    // console.log(currentButton);
+    console.log(currentButton);
 
     return (
         <div className={styles["pagination__container"]}>
@@ -52,7 +52,7 @@ const Pagination = (props) => {
                 className={clsx(styles["pagination__btn"], styles[`${currentButton === 1 ? "pagination__btn__disabled" : ""}`])}
                 onClick={(e) => {
                     if (noNavigation) e.preventDefault();
-                    setCurrentButton((prev) => (prev <= 1 ? prev : prev - 1));
+                    onChange((prev) => (prev <= 1 ? prev : prev - 1));
                 }}
                 href={noNavigation ? "" : `${currentButton === 1 ? "" : `?page=${currentButton - 1}`}`}
             >
@@ -71,7 +71,7 @@ const Pagination = (props) => {
                             className={clsx(styles["pagination__btn"], styles[`${el[1] === currentButton ? "pagination__btn__active" : ""}`])}
                             onClick={(e) => {
                                 if (noNavigation) e.preventDefault();
-                                setCurrentButton(Number(el[1]));
+                                // setCurrentButton(Number(el[1]));
                                 onChange(Number(el[1]));
                             }}
                             href={noNavigation ? "" : `${Number(el[1]) === 1 ? "" : `?page=${el[1]}`}`}
@@ -85,7 +85,7 @@ const Pagination = (props) => {
                 className={clsx(styles["pagination__btn"], styles[`${currentButton === howManyPages ? "pagination__btn__disabled" : ""}`])}
                 onClick={(e) => {
                     if (noNavigation) e.preventDefault();
-                    setCurrentButton((prev) => (prev >= howManyPages ? prev : prev + 1));
+                    onChange((prev) => (prev >= howManyPages ? prev : prev + 1));
                 }}
                 href={noNavigation ? "" : `${currentButton === howManyPages ? `?page=${currentButton}` : `?page=${currentButton + 1}`}`}
             >

@@ -34,15 +34,20 @@
     opacity: 0.5;
     pointer-events: none;
 }
-.btn:disabled:hover {
-    opacity: 0.5;
+@media (hover: hover) {
+    .btn:disabled:hover {
+        opacity: 0.5;
+    }
+    .btn:hover {
+        opacity: 0.8;
+    }
 }
-.btn:hover {
-    opacity: 0.8;
+@media (hover: none) {
+    .btn:active {
+        opacity: 0.5;
+    }
 }
-.btn:active {
-    opacity: 0.5;
-}
+
 .btn__inactive {
     cursor: pointer;
     font-size: 22px;

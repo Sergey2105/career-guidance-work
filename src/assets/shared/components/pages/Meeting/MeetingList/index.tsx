@@ -8,9 +8,15 @@ import useDebounce from "@/hooks/useDebounce";
 import { useGetMeetingsQuery } from "../../../store/services/getMeetings";
 import InputSearch from "../../../inputs/inputSeach";
 import { fetchEvents, selectEvents, selectEventsLoading } from "../../../store/slice/eventsSlice";
+import { useRouter } from "next/router";
 
 const MeetingList = () => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const router = useRouter();
+    const pageParam = router.query.page;
+    console.log(pageParam);
+    const initialPage = pageParam !== undefined ? Number(pageParam) : 1;
+
+    const [currentPage, setCurrentPage] = useState<number>(initialPage);
     const [inputSearch, setInputSearch] = useState<string>("");
     const debouncedSearchTerm = useDebounce(inputSearch, 500);
     const dispatch = useDispatch();
@@ -26,12 +32,20 @@ const MeetingList = () => {
     };
 
     useEffect(() => {
-        dispatch(fetchEvents({ page: currentPage, search: debouncedSearchTerm }));
+        if (pageParam !== undefined) {
+            setCurrentPage(initialPage);
+        }
+    }, [initialPage]);
+
+    useEffect(() => {
+        if (pageParam !== undefined) {
+            dispatch(fetchEvents({ page: currentPage, search: debouncedSearchTerm }));
+        }
     }, [currentPage]);
 
     useEffect(() => {
         setCurrentPage(1);
-        dispatch(fetchEvents({ page: 1, search: debouncedSearchTerm })).then(() => {});
+        dispatch(fetchEvents({ page: 1, search: debouncedSearchTerm }));
     }, [debouncedSearchTerm]);
 
     return (
@@ -62,7 +76,7 @@ const MeetingList = () => {
                     )}
                     {events && events?.meta?.page_count > 1 && events?.results.length !== 0 ? (
                         <div className={styles["pagination"]}>
-                            <Pagination howManyPages={events?.meta?.page_count} onChange={setCurrentPage} inputSearch={debouncedSearchTerm} />
+                            <Pagination howManyPages={events?.meta?.page_count} onChange={setCurrentPage} inputSearch={debouncedSearchTerm} currentButton={currentPage} />
                         </div>
                     ) : null}
                 </div>

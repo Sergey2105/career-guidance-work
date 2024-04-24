@@ -5,10 +5,10 @@ import { clsx } from "clsx";
 export interface btn {
     children: React.ReactNode;
     onClick?: () => void;
-    type?: "default" | "white";
+    type?: "default" | "white" | "delete";
     disabled?: boolean;
 }
-const Button = (props): ReactElement => {
+const Button = (props: btn): ReactElement => {
     const { children, onClick = () => null, type, disabled = false } = props;
 
     return (

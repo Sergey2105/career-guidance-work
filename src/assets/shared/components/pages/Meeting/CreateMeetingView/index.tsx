@@ -149,7 +149,7 @@ const CreateMeetingView = (props) => {
                                 />
                             </div>
                             <div className={styles["body__input"]}>
-                                <InputDropdownTags multiple value={inputTags} onChange={setInputTags} options={tags} label={"Теги пользователя"} />
+                                <InputDropdownTags multiple value={inputTags} onChange={setInputTags} options={tags} label={"Теги мероприятия"} />
                             </div>
                             <div className={styles["body__input"]}>
                                 <InputAria

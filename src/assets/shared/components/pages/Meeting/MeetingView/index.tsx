@@ -174,12 +174,10 @@ const MeetingView = (props) => {
                                 )}
                             </div>
                         </div>
-                        {event?.body !== "" ? (
-                            <div className={styles["info"]}>
-                                <div className={styles["info__title"]}>Информация о мероприятии</div>
-                                <div className={styles["info__text"]}>{event?.body}</div>
-                            </div>
-                        ) : null}
+                        <div className={styles["info"]}>
+                            <div className={styles["info__title"]}>Информация о мероприятии</div>
+                            <div className={styles["info__text"]}> {event?.body !== "" ? event?.body : "Информация о мероприятии отсутствует"}</div>
+                        </div>
                     </div>
                 </>
             )}

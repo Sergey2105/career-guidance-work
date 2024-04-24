@@ -155,7 +155,6 @@ const Profile = () => {
                                         </Button>
                                     </div>
                                 ) : null}
-                                {/* Сообщение? */}
                             </div>
                         ) : null}
                         {isMeeting ? (
