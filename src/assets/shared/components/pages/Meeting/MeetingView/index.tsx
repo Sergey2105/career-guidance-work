@@ -12,6 +12,7 @@ import ModalUnauth from "../../../modal/ModalUnauth";
 import ModalRemoveMeeting from "../../../modal/ModalRemoveMeeting";
 import Message from "../../../Message";
 import Loader from "../../../Loader";
+import Voting from "../../../Voting";
 
 const MeetingView = (props) => {
     const [modalUnlogin, setModalUnlogin] = useState<boolean>(false);
@@ -178,6 +179,8 @@ const MeetingView = (props) => {
                             <div className={styles["info__title"]}>Информация о мероприятии</div>
                             <div className={styles["info__text"]}> {event?.body !== "" ? event?.body : "Информация о мероприятии отсутствует"}</div>
                         </div>
+
+                        <div className={styles["voting"]}>{event?.voting?.map((value, key) => <Voting key={key} value={value} myKey={key} />)}</div>
                     </div>
                 </>
             )}

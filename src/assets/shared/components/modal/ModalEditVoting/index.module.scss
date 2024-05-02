@@ -1,0 +1,58 @@
+.text {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+}
+.body {
+    &__input {
+        margin-bottom: 20px;
+    }
+}
+.modal {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 60;
+}
+.btn {
+    font-family: "Montserrat", sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    gap: 5px;
+    padding: 0;
+    &__text {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 600;
+    }
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+@media screen and (min-width: 768px) {
+    .text {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 600;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .text {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 600;
+    }
+}
+@media screen and (min-width: 1280px) {
+    .text {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 600;
+    }
+}

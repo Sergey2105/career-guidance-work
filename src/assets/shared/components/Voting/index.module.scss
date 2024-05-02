@@ -1,0 +1,45 @@
+.voting {
+    max-width: 343px;
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        &__title {
+            font-size: 18px;
+            line-height: 28px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        &__btn {
+            display: flex;
+        }
+        &__btns {
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+        }
+    }
+    &__item {
+        padding: 10px 0;
+        &__btn {
+            font-family: "Montserrat", sans-serif;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 20px;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 15px;
+            max-width: 343px;
+            width: 100%;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            text-align: left;
+            background-color: rgba(50, 94, 165, 0.3215686275);
+            margin: 10px 0;
+        }
+    }
+}

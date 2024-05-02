@@ -24,6 +24,8 @@ import ModalEditTimetable from "../../../modal/ModalEditTimetable";
 import { InputDropdownTags } from "../../../inputs/InputDropdown/Tags";
 import Message from "../../../Message";
 import Loader from "../../../Loader";
+import ModalCreateVoting from "../../../modal/ModalCreateVoting";
+import Voting from "../../../Voting";
 
 const CreateMeetingView = (props) => {
     const router = useRouter();
@@ -35,14 +37,12 @@ const CreateMeetingView = (props) => {
     const [inputBody, setInputBody] = useState<string>(event.body);
     const [inputTags, setInputTags] = useState<any>(event.tags);
     const [modalEdit, setModalEdit] = useState<boolean>(false);
+    const [modalVoting, setModalVoting] = useState<boolean>(false);
+    const [modalEditVoting, setModalEditVoting] = useState<boolean>(false);
     const [success, setSuccess] = useState<boolean>(false);
     const messageError = useSelector(selectErrorsEditEvents);
     const loadingMeeting = useSelector(selectLoadingMeeting);
     const loadingUser = useSelector(selectLoadingUser);
-
-    console.log(messageError);
-
-    console.log(event);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
@@ -50,6 +50,8 @@ const CreateMeetingView = (props) => {
         dispatch(getGuest(String(id)));
         dispatch(getTags());
     }, []);
+
+    console.log(event);
 
     const tags = useSelector(selectTags);
 
@@ -112,6 +114,30 @@ const CreateMeetingView = (props) => {
         }
     };
 
+    const switchModalEditVoting = () => {
+        if (modalEditVoting) {
+            setModalEditVoting(false);
+            document.body.style.overflow = "visible";
+            dispatch(getEvent(String(event.id)));
+        } else {
+            setModalEditVoting(true);
+            document.body.style.overflow = "hidden";
+            // dispatch(getEvent(String(event.id)));
+        }
+    };
+
+    const switchModalVoting = () => {
+        if (modalVoting) {
+            setModalVoting(false);
+            document.body.style.overflow = "visible";
+            dispatch(getEvent(String(event.id)));
+        } else {
+            setModalVoting(true);
+            document.body.style.overflow = "hidden";
+            // dispatch(getEvent(String(event.id)));
+        }
+    };
+
     return (
         <>
             {loadingMeeting || loadingUser ? <Loader /> : null}
@@ -134,6 +160,7 @@ const CreateMeetingView = (props) => {
                         </div>
                     ) : null}
                     {modalEdit ? <ModalEditTimetable switchModalEdit={switchModalEdit} event={event} /> : null}
+                    {modalVoting ? <ModalCreateVoting switchModalVoting={switchModalVoting} event={event} /> : null}
                     <div className={styles["wrapper"]}>
                         <div className={styles["body"]}>
                             <div className={styles["body__title"]}>
@@ -190,6 +217,16 @@ const CreateMeetingView = (props) => {
                                         Изменить запись
                                     </Button>
                                 </div>
+                            </div>
+                            <div className={styles["voting"]}>
+                                <span className={styles["body__guest__header__title"]}>Список опросов</span>
+
+                                <div>
+                                    <div className={styles["voting__list"]}>{event?.voting?.map((value, key) => <Voting edit={true} key={key} value={value} myKey={key} />)}</div>
+                                </div>
+                                <Button type="default" onClick={switchModalVoting}>
+                                    Создать опрос
+                                </Button>
                             </div>
                             <div className={styles["body__guest__header"]}>
                                 <span className={styles["body__guest__header__title"]}>Список участников</span>

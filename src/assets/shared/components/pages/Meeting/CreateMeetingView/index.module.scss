@@ -95,6 +95,12 @@
         margin-top: 20px;
     }
 }
+.voting {
+    margin-top: 20px;
+    &__list {
+        margin-top: 20px;
+    }
+}
 @media screen and (min-width: 768px) {
     .wrapper {
         padding: 0 24px;
