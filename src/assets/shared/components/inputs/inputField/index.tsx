@@ -6,7 +6,7 @@ import Delete from "/public/icons/delete.svg";
 import { IMask, IMaskInput, useIMask } from "react-imask";
 
 const InputField = (props) => {
-    const { placeholder, label, onChange, changeClear, type, error, value, internalID = "", removeInput, saveField } = props;
+    const { placeholder, label, onChange, changeClear, type, error, value, internalID = "", removeInput, saveField, cross } = props;
     const [textValue, setTextValue] = useState<string>("");
 
     const [mask] = useState([
@@ -118,7 +118,7 @@ const InputField = (props) => {
                         // value={value || ""}
                         defaultValue={value}
                     ></input>
-                    {textValue !== "" && textValue !== null ? (
+                    {textValue !== "" && textValue !== null && cross ? (
                         <div className={styles["input__icon"]} onClick={deleteInput}>
                             <Cross />
                         </div>

@@ -59,7 +59,7 @@ export const deleteVoting = createAsyncThunk("voting/deleteVoting", async ({ id 
         });
         const result = await response.json();
 
-        if (response.status === 200 || response.status === 201) {
+        if (response.status === 200 || response.status === 201 || response.status === 204) {
         } else {
             return thunkAPI.rejectWithValue(result);
         }

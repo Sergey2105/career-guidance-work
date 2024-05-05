@@ -13,7 +13,6 @@ import { useRouter } from "next/router";
 const MeetingList = () => {
     const router = useRouter();
     const pageParam = router.query.page;
-    console.log(pageParam);
     const initialPage = pageParam !== undefined ? Number(pageParam) : 1;
 
     const [currentPage, setCurrentPage] = useState<number>(initialPage);
@@ -32,21 +31,21 @@ const MeetingList = () => {
     };
 
     useEffect(() => {
-        if (pageParam !== undefined) {
-            setCurrentPage(initialPage);
-        }
+        setCurrentPage(initialPage);
     }, [initialPage]);
 
     useEffect(() => {
-        if (pageParam !== undefined) {
-            dispatch(fetchEvents({ page: currentPage, search: debouncedSearchTerm }));
-        }
+        dispatch(fetchEvents({ page: currentPage, search: debouncedSearchTerm }));
     }, [currentPage]);
 
     useEffect(() => {
-        setCurrentPage(1);
+        // if (debouncedSearchTerm) {
+        // setCurrentPage(1);
         dispatch(fetchEvents({ page: 1, search: debouncedSearchTerm }));
+        // }
     }, [debouncedSearchTerm]);
+
+    console.log(currentPage);
 
     return (
         <>

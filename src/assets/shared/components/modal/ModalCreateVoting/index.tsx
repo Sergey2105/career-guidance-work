@@ -54,15 +54,15 @@ const ModalCreateVoting = (props) => {
 
     return (
         <>
-            {/* {success ? (
+            {success ? (
                 <div className={styles["modal"]}>
-                    <Message error={messageError}>{messageError?.detail != null ? messageError?.detail : "Запись успешно изменена!"}</Message>
+                    <Message error={messageError}>{messageError?.detail != null ? messageError?.detail : "Опрос успешно создан!"}</Message>
                 </div>
-            ) : null} */}
+            ) : null}
             <ModalBase
                 title={"Создать опрос"}
                 onCloseModal={switchModalVoting}
-                size="large"
+                size="login"
                 footer={
                     <>
                         <Button type="white" onClick={switchModalVoting}>

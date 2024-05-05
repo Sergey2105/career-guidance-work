@@ -70,7 +70,7 @@ const Voting = (props) => {
     };
     return (
         <>
-            {modalEditVoting ? <ModalEditVoting switchModalEditVoting={switchModalEditVoting} value={value} /> : null}
+            {modalEditVoting ? <ModalEditVoting switchModalEditVoting={switchModalEditVoting} value={value} event={event} /> : null}
             <div className={styles["voting"]}>
                 <div className={styles["voting__header"]}>
                     <div className={styles["voting__header__title"]}>{value.name}</div>
@@ -89,7 +89,7 @@ const Voting = (props) => {
                     {value?.field.map((value, key) => (
                         <button key={key} className={styles["voting__item__btn"]} onClick={() => join(value.id)}>
                             <div>{value.name}</div>
-                            <div></div>
+                            <div>{value.count_votes}</div>
                         </button>
                     ))}
                 </div>

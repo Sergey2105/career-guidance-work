@@ -34,6 +34,10 @@
         align-items: center;
         justify-content: center;
     }
+    &__delete {
+        margin: 20px 0;
+        width: 401px;
+    }
 }
 @media screen and (min-width: 768px) {
     .text {

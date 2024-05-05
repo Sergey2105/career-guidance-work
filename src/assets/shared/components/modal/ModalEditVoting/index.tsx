@@ -7,7 +7,7 @@ import InputDate from "../../inputs/inputDate";
 import InputText from "../../inputs/inputText";
 import InputTime from "../../inputs/inputTime";
 import { useSelector } from "react-redux";
-import { createTimetable, editTimetable, getPlaces, selectErrorsTimetable, selectPlace } from "../../store/slice/eventSlice";
+import { createTimetable, editTimetable, getEvent, getPlaces, selectErrorsTimetable, selectPlace } from "../../store/slice/eventSlice";
 import { useDispatch } from "../../store/hooks";
 import { InputDropdownPlaces } from "../../inputs/InputDropdown/Places";
 import Message from "../../Message";
@@ -59,17 +59,43 @@ const ModalEditVoting = (props) => {
         dispatch(destroyField({ id: id }));
     };
 
-    const saveField = (id) => {
-        console.log(id);
-        console.log(inputValue.name[id - 1]);
-        dispatch(addField({ id: value.id, name: inputValue.name[id - 1] }));
+    const arr = ["поле", "поле 1", "поле 2 авыа авав авав"];
+
+    const result = arr.map((item) => item.replace(/ /g, "_")).join(" ");
+
+    console.log(result);
+
+    const saveField = () => {
+        dispatch(addField({ id: value.id, name: result })).then((res) => {
+            if (res.type.includes("fulfilled")) {
+                switchModalEditVoting();
+            }
+        });
     };
 
-    const deleteVotings = (id) => {
-        dispatch(deleteVoting({ id: value.id }));
+    const deleteVotings = () => {
+        // dispatch(deleteVoting({ id: value.id })).then((res) => {
+        //     if (res.type.includes("fulfilled")) {
+        //         setSuccess(true);
+        //         setTimeout(() => {
+        //             setSuccess(false);
+        //             switchModalEditVoting();
+        //         }, 2000);
+        //     } else {
+        //         setSuccess(true);
+        //         setTimeout(() => {
+        //             setSuccess(false);
+        //         }, 2000);
+        //     }
+        // });
+        dispatch(deleteVoting({ id: value.id })).then(() => {
+            switchModalEditVoting();
+            dispatch(getEvent(String(event.id)));
+        });
     };
 
     console.log(inputValue.name);
+    console.log(newInput);
 
     // console.log(inputValue.name[0]);
 
@@ -80,8 +106,6 @@ const ModalEditVoting = (props) => {
     const changeTitleClear = () => {
         setInputTitle("");
     };
-
-    const disabled = inputTitle.length === 0;
 
     // console.log(success);
     // console.log(messageError);
@@ -103,8 +127,8 @@ const ModalEditVoting = (props) => {
                         <Button type="white" onClick={switchModalEditVoting}>
                             Закрыть
                         </Button>
-                        <Button type="delete" disabled={disabled} onClick={() => deleteVotings}>
-                            Удалить
+                        <Button type="default" onClick={saveField}>
+                            Изменить
                         </Button>
                     </>
                 }
@@ -120,7 +144,8 @@ const ModalEditVoting = (props) => {
                                 onChange={changeArray}
                                 changeClear={changeTitleClear}
                                 value={el?.name}
-                                saveField={() => saveField(el?.id)}
+                                // saveField={() => saveField(index)}
+                                cross={false}
                             />
                         </div>
                     ))}
@@ -131,6 +156,11 @@ const ModalEditVoting = (props) => {
                                 <Plus />
                             </div>
                         </button>
+                        <div className={styles["btn__delete"]}>
+                            <Button type="delete" onClick={deleteVotings}>
+                                Удалить опрос
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </ModalBase>

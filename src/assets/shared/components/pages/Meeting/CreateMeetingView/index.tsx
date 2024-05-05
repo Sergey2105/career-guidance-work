@@ -26,6 +26,7 @@ import Message from "../../../Message";
 import Loader from "../../../Loader";
 import ModalCreateVoting from "../../../modal/ModalCreateVoting";
 import Voting from "../../../Voting";
+import UploadPhoto from "../../../UploadPhoto";
 
 const CreateMeetingView = (props) => {
     const router = useRouter();
@@ -194,6 +195,9 @@ const CreateMeetingView = (props) => {
                                 <Button type="delete" onClick={deleteMeeting}>
                                     Удалить
                                 </Button>
+                            </div>
+                            <div>
+                                <UploadPhoto />
                             </div>
                             <div className={styles["timetable"]}>
                                 <div className={styles["timetable__item"]}>
