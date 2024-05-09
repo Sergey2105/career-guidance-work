@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./index.module.scss";
 import Plus from "/public/icons/plus.svg";
 import Cross from "/public/icons/cross.svg";
+import { v4 as uuidv4 } from "uuid";
 
 const UploadPhoto = () => {
     const [selectedImages, setSelectedImages] = useState([]);
@@ -23,6 +24,10 @@ const UploadPhoto = () => {
         URL.revokeObjectURL(image);
     }
 
+    const generateUUID = () => {
+        return uuidv4();
+    };
+
     console.log(selectedImages);
 
     return (
@@ -43,7 +48,6 @@ const UploadPhoto = () => {
                                 <button onClick={() => deleteHandler(image)}>
                                     <Cross />
                                 </button>
-                                {/* <p>{index + 1}</p> */}
                             </div>
                         );
                     })}

@@ -36,6 +36,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
     "swiper": "^11.0.6",
+    "uuidv4": "^6.2.13",
     "webrtc-adapter": "^9.0.1"
   },
   "devDependencies": {

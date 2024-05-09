@@ -109,7 +109,7 @@ const Data = () => {
         inputLastName === null ||
         inputDate?.length === 0 ||
         inputDate === null ||
-        inputPhone?.length < 11 ||
+        inputPhone?.replace(/[+ ]/g, "").length < 11 ||
         inputPhone === null;
 
     const change = () => {
@@ -120,7 +120,7 @@ const Data = () => {
                 first_name: inputFirstName,
                 last_name: inputLastName,
                 birthday: inputDate,
-                phone: inputPhone,
+                phone: inputPhone.replace(/[+ ]/g, ""),
                 telegram: inputTelegram,
                 tags: objtags,
                 info: inputInfo,

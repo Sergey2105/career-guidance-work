@@ -1,18 +1,20 @@
 import Button from "../buttons/Button";
 import { useDispatch, useSelector } from "../store/hooks";
 import { getEvent, selectEventProps } from "../store/slice/eventSlice";
-import { addField, addVote } from "../store/slice/votings";
+import { addField, addVote, removeVote } from "../store/slice/votings";
 import styles from "./index.module.scss";
 import Refresh from "/public/icons/refresh.svg";
 import Pen from "/public/icons/pen.svg";
 import ModalEditVoting from "../modal/ModalEditVoting";
 import { useState } from "react";
+import { selectUser } from "../store/slice/authSlice";
 
 const Voting = (props) => {
-    const { value, edit } = props;
+    const { value, edit, voting } = props;
 
     const dispatch = useDispatch();
     const event = useSelector(selectEventProps);
+    const userData = useSelector(selectUser);
     const [modalEditVoting, setModalEditVoting] = useState<boolean>(false);
 
     const reload = () => {
@@ -21,26 +23,45 @@ const Voting = (props) => {
 
     const join = (id) => {
         const token = localStorage.getItem("userToken");
-        if (token !== null) {
-            dispatch(addVote({ id: id }))
-                .then(() => {
-                    // dispatch(getEvent(String(event.id)));
-                    // dispatch(getMeFull(String(userData.id_profile)));
-                    // setSuccess(true);
-                    // setTimeout(() => {
-                    //     setSuccess(false);
-                    // }, 2000);
-                })
-                .catch(() => {
-                    // dispatch(getEvent(String(event.id)));
-                    // dispatch(getMeFull(String(userData.id_profile)));
-                    // setSuccess(true);
-                    // setTimeout(() => {
-                    //     setSuccess(false);
-                    // }, 2000);
-                });
+        if (token !== null && voting) {
+            dispatch(addVote({ id: id })).then(() => {
+                reload();
+                // dispatch(getEvent(String(event.id)));
+                // dispatch(getMeFull(String(userData.id_profile)));
+                // setSuccess(true);
+                // setTimeout(() => {
+                //     setSuccess(false);
+                // }, 2000);
+            });
         } else {
             // switchModalUnlogin();
+        }
+    };
+
+    const remove = (id) => {
+        const token = localStorage.getItem("userToken");
+        if (token !== null && voting) {
+            dispatch(removeVote({ id: id })).then(() => {
+                reload();
+                // dispatch(getEvent(String(event.id)));
+                // dispatch(getMeFull(String(userData.id_profile)));
+                // setSuccess(true);
+                // setTimeout(() => {
+                //     setSuccess(false);
+                // }, 2000);
+            });
+        } else {
+            // switchModalUnlogin();
+        }
+    };
+
+    const changeVote = (item) => {
+        if (item.users && item.users.includes(Number(userData.id_profile))) {
+            // Если id пользователя уже есть, вызываем функцию remove
+            remove(item.id);
+        } else {
+            // Если id пользователя отсутствует, вызываем функцию join
+            join(item.id);
         }
     };
 
@@ -86,10 +107,10 @@ const Voting = (props) => {
                     </div>
                 </div>
                 <div className={styles["voting__item"]}>
-                    {value?.field.map((value, key) => (
-                        <button key={key} className={styles["voting__item__btn"]} onClick={() => join(value.id)}>
-                            <div>{value.name}</div>
-                            <div>{value.count_votes}</div>
+                    {value?.field.map((item, key) => (
+                        <button key={key} className={styles["voting__item__btn"]} onClick={() => changeVote(item)}>
+                            <div>{item.name}</div>
+                            {value.all_votes !== 0 ? <div>{`${Math.floor((item.count_votes / value.all_votes) * 100)}%`}</div> : null}
                         </button>
                     ))}
                 </div>

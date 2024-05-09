@@ -226,7 +226,9 @@ const CreateMeetingView = (props) => {
                                 <span className={styles["body__guest__header__title"]}>Список опросов</span>
 
                                 <div>
-                                    <div className={styles["voting__list"]}>{event?.voting?.map((value, key) => <Voting edit={true} key={key} value={value} myKey={key} />)}</div>
+                                    <div className={styles["voting__list"]}>
+                                        {event?.voting?.map((value, key) => <Voting voting={false} edit={true} key={key} value={value} myKey={key} />)}
+                                    </div>
                                 </div>
                                 <Button type="default" onClick={switchModalVoting}>
                                     Создать опрос

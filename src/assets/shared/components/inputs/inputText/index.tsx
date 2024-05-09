@@ -10,7 +10,7 @@ const InputText = (props) => {
     const [mask] = useState([
         {
             type: "phone",
-            mask: "70000000000",
+            mask: "+7 000 000 00 00",
             placeholderChar: "_",
             lazy: true,
             unmask: true,

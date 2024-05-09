@@ -6,7 +6,7 @@ import Delete from "/public/icons/delete.svg";
 import { IMask, IMaskInput, useIMask } from "react-imask";
 
 const InputField = (props) => {
-    const { placeholder, label, onChange, changeClear, type, error, value, internalID = "", removeInput, saveField, cross } = props;
+    const { placeholder, label, onChange, changeClear, type, error, value, internalID = "", removeInput, editField, cross } = props;
     const [textValue, setTextValue] = useState<string>("");
 
     const [mask] = useState([
@@ -128,7 +128,7 @@ const InputField = (props) => {
                     <div onClick={removeInput} className={styles["btns__icon"]}>
                         <Delete />
                     </div>
-                    <div onClick={saveField} className={styles["btns__icon"]}>
+                    <div onClick={editField} className={styles["btns__icon"]}>
                         <Pen />
                     </div>
                 </div>

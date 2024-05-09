@@ -180,7 +180,7 @@ const MeetingView = (props) => {
                             <div className={styles["info__text"]}> {event?.body !== "" ? event?.body : "Информация о мероприятии отсутствует"}</div>
                         </div>
 
-                        <div className={styles["voting"]}>{event?.voting?.map((value, key) => <Voting key={key} value={value} myKey={key} />)}</div>
+                        <div className={styles["voting"]}>{event?.voting?.map((value, key) => <Voting voting={true} key={key} value={value} myKey={key} />)}</div>
                     </div>
                 </>
             )}

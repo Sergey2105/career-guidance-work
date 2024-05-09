@@ -11,7 +11,7 @@ import { createTimetable, editTimetable, getEvent, getPlaces, selectErrorsTimeta
 import { useDispatch } from "../../store/hooks";
 import { InputDropdownPlaces } from "../../inputs/InputDropdown/Places";
 import Message from "../../Message";
-import { addField, createVoting, deleteVoting, destroyField } from "../../store/slice/votings";
+import { addField, createVoting, deleteVoting, destroyField, renameField, renameVoting } from "../../store/slice/votings";
 import InputField from "../../inputs/inputField";
 import Plus from "/public/icons/plus.svg";
 
@@ -31,6 +31,10 @@ const ModalEditVoting = (props) => {
         }
     }, [value]);
 
+    useEffect(() => {
+        setInputTitle(value?.name);
+    }, [value]);
+
     const changeArray = (e, id) => {
         const arrayChange = newInput.map((el) => {
             if (el.id === id) {
@@ -38,6 +42,7 @@ const ModalEditVoting = (props) => {
             }
             return el;
         });
+        console.log(arrayChange);
         setNewInput(arrayChange);
         setInputValue((prevState) => ({ ...prevState, name: arrayChange.map((el) => el.value) }));
     };
@@ -59,17 +64,54 @@ const ModalEditVoting = (props) => {
         dispatch(destroyField({ id: id }));
     };
 
-    const arr = ["поле", "поле 1", "поле 2 авыа авав авав"];
+    console.log(inputValue);
 
-    const result = arr.map((item) => item.replace(/ /g, "_")).join(" ");
+    console.log(newInput);
 
-    console.log(result);
+    const filteredArray = newInput.filter((item) => !item.hasOwnProperty("vote"));
+
+    const valueArray = filteredArray.map((item) => item.value);
+
+    const result = valueArray.map((item) => item.replace(/ /g, "_")).join(" ");
 
     const saveField = () => {
-        dispatch(addField({ id: value.id, name: result })).then((res) => {
-            if (res.type.includes("fulfilled")) {
-                switchModalEditVoting();
-            }
+        if (inputTitle !== value?.name) {
+            dispatch(renameVoting({ id: value.id, name: inputTitle })).then((res) => {
+                if (res.type.includes("fulfilled")) {
+                    dispatch(getEvent(String(event.id)));
+                }
+            });
+        }
+        if (result.length !== 0) {
+            dispatch(addField({ id: value.id, name: result })).then((res) => {
+                if (res.type.includes("fulfilled")) {
+                    switchModalEditVoting();
+                }
+            });
+        }
+    };
+
+    // const renameVotings = () => {
+    //     dispatch(renameVoting({ id: value.id, name: inputTitle })).then((res) => {
+    //         if (res.type.includes("fulfilled")) {
+    //             dispatch(getEvent(String(event.id)));
+    //         }
+    //     });
+    // };
+
+    // const editField = (id, index) => {
+    //     dispatch(renameField({ id: id, name: inputValue.name[index] })).then((res) => {
+    //         if (res.type.includes("fulfilled")) {
+    //         }
+    //     });
+    // };
+
+    const saveAllFields = () => {
+        newInput.forEach((el, index) => {
+            dispatch(renameField({ id: id, name: inputValue.name[index] })).then((res) => {
+                if (res.type.includes("fulfilled")) {
+                }
+            });
         });
     };
 
@@ -94,9 +136,6 @@ const ModalEditVoting = (props) => {
         });
     };
 
-    console.log(inputValue.name);
-    console.log(newInput);
-
     // console.log(inputValue.name[0]);
 
     const changeTitle = (e) => {
@@ -110,6 +149,9 @@ const ModalEditVoting = (props) => {
     // console.log(success);
     // console.log(messageError);
     //success не очищается и нужно 3 условия
+
+    console.log(inputTitle);
+    const disabled = inputTitle.length === 0;
 
     return (
         <>
@@ -127,14 +169,17 @@ const ModalEditVoting = (props) => {
                         <Button type="white" onClick={switchModalEditVoting}>
                             Закрыть
                         </Button>
-                        <Button type="default" onClick={saveField}>
-                            Изменить
+                        <Button type="default" onClick={saveField} disabled={disabled}>
+                            Сохранить
                         </Button>
                     </>
                 }
             >
                 <div className={styles["body"]}>
-                    {newInput.map((el) => (
+                    <div className={styles["body__input"]}>
+                        <InputText placeholder={"Введите название опроса"} label={"Название опроса"} onChange={changeTitle} changeClear={changeTitleClear} value={inputTitle} />
+                    </div>
+                    {newInput.map((el, index) => (
                         <div className={styles["body__input"]} key={`input-${el.id}`}>
                             <InputField
                                 internalID={el.id}
@@ -144,7 +189,7 @@ const ModalEditVoting = (props) => {
                                 onChange={changeArray}
                                 changeClear={changeTitleClear}
                                 value={el?.name}
-                                // saveField={() => saveField(index)}
+                                editField={() => editField(el?.id, index)}
                                 cross={false}
                             />
                         </div>
