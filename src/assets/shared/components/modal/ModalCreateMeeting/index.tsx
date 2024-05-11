@@ -22,7 +22,6 @@ const ModalCreateMeeting = (props) => {
     const [inputTags, setInputTags] = useState<any>([]);
     const [success, setSuccess] = useState<boolean>(false);
     const messageError = useSelector(selectErrorsMeeting);
-    console.log(messageError);
 
     const tags = useSelector(selectTags);
 

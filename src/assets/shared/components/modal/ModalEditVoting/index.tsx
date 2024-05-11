@@ -24,12 +24,12 @@ const ModalEditVoting = (props) => {
     const [newInput, setNewInput] = useState<Array<any>>(value?.field);
     const [inputValue, setInputValue] = useState<any>({});
 
-    useEffect(() => {
-        if (value && value.field && Array.isArray(value.field)) {
-            const names = value.field.map((fieldItem) => fieldItem.name);
-            setInputValue((prevState) => ({ ...prevState, name: names }));
-        }
-    }, [value]);
+    // useEffect(() => {
+    //     if (value && value.field && Array.isArray(value.field)) {
+    //         const names = value.field.map((fieldItem) => fieldItem.name);
+    //         setInputValue((prevState) => ({ ...prevState, name: names }));
+    //     }
+    // }, [value]);
 
     useEffect(() => {
         setInputTitle(value?.name);
@@ -78,58 +78,66 @@ const ModalEditVoting = (props) => {
         if (inputTitle !== value?.name) {
             dispatch(renameVoting({ id: value.id, name: inputTitle })).then((res) => {
                 if (res.type.includes("fulfilled")) {
-                    dispatch(getEvent(String(event.id)));
+                    if (res.type.includes("fulfilled")) {
+                        setSuccess(true);
+                        setTimeout(() => {
+                            setSuccess(false);
+                            switchModalEditVoting();
+                            dispatch(getEvent(String(event.id)));
+                        }, 2000);
+                    } else {
+                        setSuccess(true);
+                        setTimeout(() => {
+                            setSuccess(false);
+                        }, 2000);
+                    }
                 }
             });
         }
         if (result.length !== 0) {
             dispatch(addField({ id: value.id, name: result })).then((res) => {
                 if (res.type.includes("fulfilled")) {
-                    switchModalEditVoting();
+                    if (res.type.includes("fulfilled")) {
+                        setSuccess(true);
+                        setTimeout(() => {
+                            setSuccess(false);
+                            switchModalEditVoting();
+                            dispatch(getEvent(String(event.id)));
+                        }, 2000);
+                    } else {
+                        setSuccess(true);
+                        setTimeout(() => {
+                            setSuccess(false);
+                        }, 2000);
+                    }
+                }
+            });
+        }
+        if (inputValue.name && inputValue.name.length > 0 && newInput.length !==0) {
+            newInput.forEach((el, index) => {
+                const value = inputValue.name[index];
+                if (value !== undefined) {
+                    dispatch(renameField({ id: el.id, name: value })).then((res) => {
+                        if (res.type.includes("fulfilled")) {
+                            setSuccess(true);
+                            setTimeout(() => {
+                                setSuccess(false);
+                                switchModalEditVoting();
+                                dispatch(getEvent(String(event.id)));
+                            }, 2000);
+                        } else {
+                            setSuccess(true);
+                            setTimeout(() => {
+                                setSuccess(false);
+                            }, 2000);
+                        }
+                    });
                 }
             });
         }
     };
 
-    // const renameVotings = () => {
-    //     dispatch(renameVoting({ id: value.id, name: inputTitle })).then((res) => {
-    //         if (res.type.includes("fulfilled")) {
-    //             dispatch(getEvent(String(event.id)));
-    //         }
-    //     });
-    // };
-
-    // const editField = (id, index) => {
-    //     dispatch(renameField({ id: id, name: inputValue.name[index] })).then((res) => {
-    //         if (res.type.includes("fulfilled")) {
-    //         }
-    //     });
-    // };
-
-    const saveAllFields = () => {
-        newInput.forEach((el, index) => {
-            dispatch(renameField({ id: id, name: inputValue.name[index] })).then((res) => {
-                if (res.type.includes("fulfilled")) {
-                }
-            });
-        });
-    };
-
     const deleteVotings = () => {
-        // dispatch(deleteVoting({ id: value.id })).then((res) => {
-        //     if (res.type.includes("fulfilled")) {
-        //         setSuccess(true);
-        //         setTimeout(() => {
-        //             setSuccess(false);
-        //             switchModalEditVoting();
-        //         }, 2000);
-        //     } else {
-        //         setSuccess(true);
-        //         setTimeout(() => {
-        //             setSuccess(false);
-        //         }, 2000);
-        //     }
-        // });
         dispatch(deleteVoting({ id: value.id })).then(() => {
             switchModalEditVoting();
             dispatch(getEvent(String(event.id)));
@@ -155,11 +163,11 @@ const ModalEditVoting = (props) => {
 
     return (
         <>
-            {/* {success ? (
+            {success ? (
                 <div className={styles["modal"]}>
-                    <Message error={messageError}>{messageError?.detail != null ? messageError?.detail : "Запись успешно изменена!"}</Message>
+                    <Message error={messageError}>{messageError?.detail != null ? messageError?.detail : "Опрос успешно изменен!"}</Message>
                 </div>
-            ) : null} */}
+            ) : null}
             <ModalBase
                 title={value?.name}
                 onCloseModal={switchModalEditVoting}
@@ -189,7 +197,6 @@ const ModalEditVoting = (props) => {
                                 onChange={changeArray}
                                 changeClear={changeTitleClear}
                                 value={el?.name}
-                                editField={() => editField(el?.id, index)}
                                 cross={false}
                             />
                         </div>

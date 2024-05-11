@@ -7,7 +7,7 @@ import InputDate from "../../inputs/inputDate";
 import InputText from "../../inputs/inputText";
 import InputTime from "../../inputs/inputTime";
 import { useSelector } from "react-redux";
-import { createTimetable, editTimetable, getPlaces, selectErrorsTimetable, selectPlace } from "../../store/slice/eventSlice";
+import { createTimetable, editTimetable, getEvent, getPlaces, selectErrorsTimetable, selectPlace } from "../../store/slice/eventSlice";
 import { useDispatch } from "../../store/hooks";
 import { InputDropdownPlaces } from "../../inputs/InputDropdown/Places";
 import Message from "../../Message";
@@ -36,6 +36,7 @@ const ModalCreateVoting = (props) => {
                 setTimeout(() => {
                     setSuccess(false);
                     switchModalVoting();
+                    dispatch(getEvent(String(event.id)));
                 }, 2000);
             } else {
                 setSuccess(true);

@@ -107,11 +107,9 @@ const CreateMeetingView = (props) => {
         if (modalEdit) {
             setModalEdit(false);
             document.body.style.overflow = "visible";
-            dispatch(getEvent(String(event.id)));
         } else {
             setModalEdit(true);
             document.body.style.overflow = "hidden";
-            // dispatch(getEvent(String(event.id)));
         }
     };
 
@@ -119,11 +117,9 @@ const CreateMeetingView = (props) => {
         if (modalEditVoting) {
             setModalEditVoting(false);
             document.body.style.overflow = "visible";
-            dispatch(getEvent(String(event.id)));
         } else {
             setModalEditVoting(true);
             document.body.style.overflow = "hidden";
-            // dispatch(getEvent(String(event.id)));
         }
     };
 
@@ -131,11 +127,9 @@ const CreateMeetingView = (props) => {
         if (modalVoting) {
             setModalVoting(false);
             document.body.style.overflow = "visible";
-            dispatch(getEvent(String(event.id)));
         } else {
             setModalVoting(true);
             document.body.style.overflow = "hidden";
-            // dispatch(getEvent(String(event.id)));
         }
     };
 
@@ -224,7 +218,7 @@ const CreateMeetingView = (props) => {
                             </div>
                             <div className={styles["voting"]}>
                                 <span className={styles["body__guest__header__title"]}>Список опросов</span>
-
+                                {event?.voting?.length == 0 ? <span className={styles["body__guest__header__title__empty"]}>У вас нет созданных опросов</span> : null}
                                 <div>
                                     <div className={styles["voting__list"]}>
                                         {event?.voting?.map((value, key) => <Voting voting={false} edit={true} key={key} value={value} myKey={key} />)}

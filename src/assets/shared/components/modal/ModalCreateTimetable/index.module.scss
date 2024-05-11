@@ -7,6 +7,26 @@
     &__input {
         margin-bottom: 20px;
     }
+    &__skip {
+        font-family: "Montserrat", sans-serif;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        background-color: transparent;
+        border: none;
+        gap: 5px;
+        padding: 0;
+        margin-bottom: 20px;
+        &__text {
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 600;
+        }
+        &__icon {
+            display: flex;
+            align-items: center;
+        }
+    }
 }
 .modal {
     position: fixed;

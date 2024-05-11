@@ -4,6 +4,7 @@ import Link from "next/link";
 import ArrowLeft from "/public/icons/arrowleft.svg";
 import ArrowRight from "/public/icons/arrowright.svg";
 import clsx from "clsx";
+import { useRouter } from "next/router";
 
 const Pagination = (props) => {
     const { onChange, howManyPages, inputSearch, noNavigation = false, currentButton } = props;
@@ -39,9 +40,9 @@ const Pagination = (props) => {
         setPagEls(newEls);
     }, [currentButton, howManyPages]);
 
-    useEffect(() => {
-        onChange(1);
-    }, [inputSearch]);
+    // useEffect(() => {
+    //     onChange(1);
+    // }, [inputSearch]);
 
     return (
         <div className={styles["pagination__container"]}>

@@ -128,9 +128,9 @@ const InputField = (props) => {
                     <div onClick={removeInput} className={styles["btns__icon"]}>
                         <Delete />
                     </div>
-                    <div onClick={editField} className={styles["btns__icon"]}>
+                    {/* <div onClick={editField} className={styles["btns__icon"]}>
                         <Pen />
-                    </div>
+                    </div> */}
                 </div>
             </div>
             {error ? <div className={styles["error"]}>{error}</div> : null}

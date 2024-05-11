@@ -128,7 +128,14 @@ const Profile = () => {
                                     </div>
                                     <div className={styles["body__profile__info"]}>
                                         <span className={styles["body__profile__info__title"]}>Номер телефона</span>
-                                        <span className={styles["body__profile__info__text"]}>{userDataFullAnother?.phone ? userDataFullAnother?.phone : "Данные отсутвуют"}</span>
+                                        <span className={styles["body__profile__info__text"]}>
+                                            {userDataFullAnother?.phone
+                                                ? `+7 ${userDataFullAnother?.phone?.slice(1, 4)} ${userDataFullAnother?.phone?.slice(4, 7)} ${userDataFullAnother?.phone?.slice(
+                                                      7,
+                                                      9,
+                                                  )} ${userDataFullAnother?.phone?.slice(9)}`
+                                                : "Данные отсутвуют"}
+                                        </span>
                                     </div>
                                     {userDataFullAnother?.tags?.length !== 0 ? (
                                         <div className={styles["body__profile__info"]}>

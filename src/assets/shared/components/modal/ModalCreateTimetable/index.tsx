@@ -5,10 +5,11 @@ import Button from "../../buttons/Button";
 import InputDate from "../../inputs/inputDate";
 import InputTime from "../../inputs/inputTime";
 import { useSelector } from "react-redux";
-import { createTimetable, getPlaces, selectErrorsTimetable, selectPlace } from "../../store/slice/eventSlice";
+import { createTimetable, getPlaces, getTimetable, selectErrorsTimetable, selectPlace, selectTimetable } from "../../store/slice/eventSlice";
 import { useDispatch } from "../../store/hooks";
 import { InputDropdownPlaces } from "../../inputs/InputDropdown/Places";
 import Message from "../../Message";
+import LongArrow from "/public/icons/longArrow.svg";
 
 const ModalCreateTimetable = (props) => {
     const { switchModalCreateMeeting, switchModalCreateTimetable } = props;
@@ -23,9 +24,13 @@ const ModalCreateTimetable = (props) => {
 
     useEffect(() => {
         dispatch(getPlaces());
+        dispatch(getTimetable());
     }, []);
 
     const place = useSelector(selectPlace);
+    const timetable = useSelector(selectTimetable);
+
+    console.log(timetable);
 
     const changeDate = (e) => {
         setInputDate(e);
@@ -67,6 +72,11 @@ const ModalCreateTimetable = (props) => {
                 }, 2000);
             }
         });
+    };
+
+    const skip = () => {
+        switchModalCreateTimetable();
+        switchModalCreateMeeting();
     };
 
     const disabled = places.length === 0 || inputDate.length === 0 || inputTimeStart.length === 0 || inputTimeEnd.length === 0;
@@ -113,6 +123,14 @@ const ModalCreateTimetable = (props) => {
                     <div className={styles["body__input"]}>
                         <InputDropdownPlaces value={places} onChange={setPlaces} options={place} label={"Место проведения мероприятия"} />
                     </div>
+                    {timetable.length !== 0 ? (
+                        <button className={styles["body__skip"]} onClick={skip}>
+                            <span className={styles["body__skip__text"]}>Перейти к созданию мероприятия</span>
+                            <div className={styles["body__skip__icon"]}>
+                                <LongArrow />
+                            </div>
+                        </button>
+                    ) : null}
                 </div>
             </ModalBase>
         </>

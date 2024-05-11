@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
-import { data, getAnotherFull, getMe, getMeFull, selectErrorsData, selectUser, selectUserFull } from "../../store/slice/authSlice";
+import { data, getAnotherFull, getMe, getMeFull, selectErrorsData, selectLoadingUser, selectUser, selectUserFull } from "../../store/slice/authSlice";
 import Button from "../../buttons/Button";
 import InputText from "../../inputs/inputText";
 import InputAria from "../../inputs/inputAria";
@@ -10,10 +10,12 @@ import InputDate from "../../inputs/inputDate";
 import { InputDropdownTags } from "../../inputs/InputDropdown/Tags";
 import { getTags, selectTags } from "../../store/slice/eventSlice";
 import Message from "../../Message";
+import Loader from "../../Loader";
 
 const Data = () => {
     const userData = useSelector(selectUser);
     const userDataFull = useSelector(selectUserFull);
+    const loading = useSelector(selectLoadingUser);
 
     const [inputEmail, setInputEmail] = useState<string>("");
     const [inputFirstName, setInputFirstName] = useState<string>("");
@@ -26,18 +28,21 @@ const Data = () => {
     const [success, setSuccess] = useState<boolean>(false);
     const messageError = useSelector(selectErrorsData);
 
+    console.log(inputPhone);
     useEffect(() => {
         if (userDataFull) {
             setInputEmail(userDataFull?.email);
             setInputFirstName(userDataFull?.first_name);
             setInputLastName(userDataFull?.last_name);
             setInputDate(userDataFull?.birthday);
-            setInputPhone(userDataFull?.phone);
+            setInputPhone(`+7 ${userDataFull?.phone?.slice(1, 4)} ${userDataFull?.phone?.slice(4, 7)} ${userDataFull?.phone?.slice(7, 9)} ${userDataFull?.phone?.slice(9)}`);
             setInputTelegram(userDataFull?.telegram);
             setInputTags(userDataFull?.tags);
             setInputInfo(userDataFull?.info);
         }
     }, [userDataFull]);
+
+    console.log(inputPhone);
 
     const dispatch = useDispatch();
     const router = useRouter();
@@ -150,6 +155,8 @@ const Data = () => {
 
     return (
         <>
+            {loading ? <Loader /> : null}
+
             <div className={styles["wrapper"]}>
                 {success ? (
                     <div className={styles["modal"]}>
@@ -177,7 +184,7 @@ const Data = () => {
                     <div className={styles["body__input"]}>
                         <InputText
                             placeholder={"Введите номер телефона"}
-                            type="phone"
+                            // type="phone"
                             label={"Номер телефона"}
                             onChange={changePhone}
                             changeClear={changePhoneClear}

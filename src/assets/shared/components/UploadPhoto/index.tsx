@@ -5,30 +5,28 @@ import Cross from "/public/icons/cross.svg";
 import { v4 as uuidv4 } from "uuid";
 
 const UploadPhoto = () => {
-    const [selectedImages, setSelectedImages] = useState([]);
+    const [selectedImages, setSelectedImages] = useState<{ uuid: string; file: File }[]>([]);
 
     const onSelectFile = (event) => {
         const selectedFiles = event.target.files;
-        const selectedFilesArray = Array.from(selectedFiles);
+        const selectedFilesArray = Array.from(selectedFiles) as File[];
 
         const imagesArray = selectedFilesArray.map((file) => {
-            return URL.createObjectURL(file);
+            // return URL.createObjectURL(file);
+            const uuid = uuidv4(); // Generate UUID for the file
+            console.log(uuid);
+            return { uuid, file };
         });
 
         setSelectedImages((previousImages) => previousImages.concat(imagesArray));
         event.target.value = "";
     };
 
-    function deleteHandler(image) {
-        setSelectedImages(selectedImages.filter((e) => e !== image));
-        URL.revokeObjectURL(image);
+    function deleteHandler(uuid: string) {
+        // setSelectedImages(selectedImages.filter((e) => e !== image));
+        // URL.revokeObjectURL(image);
+        setSelectedImages(selectedImages.filter((image) => image.uuid !== uuid));
     }
-
-    const generateUUID = () => {
-        return uuidv4();
-    };
-
-    console.log(selectedImages);
 
     return (
         <div className={styles["upload-container"]}>
@@ -41,11 +39,11 @@ const UploadPhoto = () => {
             </label>
             <div className={styles["images"]}>
                 {selectedImages &&
-                    selectedImages.map((image, index) => {
+                    selectedImages.map(({ uuid, file }, index) => {
                         return (
-                            <div key={image} className={styles["image"]}>
-                                <img className={styles["image__img"]} src={image} alt="upload" />
-                                <button onClick={() => deleteHandler(image)}>
+                            <div key={uuid} className={styles["image"]}>
+                                <img className={styles["image__img"]} src={URL.createObjectURL(file)} alt="upload" />
+                                <button onClick={() => deleteHandler(uuid)}>
                                     <Cross />
                                 </button>
                             </div>

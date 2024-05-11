@@ -10,8 +10,6 @@ export function InputDropdownTags(props) {
     const [highlightedIndex, setHighlightedIndex] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    console.log(value);
-
     function clearOptions() {
         multiple ? onChange([]) : onChange("");
     }
