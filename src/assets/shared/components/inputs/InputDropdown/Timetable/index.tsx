@@ -25,7 +25,7 @@ type SelectProps = {
 } & (SingleSelectProps | MultipleSelectProps);
 
 export function InputDropdownTimetable(props) {
-    const { value, onChange, options, label } = props;
+    const { value, onChange, options, label, multiple } = props;
     const [isOpen, setIsOpen] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -34,17 +34,62 @@ export function InputDropdownTimetable(props) {
         onChange("");
     }
 
-    function selectOption(option: SelectOption) {
-        if (option !== value) onChange(option);
+    function selectOption(option) {
+        if (multiple) {
+            const isOptionAlreadySelected = value.some((v) => v.id === option.id);
+            if (isOptionAlreadySelected) {
+                // Если элемент уже выбран, удаляем его из списка value
+                onChange(value.filter((o) => o.id !== option.id));
+            } else {
+                // Иначе добавляем новый элемент в список value
+                onChange([...value, option]);
+            }
+        } else {
+            if (option.id !== value?.id) onChange(option);
+        }
     }
 
-    function isOptionSelected(option: SelectOption) {
-        option === value;
+    function isOptionSelected(option) {
+        if (multiple) {
+            return value.some((v) => v.id === option.id);
+        } else {
+            return value?.id === option.id;
+        }
     }
 
     useEffect(() => {
-        if (isOpen) setHighlightedIndex(0);
-    }, [isOpen]);
+        const handler = (e: KeyboardEvent) => {
+            if (e.target != containerRef.current) return;
+            switch (e.code) {
+                case "Enter":
+                case "Space":
+                    setIsOpen((prev) => !prev);
+                    if (isOpen) selectOption(options[highlightedIndex]);
+                    break;
+                case "ArrowUp":
+                case "ArrowDown": {
+                    if (!isOpen) {
+                        setIsOpen(true);
+                        break;
+                    }
+
+                    const newValue = highlightedIndex + (e.code === "ArrowDown" ? 1 : -1);
+                    if (newValue >= 0 && newValue < options.length) {
+                        setHighlightedIndex(newValue);
+                    }
+                    break;
+                }
+                case "Escape":
+                    setIsOpen(false);
+                    break;
+            }
+        };
+        containerRef.current?.addEventListener("keydown", handler);
+
+        return () => {
+            containerRef.current?.removeEventListener("keydown", handler);
+        };
+    }, [isOpen, highlightedIndex, options]);
 
     useEffect(() => {
         const handler = (e: KeyboardEvent) => {
@@ -86,7 +131,11 @@ export function InputDropdownTimetable(props) {
         <>
             {label ? <span className={styles["label"]}>{label}</span> : null}
             <div ref={containerRef} onBlur={() => setIsOpen(false)} onClick={() => setIsOpen((prev) => !prev)} tabIndex={0} className={styles.container}>
-                <span className={styles.value}>{value.length !== 0 ? `${value?.event_date} ${value?.start_time} - ${value?.end_time} ( ${value?.place?.office} )` : ""}</span>
+                {value.length !== 0 ? (
+                    <span className={styles.value}>{value.length !== 0 ? `${value?.event_date} ${value?.start_time} - ${value?.end_time} ( ${value?.place?.office} )` : ""}</span>
+                ) : (
+                    <span className={styles.placeholder}>Выберете запись на мероприятие</span>
+                )}
                 <button
                     onClick={(e) => {
                         e.stopPropagation();
@@ -112,7 +161,7 @@ export function InputDropdownTimetable(props) {
                                     }}
                                     onMouseEnter={() => setHighlightedIndex(index)}
                                     key={option.id}
-                                    className={`${styles.option} ${index === highlightedIndex ? styles.highlighted : ""}`}
+                                    className={`${styles.option} ${isOptionSelected(option) ? styles.selected : ""}`}
                                 >
                                     {option?.event_date} {option?.start_time} - {option?.end_time} ( {option?.place?.office} )
                                 </li>

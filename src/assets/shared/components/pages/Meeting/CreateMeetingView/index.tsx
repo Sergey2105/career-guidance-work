@@ -194,6 +194,8 @@ const CreateMeetingView = (props) => {
                                 <UploadPhoto />
                             </div>
                             <div className={styles["timetable"]}>
+                                <span className={styles["body__guest__header__title"]}>Запись</span>
+
                                 <div className={styles["timetable__item"]}>
                                     <span className={styles["timetable__item__title"]}>Время проведения мероприятия</span>
                                     <span className={styles["timetable__item__text"]}>

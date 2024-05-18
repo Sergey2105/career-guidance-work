@@ -31,7 +31,7 @@ const InputPassword = (props) => {
             <div className={styles["input__group"]}>
                 <input ref={ref} type={type} className={error ? styles["input__input__error"] : styles["input__input"]} placeholder={placeholder} onChange={onChangeText}></input>
                 <div className={styles["input__icon"]} onClick={isVisible}>
-                    {visible ? <Visisble /> : <Unisisble />}
+                    {!visible ? <Visisble /> : <Unisisble />}
                 </div>
             </div>
         </div>

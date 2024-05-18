@@ -30,6 +30,7 @@
 }
 
 .clear-btn {
+    font-family: "Montserrat", sans-serif;
     background: none;
     color: #777;
     border: none;
@@ -77,6 +78,7 @@
 }
 
 .options {
+    font-family: "Montserrat", sans-serif;
     position: absolute;
     margin: 0;
     padding: 0;
@@ -101,17 +103,29 @@
     padding: 0.25em 0.5em;
     cursor: pointer;
 }
-
+.option:hover {
+    background-color: #87a3cc;
+    color: white;
+}
+.option {
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+}
 .option.selected {
     background-color: #325ea552;
 }
+.option.selected:hover {
+    background-color: #87a3cc;
+    color: white;
+}
 
 .option.highlighted {
-    background-color: #1e4a91;
+    background-color: #87a3cc;
     color: white;
 }
 
 .option-badge {
+    font-family: "Montserrat", sans-serif;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -123,7 +137,7 @@
     outline: none;
     font-size: 14px;
     line-height: 20px;
-    letter-spacing: 1.5px;
+    // letter-spacing: 1.5px;
     font-weight: 500;
 }
 .remove-btn {
@@ -151,4 +165,16 @@
         color: #000;
         margin-left: 10px;
     }
+}
+.placeholder {
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    // letter-spacing: 0.5px;
+    color: #b3b3b3;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
 }

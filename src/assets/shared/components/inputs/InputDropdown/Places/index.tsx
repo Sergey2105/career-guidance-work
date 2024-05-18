@@ -100,7 +100,7 @@ export function InputDropdownPlaces(props) {
                 {value && Object.keys(value).length > 0 ? (
                     <span className={styles.value}>{`${value?.office} (${value.max_participant})`}</span>
                 ) : (
-                    <span className={styles.value}></span>
+                    <span className={styles.placeholder}>Выберете место проведения</span>
                 )}
                 <button
                     onClick={(e) => {
@@ -127,7 +127,7 @@ export function InputDropdownPlaces(props) {
                                     }}
                                     onMouseEnter={() => setHighlightedIndex(index)}
                                     key={option.id}
-                                    className={`${styles.option} ${index === highlightedIndex ? styles.highlighted : ""}`}
+                                    className={`${styles.option} ${isOptionSelected(option) ? styles.selected : ""}`}
                                 >
                                     {option.office} ({option.max_participant})
                                 </li>

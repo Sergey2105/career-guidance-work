@@ -39,10 +39,10 @@ export const createVoting = createAsyncThunk("voting/createVoting", async ({ id,
         const result = await response.json();
 
         if (response.status === 200 || response.status === 201) {
+            return result;
         } else {
             return thunkAPI.rejectWithValue(result);
         }
-        return result;
     }
 });
 
@@ -60,10 +60,10 @@ export const deleteVoting = createAsyncThunk("voting/deleteVoting", async ({ id 
         const result = await response.json();
 
         if (response.status === 200 || response.status === 201 || response.status === 204) {
+            return result;
         } else {
             return thunkAPI.rejectWithValue(result);
         }
-        return result;
     }
 });
 
@@ -82,10 +82,10 @@ export const renameVoting = createAsyncThunk("voting/renameVoting", async ({ id,
         const result = await response.json();
 
         if (response.status === 200 || response.status === 201) {
+            return result;
         } else {
             return thunkAPI.rejectWithValue(result);
         }
-        return result;
     }
 });
 
@@ -104,10 +104,10 @@ export const addField = createAsyncThunk("voting/addField", async ({ id, name }:
         const result = await response.json();
 
         if (response.status === 200 || response.status === 201) {
+            return result;
         } else {
             return thunkAPI.rejectWithValue(result);
         }
-        return result;
     }
 });
 
@@ -125,10 +125,10 @@ export const destroyField = createAsyncThunk("voting/destroyField", async ({ id 
         const result = await response.json();
 
         if (response.status === 200 || response.status === 201) {
+            return result;
         } else {
             return thunkAPI.rejectWithValue(result);
         }
-        return result;
     }
 });
 
@@ -147,10 +147,10 @@ export const renameField = createAsyncThunk("voting/renameField", async ({ id, n
         const result = await response.json();
 
         if (response.status === 200 || response.status === 201) {
+            return result;
         } else {
             return thunkAPI.rejectWithValue(result);
         }
-        return result;
     }
 });
 
@@ -169,10 +169,10 @@ export const addVote = createAsyncThunk("voting/addVote", async ({ id }: { id: s
         const result = await response.json();
 
         if (response.status === 200 || response.status === 201) {
+            return result;
         } else {
             return thunkAPI.rejectWithValue(result);
         }
-        return result;
     }
 });
 
@@ -191,10 +191,10 @@ export const removeVote = createAsyncThunk("voting/removeVote", async ({ id }: {
         const result = await response.json();
 
         if (response.status === 200 || response.status === 201) {
+            return result;
         } else {
             return thunkAPI.rejectWithValue(result);
         }
-        return result;
     }
 });
 

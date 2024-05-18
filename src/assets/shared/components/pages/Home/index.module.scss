@@ -13,7 +13,8 @@
         display: block;
         &__label {
             font-family: "Oswald", sans-serif;
-            font-size: 26px;
+            font-size: 24px;
+            // line-height: 32px;
             font-weight: 600;
             color: #000;
             text-align: center;
@@ -89,7 +90,7 @@
             }
             &__btn {
                 width: 350px;
-                margin: 32px auto;
+                margin: 32px auto 0;
             }
             &__img {
                 text-align: center;

@@ -121,12 +121,6 @@ const Profile = () => {
                                         </span>
                                     </div>
                                     <div className={styles["body__profile__info"]}>
-                                        <span className={styles["body__profile__info__title"]}>Telegram ID</span>
-                                        <span className={styles["body__profile__info__text"]}>
-                                            {userDataFullAnother?.telegram ? userDataFullAnother?.telegram : "Данные отсутвуют"}
-                                        </span>
-                                    </div>
-                                    <div className={styles["body__profile__info"]}>
                                         <span className={styles["body__profile__info__title"]}>Номер телефона</span>
                                         <span className={styles["body__profile__info__text"]}>
                                             {userDataFullAnother?.phone
@@ -135,6 +129,12 @@ const Profile = () => {
                                                       9,
                                                   )} ${userDataFullAnother?.phone?.slice(9)}`
                                                 : "Данные отсутвуют"}
+                                        </span>
+                                    </div>
+                                    <div className={styles["body__profile__info"]}>
+                                        <span className={styles["body__profile__info__title"]}>Telegram ID</span>
+                                        <span className={styles["body__profile__info__text"]}>
+                                            {userDataFullAnother?.telegram ? userDataFullAnother?.telegram : "Данные отсутвуют"}
                                         </span>
                                     </div>
                                     {userDataFullAnother?.tags?.length !== 0 ? (

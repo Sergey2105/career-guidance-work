@@ -15,6 +15,7 @@
         border-radius: 8px;
         outline: none;
         font-size: 16px;
+        line-height: 24px;
         font-weight: 400;
         letter-spacing: 0.5px;
         color: #000;
@@ -41,6 +42,15 @@
         border: 2px solid #000;
         outline: none;
     }
+    &__input::placeholder {
+        font-family: "Montserrat", sans-serif;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500;
+        // letter-spacing: 0.5px;
+        color: #b3b3b3;
+    }
+
     &__group {
         position: relative;
         width: 100%;
@@ -103,6 +113,14 @@
     &__area:focus {
         border: 2px solid #000;
         outline: none;
+    }
+    &__area::placeholder {
+        font-family: "Montserrat", sans-serif;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500;
+        // letter-spacing: 0.5px;
+        color: #b3b3b3;
     }
     &__time {
         font-family: "Montserrat", sans-serif;

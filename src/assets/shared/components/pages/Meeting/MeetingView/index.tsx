@@ -134,7 +134,7 @@ const MeetingView = (props) => {
                                     <div className={styles["header__main__name__time"]}>Время проведения</div>
                                     <div className={styles["header__main__name__place"]}>Место проведения</div>
                                     <div className={styles["header__main__name__date"]}>Дата проведения</div>
-                                    <div className={styles["header__main__name__date"]}>Колличество мест</div>
+                                    <div className={styles["header__main__name__date"]}>Количество мест</div>
                                 </div>
                                 <div className={styles["header__main__info"]}>
                                     <div className={styles["header__main__info__time"]}>

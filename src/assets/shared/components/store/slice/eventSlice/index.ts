@@ -75,10 +75,10 @@ export const editEvents = createAsyncThunk("event/editEvents", async ({ id, auth
         const result = await response.json();
 
         if (response.status === 200 || response.status === 201) {
+            return result;
         } else {
             return thunkAPI.rejectWithValue(result);
         }
-        return result;
     }
 });
 
@@ -99,10 +99,10 @@ export const editTimetable = createAsyncThunk(
             const result = await response.json();
 
             if (response.status === 200 || response.status === 201) {
+                return result;
             } else {
                 return thunkAPI.rejectWithValue(result);
             }
-            return result;
         }
     },
 );
@@ -121,10 +121,10 @@ export const deleteEvents = createAsyncThunk("event/deleteEvents", async ({ id }
         const result = await response.json();
 
         if (response.status === 200 || response.status === 201) {
+            return result;
         } else {
             return thunkAPI.rejectWithValue(result);
         }
-        return result;
     }
 });
 
@@ -191,10 +191,10 @@ export const createTimetable = createAsyncThunk(
             const result = await response.json();
 
             if (response.status === 200 || response.status === 201) {
+                return result;
             } else {
                 return thunkAPI.rejectWithValue(result);
             }
-            return result;
         }
     },
 );
@@ -216,10 +216,10 @@ export const createMeeting = createAsyncThunk(
             const result = await response.json();
 
             if (response.status === 200 || response.status === 201) {
+                return result;
             } else {
                 return thunkAPI.rejectWithValue(result);
             }
-            return result;
         }
     },
 );

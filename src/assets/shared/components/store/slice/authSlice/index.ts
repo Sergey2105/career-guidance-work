@@ -176,10 +176,10 @@ export const data = createAsyncThunk(
             const result = await response.json();
 
             if (response.status === 200 || response.status === 201) {
+                return result;
             } else {
                 return thunkAPI.rejectWithValue(result);
             }
-            return result;
         }
     },
 );

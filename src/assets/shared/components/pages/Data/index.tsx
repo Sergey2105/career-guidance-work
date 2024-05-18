@@ -11,6 +11,7 @@ import { InputDropdownTags } from "../../inputs/InputDropdown/Tags";
 import { getTags, selectTags } from "../../store/slice/eventSlice";
 import Message from "../../Message";
 import Loader from "../../Loader";
+import UploadPhoto from "../../UploadPhoto";
 
 const Data = () => {
     const userData = useSelector(selectUser);
@@ -200,11 +201,14 @@ const Data = () => {
                     <div className={styles["body__input"]}>
                         <InputAria placeholder={"Введите информация"} label={"Информация"} type={"text"} onChange={changeInfo} value={inputInfo} />
                     </div>
+                    <div className={styles["body__img"]}>
+                        <UploadPhoto />
+                    </div>
                     <div className={styles["body__btn"]}>
                         <Button type="default" onClick={change} disabled={disabled}>
                             Сохранить
                         </Button>
-                        {userDataFull?.birthday !== null && inputDate?.length !== 0 ? (
+                        {userDataFull?.birthday !== null ? (
                             <Button type="white" onClick={() => router.push(`/profile/${userData?.id_profile}`)}>
                                 Назад
                             </Button>

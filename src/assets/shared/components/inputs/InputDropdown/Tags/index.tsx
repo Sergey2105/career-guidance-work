@@ -80,23 +80,29 @@ export function InputDropdownTags(props) {
             {label ? <span className={styles["label"]}>{label}</span> : null}
             <div ref={containerRef} onBlur={() => setIsOpen(false)} onClick={() => setIsOpen((prev) => !prev)} tabIndex={0} className={styles.container}>
                 <span className={styles.value}>
-                    {multiple
-                        ? value.map((v) => (
-                              <button
-                                  key={v.id}
-                                  onClick={(e) => {
-                                      e.stopPropagation();
-                                      selectOption(v);
-                                  }}
-                                  className={styles["option-badge"]}
-                              >
-                                  {v.tag_name}
-                                  <div className={styles["remove-btn"]}>
-                                      <Cross />
-                                  </div>
-                              </button>
-                          ))
-                        : value?.tag_name}
+                    {value.length !== 0 ? (
+                        <>
+                            {multiple
+                                ? value.map((v) => (
+                                      <button
+                                          key={v.id}
+                                          onClick={(e) => {
+                                              e.stopPropagation();
+                                              selectOption(v);
+                                          }}
+                                          className={styles["option-badge"]}
+                                      >
+                                          {v.tag_name}
+                                          <div className={styles["remove-btn"]}>
+                                              <Cross />
+                                          </div>
+                                      </button>
+                                  ))
+                                : value?.tag_name}
+                        </>
+                    ) : (
+                        <span className={styles.placeholder}>Выберете теги мероприятия</span>
+                    )}
                 </span>
                 <button
                     onClick={(e) => {

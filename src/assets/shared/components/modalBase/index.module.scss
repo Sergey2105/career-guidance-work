@@ -20,7 +20,7 @@
         }
         &__header {
             background: #fff;
-            padding: 23px;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             &__title {
@@ -72,7 +72,7 @@
         }
         &__header {
             background: #fff;
-            padding: 23px;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             &__title {
@@ -103,7 +103,7 @@
     }
     &__large {
         &__windows {
-            width: 500px;
+            width: 343px;
             height: 550px;
             border-radius: 8px;
             background-color: #fff;
@@ -112,7 +112,7 @@
         }
         &__header {
             background: #fff;
-            padding: 23px;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             &__title {
@@ -137,7 +137,7 @@
             }
         }
         &__body {
-            padding: 24px 24px 0 24px;
+            padding: 24px 20px 0 20px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -147,10 +147,29 @@
         &__footer {
             display: grid;
             column-gap: 16px;
-            padding: 16px 16px;
+            padding: 16px 20px;
             width: 100%;
             position: absolute;
             bottom: 0;
+        }
+    }
+}
+@media screen and (min-width: 520px) {
+    .modal {
+        &__login {
+            &__windows {
+                width: 434px;
+            }
+        }
+        &__default {
+            &__windows {
+                width: 434px;
+            }
+        }
+        &__large {
+            &__windows {
+                width: 500px;
+            }
         }
     }
 }
@@ -164,6 +183,11 @@
         &__default {
             &__windows {
                 width: 434px;
+            }
+        }
+        &__large {
+            &__windows {
+                width: 500px;
             }
         }
     }
@@ -180,6 +204,11 @@
                 width: 434px;
             }
         }
+        &__large {
+            &__windows {
+                width: 500px;
+            }
+        }
     }
 }
 @media screen and (min-width: 1280px) {
@@ -192,6 +221,11 @@
         &__default {
             &__windows {
                 width: 434px;
+            }
+        }
+        &__large {
+            &__windows {
+                width: 500px;
             }
         }
     }

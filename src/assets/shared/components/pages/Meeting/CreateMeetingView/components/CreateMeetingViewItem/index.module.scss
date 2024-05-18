@@ -14,8 +14,10 @@
         line-height: 20px;
         font-weight: 600;
     }
-    &:hover {
-        background-color: #325ea552;
+    @media (hover: hover) {
+        &:hover {
+            background-color: #325ea552;
+        }
     }
 }
 @media screen and (min-width: 768px) {
