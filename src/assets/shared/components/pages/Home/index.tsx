@@ -10,7 +10,6 @@ import Loader from "../../Loader";
 import { selectUserFull } from "../../store/slice/authSlice";
 import { fetchEvents, selectEvents, selectEventsLoading } from "../../store/slice/eventsSlice";
 import "@splidejs/react-splide/css";
-// import "@splidejs/react-splide/css/core";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 const HomePage = () => {
@@ -57,15 +56,15 @@ const HomePage = () => {
                                         mediaQuery: "min",
                                         breakpoints: {
                                             1440: {
-                                                perPage: 2,
+                                                perPage: 3,
                                                 gap: "20px",
                                             },
                                             1280: {
-                                                perPage: 2,
+                                                perPage: 3,
                                                 gap: "20px",
                                             },
                                             1024: {
-                                                perPage: 2,
+                                                perPage: 3,
                                                 gap: "16px",
                                             },
                                             768: {
@@ -109,7 +108,9 @@ const HomePage = () => {
                             Узнайте о наших образовательных и профориентационных программ для осознанного выбора вашего пути в мире труда.
                         </div>
                         <div className={styles["home__join__btn"]}>
-                            <Button type="default">Больше информации</Button>
+                            <Button type="default" onClick={() => router.push("/info")}>
+                                Больше информации
+                            </Button>
                         </div>
                     </div>
                 </div>

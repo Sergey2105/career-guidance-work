@@ -42,6 +42,23 @@ const MainLayout = (props) => {
         }
     }, [userDataFull]);
 
+    // const redirectUrl = localStorage.getItem("redirectAfterLogin");
+    // dispatch(login({ username: inputLogin, password: inputPassword })).then((res) => {
+    //     if (res.type.includes("fulfilled")) {
+    //         if (redirectUrl) {
+    //             if (userDataFull?.id && userDataFull?.birthday === null && userDataFull?.birthday === "" && userDataFull?.phone === null && userDataFull?.phone === "") {
+    //                 // Сохраните redirectUrl перед переходом на страницу данных
+    //                 localStorage.setItem("redirectAfterData", redirectUrl);
+    //                 router.push("/data");
+    //             } else {
+    //                 router.push(redirectUrl);
+    //             }
+    //         } else {
+    //             router.push("/");
+    //         }
+    //     }
+    // });
+
     return (
         <>
             <div className={styles["container"]}>

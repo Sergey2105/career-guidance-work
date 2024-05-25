@@ -14,7 +14,11 @@ const MeetingItem = (props) => {
             <div className={styles["item"]} onClick={() => router.push(`/meeting/${value.id}`)}>
                 <div className={styles["item__header"]}>
                     <div className={styles["item__header__img"]}>
-                        <Image className={styles["item__header__img__img"]} src={Room} alt={"room"} objectFit="contain" />
+                        {value?.meeting_pic ? (
+                            <img className={styles["item__header__img__img"]} src={value?.meeting_pic} alt="room" height="200px" />
+                        ) : (
+                            <Image className={styles["item__header__img__img"]} src={Room} alt={"room"} objectFit="contain" />
+                        )}
                     </div>
                     <div className={styles["item__header__date"]}>
                         <span>{value?.timetable.event_date}</span>

@@ -1,57 +1,99 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import Plus from "/public/icons/plus.svg";
 import Cross from "/public/icons/cross.svg";
 import { v4 as uuidv4 } from "uuid";
 
-const UploadPhoto = () => {
-    const [selectedImages, setSelectedImages] = useState<{ uuid: string; file: File }[]>([]);
+const UploadPhoto = (props) => {
+    const { inputPhoto, setInputPhoto } = props;
 
-    const onSelectFile = (event) => {
-        const selectedFiles = event.target.files;
-        const selectedFilesArray = Array.from(selectedFiles) as File[];
+    const [baseImage, setBaseImage] = useState<any>("");
+    const [isImageVisible, setIsImageVisible] = useState<boolean>(false);
+    const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
-        const imagesArray = selectedFilesArray.map((file) => {
-            // return URL.createObjectURL(file);
-            const uuid = uuidv4(); // Generate UUID for the file
-            console.log(uuid);
-            return { uuid, file };
-        });
+    useEffect(() => {
+        if (inputPhoto?.length !== 0) {
+            setIsImageVisible(true);
+        } else {
+            setIsImageVisible(false);
+        }
+    }, [inputPhoto]);
 
-        setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-        event.target.value = "";
+    const uploadImage = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await convertBase64(file);
+        setBaseImage(base64);
+        setInputPhoto(base64);
+        setIsImageVisible(true);
+        e.target.value = "";
     };
 
-    function deleteHandler(uuid: string) {
-        // setSelectedImages(selectedImages.filter((e) => e !== image));
-        // URL.revokeObjectURL(image);
-        setSelectedImages(selectedImages.filter((image) => image.uuid !== uuid));
-    }
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
+    const removeImage = () => {
+        setBaseImage("");
+        setInputPhoto("");
+        setIsImageVisible(false);
+    };
+
+    // const handleImageClick = () => {
+    //     setIsFullscreen(true);
+    // };
+
+    // const handleFullscreenClick = () => {
+    //     setIsFullscreen(false);
+    // };
+
+    const switchModalVoting = () => {
+        if (isFullscreen) {
+            setIsFullscreen(false);
+            document.body.style.overflow = "visible";
+        } else {
+            setIsFullscreen(true);
+            document.body.style.overflow = "hidden";
+        }
+    };
 
     return (
         <div className={styles["upload-container"]}>
-            <label className={styles["upload-container__label"]}>
-                <span>Добавить изображение</span>
-                <div className={styles["upload-container__label__icon"]}>
-                    <Plus />
+            {inputPhoto === null ? (
+                <label className={styles["upload-container__label"]}>
+                    <span>Добавить изображение</span>
+                    <div className={styles["upload-container__label__icon"]}>
+                        <Plus />
+                    </div>
+                    <input type="file" onChange={uploadImage} accept="image/png , image/jpeg" />
+                </label>
+            ) : null}
+            {isImageVisible && inputPhoto !== null ? (
+                <div className={styles["images"]}>
+                    <div className={styles["image"]}>
+                        <img className={styles["image__img"]} src={inputPhoto} alt="upload" onClick={switchModalVoting} />
+                        <button onClick={removeImage}>
+                            <Cross />
+                        </button>
+                    </div>
                 </div>
-                <input type="file" name="images" onChange={onSelectFile} multiple accept="image/png , image/jpeg" />
-            </label>
-            <div className={styles["images"]}>
-                {selectedImages &&
-                    selectedImages.map(({ uuid, file }, index) => {
-                        return (
-                            <div key={uuid} className={styles["image"]}>
-                                <img className={styles["image__img"]} src={URL.createObjectURL(file)} alt="upload" />
-                                <button onClick={() => deleteHandler(uuid)}>
-                                    <Cross />
-                                </button>
-                            </div>
-                        );
-                    })}
-            </div>
+            ) : null}
+            {isFullscreen && (
+                <div className={styles["fullscreen-overlay"]} onClick={switchModalVoting}>
+                    <img className={styles["fullscreen-image"]} src={inputPhoto} alt="fullscreen" />
+                </div>
+            )}
         </div>
     );
 };
-
 export default UploadPhoto;

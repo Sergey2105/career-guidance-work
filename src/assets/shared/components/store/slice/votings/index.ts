@@ -71,7 +71,7 @@ export const renameVoting = createAsyncThunk("voting/renameVoting", async ({ id,
     const token = localStorage.getItem("userToken");
     if (token !== null) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/voting/${id}/rename/`, {
-            method: "PUT",
+            method: "PATCH",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",

@@ -10,7 +10,7 @@ import clsx from "clsx";
 import { useDispatch, useSelector } from "../../store/hooks";
 import { getAnotherFull, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
 import Button from "../../buttons/Button";
-import { getEvent, joinEvent, selectEventProps } from "../../store/slice/eventSlice";
+import { getEvent, joinEvent, joinQR, selectEventProps } from "../../store/slice/eventSlice";
 import { useRouter } from "next/router";
 import Message from "../../Message";
 import adapter from "webrtc-adapter";
@@ -67,9 +67,6 @@ const Qr = () => {
     const handleScan = (e) => {
         if (e?.text) {
             setData(e);
-        }
-        if (data) {
-            // dispatch(getAnotherFull(String(data.text)));
         }
     };
 
@@ -144,7 +141,7 @@ const Qr = () => {
     };
 
     const registrationGuest = () => {
-        dispatch(joinEvent({ id: userDataFullAnother?.id, meetings: event.id })).then(() => {
+        dispatch(joinQR({ id: userDataFullAnother?.id, meetings: event.id })).then(() => {
             refresh();
             setRegistration(true);
             dispatch(getAnotherFull(String(data.text)));

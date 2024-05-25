@@ -27,6 +27,7 @@ import Loader from "../../../Loader";
 import ModalCreateVoting from "../../../modal/ModalCreateVoting";
 import Voting from "../../../Voting";
 import UploadPhoto from "../../../UploadPhoto";
+import QrCode from "../../../QrCode";
 
 const CreateMeetingView = (props) => {
     const router = useRouter();
@@ -37,6 +38,7 @@ const CreateMeetingView = (props) => {
     const [inputTitle, setInputTitle] = useState<string>(event.title);
     const [inputBody, setInputBody] = useState<string>(event.body);
     const [inputTags, setInputTags] = useState<any>(event.tags);
+    const [inputPhoto, setInputPhoto] = useState<string>("");
     const [modalEdit, setModalEdit] = useState<boolean>(false);
     const [modalVoting, setModalVoting] = useState<boolean>(false);
     const [modalEditVoting, setModalEditVoting] = useState<boolean>(false);
@@ -44,6 +46,8 @@ const CreateMeetingView = (props) => {
     const messageError = useSelector(selectErrorsEditEvents);
     const loadingMeeting = useSelector(selectLoadingMeeting);
     const loadingUser = useSelector(selectLoadingUser);
+
+    console.log(inputPhoto);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
@@ -60,10 +64,10 @@ const CreateMeetingView = (props) => {
 
     useEffect(() => {
         if (event) {
-            // dispatch(getEvent(String(event.id)));
-            setInputTitle(event.title);
-            setInputBody(event.body);
-            setInputTags(event.tags);
+            setInputTitle(event?.title);
+            setInputBody(event?.body);
+            setInputTags(event?.tags);
+            setInputPhoto(event?.meeting_pic);
         }
     }, [event]);
 
@@ -80,7 +84,7 @@ const CreateMeetingView = (props) => {
     };
 
     const changeData = () => {
-        dispatch(editEvents({ id: event.id, author: userDataFull.id, title: inputTitle, body: inputBody })).then((res) => {
+        dispatch(editEvents({ id: event.id, author: userDataFull.id, title: inputTitle, body: inputBody, meeting_pic: inputPhoto })).then((res) => {
             if (res.type.includes("fulfilled")) {
                 setSuccess(true);
                 setTimeout(() => {
@@ -113,16 +117,6 @@ const CreateMeetingView = (props) => {
         }
     };
 
-    const switchModalEditVoting = () => {
-        if (modalEditVoting) {
-            setModalEditVoting(false);
-            document.body.style.overflow = "visible";
-        } else {
-            setModalEditVoting(true);
-            document.body.style.overflow = "hidden";
-        }
-    };
-
     const switchModalVoting = () => {
         if (modalVoting) {
             setModalVoting(false);
@@ -132,6 +126,8 @@ const CreateMeetingView = (props) => {
             document.body.style.overflow = "hidden";
         }
     };
+
+    const links = `http://localhost:3000/meeting/${event?.id}?source=qr`;
 
     return (
         <>
@@ -151,7 +147,13 @@ const CreateMeetingView = (props) => {
                 <>
                     {success ? (
                         <div className={styles["modal"]}>
-                            <Message error={messageError}>{messageError?.title != null ? "Название мероприятия не может быть пустым" : "Данные успешно изменены!"}</Message>
+                            <Message error={messageError}>
+                                {messageError?.title != null
+                                    ? "Название мероприятия не может быть пустым!"
+                                    : messageError?.meeting_pic != null
+                                      ? "Необходимо добавить фото!"
+                                      : "Данные успешно изменены!"}
+                            </Message>
                         </div>
                     ) : null}
                     {modalEdit ? <ModalEditTimetable switchModalEdit={switchModalEdit} event={event} /> : null}
@@ -191,7 +193,7 @@ const CreateMeetingView = (props) => {
                                 </Button>
                             </div>
                             <div>
-                                <UploadPhoto />
+                                <UploadPhoto inputPhoto={inputPhoto} setInputPhoto={setInputPhoto} />
                             </div>
                             <div className={styles["timetable"]}>
                                 <span className={styles["body__guest__header__title"]}>Запись</span>
@@ -229,6 +231,9 @@ const CreateMeetingView = (props) => {
                                 <Button type="default" onClick={switchModalVoting}>
                                     Создать опрос
                                 </Button>
+                            </div>
+                            <div>
+                                <QrCode id={links} />
                             </div>
                             <div className={styles["body__guest__header"]}>
                                 <span className={styles["body__guest__header__title"]}>Список участников</span>

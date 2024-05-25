@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
 import MeetingsItem from "../MeetingItem";
 import Pagination from "../../../Pagination";
@@ -12,14 +12,13 @@ import { useDebounce } from "@/hooks/useDebounce";
 
 const MeetingList = () => {
     const router = useRouter();
-    const pageParam = router.query.page;
-    const initialPage = pageParam !== undefined ? Number(pageParam) : 1;
-    console.log(pageParam);
+    // const initialPage = router.query.page ? Number(router.query.page) : 1;
 
-    // const initialPage = Number(router.query.page) || 1;
+    // console.log(initialPage);
 
-    const [currentPage, setCurrentPage] = useState<number>(initialPage);
+    const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);
     const [inputSearch, setInputSearch] = useState<string>("");
+    const isFirstRender = useRef(true);
 
     const changeSearchHandler = useDebounce((value) => {
         setInputSearch(value || "");
@@ -37,30 +36,41 @@ const MeetingList = () => {
         changeSearchHandler("");
     };
 
+    // useEffect(() => {
+    //     if (router.isReady && router.query.page) {
+    //         const pageParam = Number(router.query.page);
+    //         if (isFirstRender.current) {
+    //             setCurrentPage(pageParam);
+    //             isFirstRender.current = false;
+    //         }
+    //     }
+    // }, [router.isReady, router.query.page]);
     useEffect(() => {
-        if (pageParam !== undefined) {
-            setCurrentPage(Number(pageParam));
+        if (router.isReady && router.query.page) {
+            const pageParam = Number(router.query.page);
+            setCurrentPage(pageParam);
         }
-    }, [initialPage]);
+    }, [router.isReady, router.query.page]);
 
     useEffect(() => {
-        if (initialPage) {
+        if (currentPage !== undefined && !isFirstRender.current) {
             dispatch(fetchEvents({ page: currentPage, search: inputSearch }));
+        } else {
+            isFirstRender.current = false;
         }
     }, [currentPage]);
 
     useEffect(() => {
-        if (inputSearch !== "") {
-            setCurrentPage(1);
-            dispatch(fetchEvents({ page: 1, search: inputSearch })).then(() => {
-                router.push("");
-            });
-        }
-        if (inputSearch === "") {
-            setCurrentPage(1);
-            dispatch(fetchEvents({ page: 1, search: inputSearch })).then(() => {
-                router.push("");
-            });
+        if (!isFirstRender.current) {
+            // Проверка, чтобы не срабатывал при первом рендере
+            if (inputSearch === "") {
+                setCurrentPage(1);
+                dispatch(fetchEvents({ page: 1, search: inputSearch }));
+            } else if (inputSearch !== "") {
+                setCurrentPage(1);
+            }
+        } else {
+            isFirstRender.current = false; // Устанавливаем флаг после первого рендера
         }
     }, [inputSearch]);
 

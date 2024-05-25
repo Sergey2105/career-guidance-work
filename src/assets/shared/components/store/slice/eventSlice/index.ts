@@ -8,6 +8,7 @@ interface ApiError {
     detail: any;
     title: string;
     code?: number;
+    meeting_pic: string;
 }
 
 interface typeEvents {
@@ -60,27 +61,30 @@ export const getEvent = createAsyncThunk("event/getEvent", async function (id: s
     return response;
 });
 
-export const editEvents = createAsyncThunk("event/editEvents", async ({ id, author, title, body }: { id: string; author: number; title: string; body: string }, thunkAPI) => {
-    const token = localStorage.getItem("userToken");
-    if (token !== null) {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${id}/`, {
-            method: "PUT",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: `Token ${token}`,
-            },
-            body: JSON.stringify({ author, title, body }),
-        });
-        const result = await response.json();
+export const editEvents = createAsyncThunk(
+    "event/editEvents",
+    async ({ id, author, title, body, meeting_pic }: { id: string; author: number; title: string; body: string; meeting_pic: string }, thunkAPI) => {
+        const token = localStorage.getItem("userToken");
+        if (token !== null) {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${id}/`, {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${token}`,
+                },
+                body: JSON.stringify({ author, title, body, meeting_pic }),
+            });
+            const result = await response.json();
 
-        if (response.status === 200 || response.status === 201) {
-            return result;
-        } else {
-            return thunkAPI.rejectWithValue(result);
+            if (response.status === 200 || response.status === 201) {
+                return result;
+            } else {
+                return thunkAPI.rejectWithValue(result);
+            }
         }
-    }
-});
+    },
+);
 
 export const editTimetable = createAsyncThunk(
     "event/editTimetable",
@@ -143,6 +147,20 @@ export const joinEvent = createAsyncThunk("event/joinEvent", async ({ id, meetin
     }
 });
 
+export const joinQR = createAsyncThunk("event/joinQr", async ({ id }: { id: string }, thunkAPI) => {
+    const token = localStorage.getItem("userToken");
+    if (token !== null) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/qr-meeting/${id}/`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
+        });
+    }
+});
+
 export const removeEvent = createAsyncThunk("event/removeEvent", async ({ id, meetings }: { id: string; meetings: string }, thunkAPI) => {
     const token = localStorage.getItem("userToken");
     if (token !== null) {
@@ -201,7 +219,7 @@ export const createTimetable = createAsyncThunk(
 
 export const createMeeting = createAsyncThunk(
     "event/createMeeting",
-    async ({ title, body, timetable, tags }: { title: string; body: string; timetable: string; tags: any }, thunkAPI) => {
+    async ({ title, body, timetable, tags, meeting_pic }: { title: string; body: string; timetable: string; tags: any; meeting_pic: string }, thunkAPI) => {
         const token = localStorage.getItem("userToken");
         if (token !== null) {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting_create/`, {
@@ -211,7 +229,7 @@ export const createMeeting = createAsyncThunk(
                     "Content-Type": "application/json",
                     Authorization: `Token ${token}`,
                 },
-                body: JSON.stringify({ title, body, timetable, tags }),
+                body: JSON.stringify({ title, body, timetable, tags, meeting_pic }),
             });
             const result = await response.json();
 

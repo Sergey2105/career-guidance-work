@@ -33,32 +33,49 @@ const Login = () => {
         setInputPassword(e.target.value);
     };
 
+    // const auth = () => {
+    //     const redirectUrl = localStorage.getItem("redirectAfterLogin");
+    //     dispatch(login({ username: inputLogin, password: inputPassword })).then((res) => {
+    //         if (res.type.includes("fulfilled") && redirectUrl) {
+    //             router.push(redirectUrl);
+    //         } else if (res.type.includes("rejected")) {
+    //             router.push("/");
+    //         }
+    //     });
+    // };
+
     const auth = () => {
+        const redirectUrl = localStorage.getItem("redirectAfterLogin");
         dispatch(login({ username: inputLogin, password: inputPassword })).then((res) => {
             if (res.type.includes("fulfilled")) {
-                // const referrer = new URLSearchParams(window.location.search)?.get("referrer") || "/meeting/";
-                // if (!referrer.includes("meeting")) {
-                //     window.location.href = `${window.location.origin}${referrer}`;
-                // } else {
-                //     router.push(referrer);
-                // }
-                // if (userDataFull?.birthday === null) {
-                //     dispatch(activated());
-                //     router.push("/data");
-                //     setError(false);
-                // } else {
-                //     router.push("/");
-                //     setError(false);
-                // }
-                router.push("/");
+                if (redirectUrl) {
+                    if (userDataFull?.id && userDataFull?.birthday === null && userDataFull?.birthday === "" && userDataFull?.phone === null && userDataFull?.phone === "") {
+                        // Сохраните redirectUrl перед переходом на страницу данных
+                        localStorage.setItem("redirectAfterData", redirectUrl);
+                        router.push("/data");
+                    } else {
+                        router.push(redirectUrl);
+                    }
+                } else {
+                    router.push("/");
+                }
             }
         });
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     auth();
-    // };
+    // useEffect(() => {
+    //     // Проверка, если пользователь вошел в систему
+    //     const token = localStorage.getItem("userToken");
+    //     if (token) {
+    //         const redirectUrl = localStorage.getItem("redirectAfterLogin");
+    //         if (redirectUrl) {
+    //             localStorage.removeItem("redirectAfterLogin");
+    //             router.push(redirectUrl);
+    //         } else {
+    //             router.push("/");
+    //         }
+    //     }
+    // }, [router]);
 
     const disabled = inputLogin.length == 0 || inputPassword.length == 0;
 

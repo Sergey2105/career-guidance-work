@@ -26,25 +26,29 @@ const Data = () => {
     const [inputTelegram, setInputTelegram] = useState<string>("");
     const [inputTags, setInputTags] = useState<any>([]);
     const [inputInfo, setInputInfo] = useState<string>("");
+    const [inputPhoto, setInputPhoto] = useState<string>("");
     const [success, setSuccess] = useState<boolean>(false);
     const messageError = useSelector(selectErrorsData);
 
-    console.log(inputPhone);
     useEffect(() => {
         if (userDataFull) {
             setInputEmail(userDataFull?.email);
             setInputFirstName(userDataFull?.first_name);
             setInputLastName(userDataFull?.last_name);
             setInputDate(userDataFull?.birthday);
-            setInputPhone(`+7 ${userDataFull?.phone?.slice(1, 4)} ${userDataFull?.phone?.slice(4, 7)} ${userDataFull?.phone?.slice(7, 9)} ${userDataFull?.phone?.slice(9)}`);
+            setInputPhone(
+                userDataFull?.phone
+                    ? `+7 ${userDataFull?.phone?.slice(1, 4)} ${userDataFull?.phone?.slice(4, 7)} ${userDataFull?.phone?.slice(7, 9)} ${userDataFull?.phone?.slice(9)}`
+                    : "",
+            );
             setInputTelegram(userDataFull?.telegram);
             setInputTags(userDataFull?.tags);
             setInputInfo(userDataFull?.info);
+            setInputPhoto(userDataFull?.profile_pic);
         }
     }, [userDataFull]);
 
     console.log(inputPhone);
-
     const dispatch = useDispatch();
     const router = useRouter();
 
@@ -130,29 +134,26 @@ const Data = () => {
                 telegram: inputTelegram,
                 tags: objtags,
                 info: inputInfo,
+                profile_pic: inputPhoto,
             }),
-        )
-            .then(() => {
+        ).then((res) => {
+            if (res.type.includes("fulfilled")) {
+                const redirectUrl = localStorage.getItem("redirectAfterData");
                 dispatch(getMeFull(String(userData.id_profile)));
                 dispatch(getMe());
                 dispatch(getAnotherFull(String(userData.id_profile)));
                 setSuccess(true);
                 setTimeout(() => {
                     setSuccess(false);
+                    if (redirectUrl) {
+                        router.push(redirectUrl);
+                    } else {
+                        router.push("/");
+                    }
                 }, 2000);
-            })
-            .catch(() => {
-                dispatch(getMeFull(String(userData.id_profile)));
-                dispatch(getMe());
-                dispatch(getAnotherFull(String(userData.id_profile)));
-                setSuccess(true);
-                setTimeout(() => {
-                    setSuccess(false);
-                }, 2000);
-            });
+            }
+        });
     };
-
-    console.log(success);
 
     return (
         <>
@@ -185,7 +186,7 @@ const Data = () => {
                     <div className={styles["body__input"]}>
                         <InputText
                             placeholder={"Введите номер телефона"}
-                            // type="phone"
+                            type="phone"
                             label={"Номер телефона"}
                             onChange={changePhone}
                             changeClear={changePhoneClear}
@@ -202,7 +203,7 @@ const Data = () => {
                         <InputAria placeholder={"Введите информация"} label={"Информация"} type={"text"} onChange={changeInfo} value={inputInfo} />
                     </div>
                     <div className={styles["body__img"]}>
-                        <UploadPhoto />
+                        <UploadPhoto inputPhoto={inputPhoto} setInputPhoto={setInputPhoto} />
                     </div>
                     <div className={styles["body__btn"]}>
                         <Button type="default" onClick={change} disabled={disabled}>

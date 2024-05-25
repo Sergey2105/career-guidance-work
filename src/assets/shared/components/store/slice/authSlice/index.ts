@@ -140,6 +140,7 @@ export const data = createAsyncThunk(
             telegram,
             tags,
             info,
+            profile_pic,
         }: {
             id: string;
             email: string;
@@ -150,6 +151,7 @@ export const data = createAsyncThunk(
             telegram: string;
             tags: any;
             info: string;
+            profile_pic: string;
         },
         thunkAPI,
     ) {
@@ -171,6 +173,7 @@ export const data = createAsyncThunk(
                     telegram,
                     tags,
                     info,
+                    profile_pic,
                 }),
             });
             const result = await response.json();

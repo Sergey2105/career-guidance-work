@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
 import { getAnotherFull, logout, selectLoadingUser, selectUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
 import Image from "next/image";
-import Rock from "/public/img/johnson_dwayne.jpg";
+import Nophoto from "/public/img/nophoto.jpeg";
 import Button from "../../buttons/Button";
 import Tag from "../../Tag";
 import MeetingItem from "../Meeting/MeetingItem";
@@ -64,6 +64,7 @@ const Profile = () => {
     const logoutUser = () => {
         dispatch(logout()).then(() => {
             router.push("/");
+            window.location.reload();
         });
     };
 
@@ -96,7 +97,11 @@ const Profile = () => {
                             <div className={styles["body__profile"]}>
                                 <div>
                                     <div className={styles["body__profile__img"]}>
-                                        <Image className={styles["body__profile__img__img"]} src={Rock} alt={"room"} objectFit="contain" />
+                                        {userDataFullAnother?.profile_pic ? (
+                                            <img className={styles["body__profile__img__img"]} src={userDataFullAnother?.profile_pic} alt="Uploaded" height="200px" />
+                                        ) : (
+                                            <Image className={styles["body__profile__img__img"]} src={Nophoto} alt={"room"} objectFit="contain" />
+                                        )}
                                     </div>
                                     <div className={styles["body__profile__info"]}>
                                         <span className={styles["body__profile__info__title"]}>Имя</span>

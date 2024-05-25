@@ -11,6 +11,7 @@ import { InputDropdownTags } from "../../inputs/InputDropdown/Tags";
 import { InputDropdownTimetable } from "../../inputs/InputDropdown/Timetable";
 import { getMeFull, selectUser } from "../../store/slice/authSlice";
 import Message from "../../Message";
+import UploadPhoto from "../../UploadPhoto";
 
 const ModalCreateMeeting = (props) => {
     const { switchModalCreateMeeting, switchModalCreateTimetable } = props;
@@ -20,6 +21,7 @@ const ModalCreateMeeting = (props) => {
     const [inputBody, setInputBody] = useState<string>("");
     const [inputTimetable, setInputTimetable] = useState<any>([]);
     const [inputTags, setInputTags] = useState<any>([]);
+    const [inputPhoto, setInputPhoto] = useState<string>("");
     const [success, setSuccess] = useState<boolean>(false);
     const messageError = useSelector(selectErrorsMeeting);
 
@@ -53,7 +55,7 @@ const ModalCreateMeeting = (props) => {
     });
 
     const changeCreateMeeting = () => {
-        dispatch(createMeeting({ title: inputTitle, body: inputBody, timetable: inputTimetable.id, tags: objtags })).then((res) => {
+        dispatch(createMeeting({ title: inputTitle, body: inputBody, timetable: inputTimetable.id, tags: objtags, meeting_pic: inputPhoto })).then((res) => {
             if (res.type.includes("fulfilled")) {
                 setSuccess(true);
                 setTimeout(() => {
@@ -70,7 +72,7 @@ const ModalCreateMeeting = (props) => {
         });
     };
 
-    const disabled = inputTitle.length === 0 || inputTimetable.length === 0 || inputTimetable.length === 0;
+    const disabled = inputTitle.length === 0 || inputTimetable.length === 0 || inputTimetable.length === 0 || inputPhoto.length === 0;
 
     return (
         <>
@@ -106,6 +108,9 @@ const ModalCreateMeeting = (props) => {
                     </div>
                     <div className={styles["body__input"]}>
                         <InputAria placeholder={"Введите информацию о мероприятии"} label={"Информация о мероприятии"} type={"text"} onChange={changeBody} />
+                    </div>
+                    <div className={styles["body__input"]}>
+                        <UploadPhoto inputPhoto={inputPhoto} setInputPhoto={setInputPhoto} />
                     </div>
                 </div>
             </ModalBase>

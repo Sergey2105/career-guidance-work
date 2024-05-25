@@ -4,7 +4,7 @@ import Image from "next/image";
 import Room from "/public/img/room.jpg";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../../store/hooks";
-import { getEvent, joinEvent, removeEvent, selectEventProps, selectLoadingMeeting } from "../../../store/slice/eventSlice";
+import { getEvent, joinEvent, joinQR, removeEvent, selectEventProps, selectLoadingMeeting } from "../../../store/slice/eventSlice";
 import Button from "../../../buttons/Button";
 import Tag from "../../../Tag";
 import { getMeFull, selectUser, selectUserFull } from "../../../store/slice/authSlice";
@@ -25,8 +25,6 @@ const MeetingView = (props) => {
     const userData = useSelector(selectUser);
     const userDataFull = useSelector(selectUserFull);
     const loading = useSelector(selectLoadingMeeting);
-
-    console.log(event);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
@@ -102,6 +100,42 @@ const MeetingView = (props) => {
         return el.id === Number(location.pathname.split("/").filter((el) => el)[1]);
     });
 
+    useEffect(() => {
+        const token = localStorage.getItem("userToken");
+        const source = router.query;
+        console.log(source);
+
+        if (typeof source.source === "string" && source.source === "qr") {
+            console.log("ssdfa");
+            if (token) {
+                dispatch(joinQR({ id: event?.id }))
+                    .then(() => {
+                        router.replace(`/meeting/${event.id}`);
+                        dispatch(getEvent(String(event.id)));
+                        dispatch(getMeFull(String(userData.id_profile)));
+                        setSuccess(true);
+                        setTimeout(() => {
+                            setSuccess(false);
+                            localStorage.removeItem("redirectAfterLogin");
+                        }, 2000);
+                    })
+                    .catch((error) => {
+                        router.replace(`/meeting/${event.id}`);
+                        dispatch(getEvent(String(event.id)));
+                        dispatch(getMeFull(String(userData.id_profile)));
+                        setSuccess(true);
+                        setTimeout(() => {
+                            setSuccess(false);
+                            localStorage.removeItem("redirectAfterLogin");
+                        }, 2000);
+                    });
+            } else {
+                localStorage.setItem("redirectAfterLogin", `/meeting/${event.id}/?source=qr`);
+                router.push("/login"); // Перенаправление на страницу входа
+            }
+        }
+    }, [event]);
+
     return (
         <>
             {loading ? <Loader /> : null}
@@ -126,7 +160,11 @@ const MeetingView = (props) => {
                     <div className={styles["wrapper"]}>
                         <div className={styles["header"]}>
                             <div className={styles["img"]}>
-                                <Image className={styles["img__img"]} src={Room} alt="class" />
+                                {event?.meeting_pic ? (
+                                    <img className={styles["img__img"]} src={event?.meeting_pic} alt="room" height="200px" />
+                                ) : (
+                                    <Image className={styles["img__img"]} src={Room} alt={"room"} objectFit="contain" />
+                                )}
                             </div>
                             <div className={styles["header__main"]}>
                                 <div className={styles["header__main__title"]}>{event.title}</div>

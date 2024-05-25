@@ -38,7 +38,7 @@ const ModalEditTimetable = (props) => {
         }
     }, [event]);
 
-    console.log(inputTimeStart);
+    // console.log(event);
 
     const changeDate = (e) => {
         setInputDate(e);
@@ -66,7 +66,7 @@ const ModalEditTimetable = (props) => {
     const router = useRouter();
 
     const changeCreateTimetable = () => {
-        dispatch(editTimetable({ id: event.id, event_date: inputDate, start_time: inputTimeStart, end_time: inputTimeEnd, place: String(places.id) })).then((res) => {
+        dispatch(editTimetable({ id: event.timetable.id, event_date: inputDate, start_time: inputTimeStart, end_time: inputTimeEnd, place: String(places.id) })).then((res) => {
             if (res.type.includes("fulfilled")) {
                 setSuccess(true);
                 setTimeout(() => {

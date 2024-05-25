@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC } from "react";
 import VK from "/public/icons/vk.svg";
@@ -15,17 +14,17 @@ const Footer: FC = () => {
                 <div className={styles["footer__content"]}>
                     <div className={styles["footer__text"]}>Профориентационная работа в КГУ</div>
                     <div className={styles["footer__link"]}>
-                        <a target="_blank" href="https://vk.com/dop_obrazovanie_kgu">
+                        <a target="_blank" href="">
                             <button className={styles["footer__btn"]}>
                                 <VK />
                             </button>
                         </a>
-                        <a target="_blank" href="https://t.me/dopobrazovaniye_ksu">
+                        <a target="_blank" href="">
                             <button className={styles["footer__btn"]}>
                                 <TG />
                             </button>
                         </a>
-                        <a target="_blank" href="mailto:odpo@ksu.edu.ru">
+                        <a target="_blank" href="">
                             <button className={styles["footer__btn"]}>
                                 <Mail />
                             </button>

@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 
 const Pagination = (props) => {
     const { onChange, howManyPages, inputSearch, noNavigation = false, currentButton } = props;
-    // const [currentButton, setCurrentButton] = useState<number>(1);
     const [pagEls, setPagEls] = useState<{ [key: string]: number | string }>();
 
     useEffect(() => {
@@ -39,10 +38,6 @@ const Pagination = (props) => {
         onChange(currentButton);
         setPagEls(newEls);
     }, [currentButton, howManyPages]);
-
-    // useEffect(() => {
-    //     onChange(1);
-    // }, [inputSearch]);
 
     return (
         <div className={styles["pagination__container"]}>

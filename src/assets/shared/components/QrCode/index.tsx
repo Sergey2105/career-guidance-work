@@ -6,15 +6,6 @@ import { useEffect, useState } from "react";
 
 const QrCode = (props) => {
     const { id } = props;
-    // const [id, setID] = useState<string>("");
-
-    // const userDataFull = useSelector(selectUserFull);
-
-    // useEffect(() => {
-    //     if (userDataFull) {
-    //         setID(String(userDataFull?.id));
-    //     }
-    // }, [userDataFull]);
 
     return (
         <div className={styles["qr"]}>

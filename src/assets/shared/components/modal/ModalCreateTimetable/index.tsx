@@ -20,7 +20,6 @@ const ModalCreateTimetable = (props) => {
     const [inputTimeEnd, setInputTimeEnd] = useState<string>("");
     const [success, setSuccess] = useState<boolean>(false);
     const messageError = useSelector(selectErrorsTimetable);
-    console.log(messageError);
 
     useEffect(() => {
         dispatch(getPlaces());
