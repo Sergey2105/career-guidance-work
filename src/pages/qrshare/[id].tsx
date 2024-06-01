@@ -19,7 +19,7 @@ const QrSharePage: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Профиль</title>
+                <title>QR-код</title>
             </Head>
 
             <Center>

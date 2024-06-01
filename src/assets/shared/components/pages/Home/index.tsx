@@ -48,51 +48,53 @@ const HomePage = () => {
                 <div className={styles["home__events"]}>
                     <div className={styles["home__wrapper"]}>
                         <div className={styles["home__events__item"]}>
-                            <div className={styles["slider"]}>
-                                <Splide
-                                    options={{
-                                        rewind: true,
-                                        perPage: 2,
-                                        mediaQuery: "min",
-                                        breakpoints: {
-                                            1440: {
-                                                perPage: 3,
-                                                gap: "20px",
+                            {events?.results.length !== 0 ? (
+                                <div className={styles["slider"]}>
+                                    <Splide
+                                        options={{
+                                            rewind: true,
+                                            perPage: 2,
+                                            mediaQuery: "min",
+                                            breakpoints: {
+                                                1440: {
+                                                    perPage: 3,
+                                                    gap: "20px",
+                                                },
+                                                1280: {
+                                                    perPage: 3,
+                                                    gap: "20px",
+                                                },
+                                                1024: {
+                                                    perPage: 3,
+                                                    gap: "16px",
+                                                },
+                                                768: {
+                                                    perPage: 2,
+                                                    gap: "12px",
+                                                },
+                                                480: {
+                                                    perPage: 2,
+                                                    gap: "12px",
+                                                },
+                                                375: {
+                                                    perPage: 1,
+                                                    gap: "12px",
+                                                },
+                                                1: {
+                                                    perPage: 1,
+                                                    gap: "12px",
+                                                },
                                             },
-                                            1280: {
-                                                perPage: 3,
-                                                gap: "20px",
-                                            },
-                                            1024: {
-                                                perPage: 3,
-                                                gap: "16px",
-                                            },
-                                            768: {
-                                                perPage: 2,
-                                                gap: "12px",
-                                            },
-                                            480: {
-                                                perPage: 2,
-                                                gap: "12px",
-                                            },
-                                            375: {
-                                                perPage: 1,
-                                                gap: "12px",
-                                            },
-                                            1: {
-                                                perPage: 1,
-                                                gap: "12px",
-                                            },
-                                        },
-                                    }}
-                                >
-                                    {events?.results?.map((value, key) => (
-                                        <SplideSlide key={key}>
-                                            <EventItem value={value} myKey={key} />
-                                        </SplideSlide>
-                                    ))}
-                                </Splide>
-                            </div>
+                                        }}
+                                    >
+                                        {events?.results?.map((value, key) => (
+                                            <SplideSlide key={key}>
+                                                <EventItem value={value} myKey={key} />
+                                            </SplideSlide>
+                                        ))}
+                                    </Splide>
+                                </div>
+                            ) : null}
                             <div className={styles["home__events__btn"]}>
                                 <Button type="default" onClick={() => router.push("/meeting")}>
                                     Больше мероприятий
