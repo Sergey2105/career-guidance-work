@@ -6,9 +6,27 @@ import "react-day-picker/dist/style.css";
 import FocusTrap from "focus-trap-react";
 import { DayPicker, SelectSingleEventHandler } from "react-day-picker";
 import { usePopper } from "react-popper";
-import ru from "date-fns/locale/ru";
+import { ru as dateFnsRu, Locale } from "date-fns/locale";
 import moment from "moment";
 import "moment/locale/ru";
+
+const patchedLocale: Locale = {
+    ...dateFnsRu,
+    code: "ru",
+    formatDistance: dateFnsRu.formatDistance || (() => ""),
+    formatRelative: dateFnsRu.formatRelative || (() => ""),
+    localize: {
+        ...dateFnsRu.localize,
+        day: dateFnsRu.localize?.day || (() => ""),
+        month: dateFnsRu.localize?.month || (() => ""),
+        ordinalNumber: dateFnsRu.localize?.ordinalNumber || (() => ""),
+        era: dateFnsRu.localize?.era || (() => ""),
+        quarter: dateFnsRu.localize?.quarter || (() => ""),
+    },
+    formatLong: dateFnsRu.formatLong || (() => ""),
+    match: dateFnsRu.match || (() => ""),
+    options: dateFnsRu.options || {},
+};
 
 const InputDate = (props) => {
     const { placeholder, label, onChange, changeClear, error, value } = props;
@@ -101,7 +119,7 @@ const InputDate = (props) => {
                         <DayPicker
                             className={styles["date__date"]}
                             captionLayout="dropdown-buttons"
-                            locale={ru}
+                            locale={patchedLocale}
                             initialFocus={isPopperOpen}
                             mode="single"
                             defaultMonth={selected}

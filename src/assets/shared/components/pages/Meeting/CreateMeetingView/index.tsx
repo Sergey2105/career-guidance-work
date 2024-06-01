@@ -27,8 +27,8 @@ import Loader from "../../../Loader";
 import ModalCreateVoting from "../../../modal/ModalCreateVoting";
 import Voting from "../../../Voting";
 import UploadPhoto from "../../../UploadPhoto";
-import QrCode from "../../../QrCode";
 import QrShare from "../../../QrShare";
+import QrCode from "../../../QrCode";
 
 const CreateMeetingView = (props) => {
     const router = useRouter();
@@ -84,8 +84,12 @@ const CreateMeetingView = (props) => {
         setInputBody(e.target.value);
     };
 
+    const objtags = inputTags?.map((item) => {
+        return item.id;
+    });
+
     const changeData = () => {
-        dispatch(editEvents({ id: event.id, author: userDataFull.id, title: inputTitle, body: inputBody, meeting_pic: inputPhoto })).then((res) => {
+        dispatch(editEvents({ id: event.id, author: userDataFull.id, title: inputTitle, body: inputBody, meeting_pic: inputPhoto, tags: objtags })).then((res) => {
             if (res.type.includes("fulfilled")) {
                 setSuccess(true);
                 setTimeout(() => {

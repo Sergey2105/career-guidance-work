@@ -10,9 +10,9 @@ import Tag from "../../Tag";
 import MeetingItem from "../Meeting/MeetingItem";
 import Loader from "../../Loader";
 import Link from "next/link";
-import QrCode from "../../QrCode";
 import clsx from "clsx";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import QrCode from "../../QrCode";
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -106,23 +106,25 @@ const Profile = () => {
                                     <div className={styles["body__profile__info"]}>
                                         <span className={styles["body__profile__info__title"]}>Имя</span>
                                         <span className={styles["body__profile__info__text"]}>
-                                            {userDataFullAnother?.first_name ? userDataFullAnother?.first_name : "Данные отсутвуют"}
+                                            {userDataFullAnother?.first_name !== null ? userDataFullAnother?.first_name : "Данные отсутвуют"}
                                         </span>
                                     </div>
                                     <div className={styles["body__profile__info"]}>
                                         <span className={styles["body__profile__info__title"]}>Фамилия</span>
                                         <span className={styles["body__profile__info__text"]}>
-                                            {userDataFullAnother?.last_name ? userDataFullAnother?.last_name : "Данные отсутвуют"}
+                                            {userDataFullAnother?.last_name !== null ? userDataFullAnother?.last_name : "Данные отсутвуют"}
                                         </span>
                                     </div>
                                     <div className={styles["body__profile__info"]}>
                                         <span className={styles["body__profile__info__title"]}>Email</span>
-                                        <span className={styles["body__profile__info__text"]}>{userDataFullAnother?.email ? userDataFullAnother?.email : "Данные отсутвуют"}</span>
+                                        <span className={styles["body__profile__info__text"]}>
+                                            {userDataFullAnother?.email !== null ? userDataFullAnother?.email : "Данные отсутвуют"}
+                                        </span>
                                     </div>
                                     <div className={styles["body__profile__info"]}>
-                                        <span className={styles["body__profile__info__title"]}>Дата рождения</span>
+                                        <span className={styles["body__profile__info__title"]}>Дата рождния</span>
                                         <span className={styles["body__profile__info__text"]}>
-                                            {userDataFullAnother?.birthday ? userDataFullAnother?.birthday : "Данные отсутвуют"}
+                                            {userDataFullAnother?.birthday !== null ? userDataFullAnother?.birthday : "Данные отсутвуют"}
                                         </span>
                                     </div>
                                     <div className={styles["body__profile__info"]}>
@@ -154,7 +156,7 @@ const Profile = () => {
                                         <div className={styles["body__qr"]}>
                                             <span className={styles["body__qr__text"]}>Ваш QR-код для прохода на мероприятия</span>
                                             <div className={styles["body__profile__info__text"]}>
-                                                <QrCode id={userDataFullAnother?.id} />
+                                                <QrCode id={String(userDataFullAnother?.id)} />
                                             </div>
                                         </div>
                                     ) : null}

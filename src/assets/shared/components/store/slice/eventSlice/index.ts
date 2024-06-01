@@ -63,17 +63,17 @@ export const getEvent = createAsyncThunk("event/getEvent", async function (id: s
 
 export const editEvents = createAsyncThunk(
     "event/editEvents",
-    async ({ id, author, title, body, meeting_pic }: { id: string; author: number; title: string; body: string; meeting_pic: string }, thunkAPI) => {
+    async ({ id, author, title, body, meeting_pic, tags }: { id: string; author: number; title: string; body: string; meeting_pic: string; tags: any }, thunkAPI) => {
         const token = localStorage.getItem("userToken");
         if (token !== null) {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${id}/`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${id}/update/`, {
                 method: "PUT",
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                     Authorization: `Token ${token}`,
                 },
-                body: JSON.stringify({ author, title, body, meeting_pic }),
+                body: JSON.stringify({ author, title, body, meeting_pic, tags }),
             });
             const result = await response.json();
 
@@ -143,6 +143,20 @@ export const joinEvent = createAsyncThunk("event/joinEvent", async ({ id, meetin
                 Authorization: `Token ${token}`,
             },
             body: JSON.stringify({ meetings }),
+        });
+    }
+});
+
+export const joinEventQR = createAsyncThunk("event/joinEvent", async ({ id, meetings }: { id: string; meetings: string }, thunkAPI) => {
+    const token = localStorage.getItem("userToken");
+    if (token !== null) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/user/${id}/add_meeting/?meeting_id=${meetings}`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
         });
     }
 });
