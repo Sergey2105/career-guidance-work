@@ -120,7 +120,7 @@ export function InputDropdownTags(props) {
                 <ul className={`${styles.options} ${isOpen ? styles.show : ""}`}>
                     {options?.length !== 0 ? (
                         <>
-                            {options.map((option, index) => (
+                            {options?.map((option, index) => (
                                 <li
                                     onClick={(e) => {
                                         e.stopPropagation();

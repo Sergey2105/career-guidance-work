@@ -28,6 +28,7 @@ import ModalCreateVoting from "../../../modal/ModalCreateVoting";
 import Voting from "../../../Voting";
 import UploadPhoto from "../../../UploadPhoto";
 import QrCode from "../../../QrCode";
+import QrShare from "../../../QrShare";
 
 const CreateMeetingView = (props) => {
     const router = useRouter();
@@ -127,7 +128,7 @@ const CreateMeetingView = (props) => {
         }
     };
 
-    const links = `http://localhost:3000/meeting/${event?.id}?source=qr`;
+    const links = `http://localhost:3000/meeting/${event?.id}/?source=qr`;
 
     return (
         <>
@@ -232,8 +233,10 @@ const CreateMeetingView = (props) => {
                                     Создать опрос
                                 </Button>
                             </div>
-                            <div>
-                                <QrCode id={links} />
+                            <div className={styles["qr"]}>
+                                <div onClick={() => window.open(`/qrshare/${event.id}`, "_blank")}>
+                                    <QrCode id={links} />
+                                </div>
                             </div>
                             <div className={styles["body__guest__header"]}>
                                 <span className={styles["body__guest__header__title"]}>Список участников</span>

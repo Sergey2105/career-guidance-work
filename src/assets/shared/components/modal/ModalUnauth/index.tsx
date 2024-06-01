@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Button from "../../buttons/Button";
 
 const ModalUnauth = (props) => {
-    const { switchModal } = props;
+    const { switchModal, text } = props;
     const router = useRouter();
 
     return (
@@ -25,7 +25,7 @@ const ModalUnauth = (props) => {
                     </>
                 }
             >
-                <div className={styles["text"]}>Для записи на мероприятие необходмо авторизоваться</div>
+                <div className={styles["text"]}>{text}</div>
             </ModalBase>
         </>
     );

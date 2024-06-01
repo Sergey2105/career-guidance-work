@@ -14,6 +14,7 @@ const Login = () => {
     const [error, setError] = useState<boolean>(false);
     const router = useRouter();
     const userDataFull = useSelector(selectUser);
+    const userData = useSelector(selectUser);
     const dispatch = useDispatch();
     const loginErrors = useSelector(selectErrorsLogin);
 
@@ -51,11 +52,13 @@ const Login = () => {
                 if (redirectUrl) {
                     if (userDataFull?.id && userDataFull?.birthday === null && userDataFull?.birthday === "" && userDataFull?.phone === null && userDataFull?.phone === "") {
                         // Сохраните redirectUrl перед переходом на страницу данных
-                        localStorage.setItem("redirectAfterData", redirectUrl);
+                        localStorage.setItem("redirectAfterLogin", redirectUrl);
                         router.push("/data");
                     } else {
                         router.push(redirectUrl);
                     }
+                } else if (userData?.id_profile === "None") {
+                    router.push("/data");
                 } else {
                     router.push("/");
                 }

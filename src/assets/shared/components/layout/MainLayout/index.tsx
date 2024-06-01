@@ -16,7 +16,7 @@ const MainLayout = (props) => {
     const userData = useSelector(selectUser);
     const userDataFull = useSelector(selectUserFull);
 
-    console.log(userDataFull);
+    console.log(userData);
 
     useEffect(() => {
         const token = localStorage.getItem("userToken");
@@ -25,19 +25,61 @@ const MainLayout = (props) => {
         }
     }, []);
 
+    // useEffect(() => {
+    //     const token = localStorage.getItem("userToken");
+    //     if (userData?.id_profile === "None") {
+    //         dispatch(activated());
+    //     }
+    //     if (Object.keys(userData).length !== 0 && token !== null && userData?.id_profile !== "None") {
+    //         dispatch(getMeFull(String(userData?.id_profile)));
+    //     }
+    // }, [userData]);
+
     useEffect(() => {
         const token = localStorage.getItem("userToken");
-        if (Object.keys(userData).length !== 0 && token !== null && userData?.id_profile !== "None") {
-            dispatch(getMeFull(String(userData?.id_profile)));
+
+        if (token !== null && userData?.id_profile && userData?.id_profile === "None") {
+            dispatch(activated()).then(() => {
+                dispatch(getMe());
+                //тут дублируется
+                // if (token !== null && userData?.id_profile && userData?.id_profile !== "None") {
+                //     dispatch(getMeFull(String(userData?.id_profile)));
+                // }
+            });
         }
-        if (userData?.id_profile === "None") {
-            dispatch(activated());
-            router.push("/data");
+
+        // if (token !== null && userData?.id_profile && userData?.id_profile !== "None") {
+        //     dispatch(getMeFull(String(userData?.id_profile)));
+        // }
+    }, [userData]);
+
+    useEffect(() => {
+        const token = localStorage.getItem("userToken");
+        if (token !== null && userData?.id_profile && userData?.id_profile !== "None") {
+            dispatch(getMeFull(String(userData?.id_profile)));
         }
     }, [userData]);
 
     useEffect(() => {
-        if (userDataFull?.id && userDataFull?.birthday === null && userDataFull?.birthday === "" && userDataFull?.phone === null && userDataFull?.phone === "") {
+        const redirectUrl = localStorage.getItem("redirectAfterLogin");
+        // if (userDataFull?.id && userDataFull?.birthday === null && userDataFull?.birthday === "" && userDataFull?.phone === null && userDataFull?.phone === "") {
+        //     router.push("/data");
+        // }
+        // if (redirectUrl) {
+        //     if (userDataFull?.id && (userDataFull?.birthday === null || userDataFull?.birthday === "" || userDataFull?.phone === null || userDataFull?.phone === "")) {
+        //         router.push("/data");
+        //     } else {
+        //         router.push(redirectUrl);
+        //     }
+        // } else {
+        //     if (userDataFull?.id && (userDataFull?.birthday === null || userDataFull?.birthday === "" || userDataFull?.phone === null || userDataFull?.phone === "")) {
+        //         router.push("/data");
+        //     }
+        // }
+        if (userDataFull?.id && (userDataFull?.birthday === null || userDataFull?.birthday === "" || userDataFull?.phone === null || userDataFull?.phone === "")) {
+            // if (redirectUrl) {
+            //     router.push(redirectUrl);
+            // }
             router.push("/data");
         }
     }, [userDataFull]);
@@ -48,7 +90,7 @@ const MainLayout = (props) => {
     //         if (redirectUrl) {
     //             if (userDataFull?.id && userDataFull?.birthday === null && userDataFull?.birthday === "" && userDataFull?.phone === null && userDataFull?.phone === "") {
     //                 // Сохраните redirectUrl перед переходом на страницу данных
-    //                 localStorage.setItem("redirectAfterData", redirectUrl);
+    //                 localStorage.setItem("redirectAfterLogin", redirectUrl);
     //                 router.push("/data");
     //             } else {
     //                 router.push(redirectUrl);
@@ -59,12 +101,14 @@ const MainLayout = (props) => {
     //     }
     // });
 
+    const isQrsharePage = router.pathname.startsWith("/qrshare");
+
     return (
         <>
             <div className={styles["container"]}>
-                <Header />
+                {isQrsharePage ? null : <Header />}
                 <main className={styles["body"]}>{children}</main>
-                {router.pathname === "/login" || router.pathname === "/register" ? null : <Footer />}
+                {router.pathname === "/login" || router.pathname === "/register" || isQrsharePage ? null : <Footer />}
             </div>
         </>
     );

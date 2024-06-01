@@ -138,7 +138,7 @@ const Data = () => {
             }),
         ).then((res) => {
             if (res.type.includes("fulfilled")) {
-                const redirectUrl = localStorage.getItem("redirectAfterData");
+                const redirectUrl = localStorage.getItem("redirectAfterLogin");
                 dispatch(getMeFull(String(userData.id_profile)));
                 dispatch(getMe());
                 dispatch(getAnotherFull(String(userData.id_profile)));
@@ -147,8 +147,6 @@ const Data = () => {
                     setSuccess(false);
                     if (redirectUrl) {
                         router.push(redirectUrl);
-                    } else {
-                        router.push("/");
                     }
                 }, 2000);
             }

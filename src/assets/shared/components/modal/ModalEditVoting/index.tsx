@@ -113,24 +113,24 @@ const ModalEditVoting = (props) => {
                 }
             });
         }
-        if (inputValue.name && inputValue.name.length > 0 && newInput.length !==0) {
+        if (inputValue.name && inputValue.name.length > 0 && newInput.length !== 0) {
             newInput.forEach((el, index) => {
                 const value = inputValue.name[index];
                 if (value !== undefined) {
                     dispatch(renameField({ id: el.id, name: value })).then((res) => {
-                        if (res.type.includes("fulfilled")) {
-                            setSuccess(true);
-                            setTimeout(() => {
-                                setSuccess(false);
-                                switchModalEditVoting();
-                                dispatch(getEvent(String(event.id)));
-                            }, 2000);
-                        } else {
-                            setSuccess(true);
-                            setTimeout(() => {
-                                setSuccess(false);
-                            }, 2000);
-                        }
+                        // if (res.type.includes("fulfilled")) {
+                        setSuccess(true);
+                        setTimeout(() => {
+                            setSuccess(false);
+                            switchModalEditVoting();
+                            dispatch(getEvent(String(event.id)));
+                        }, 2000);
+                        // } else {
+                        //     setSuccess(true);
+                        //     setTimeout(() => {
+                        //         setSuccess(false);
+                        //     }, 2000);
+                        // }
                     });
                 }
             });

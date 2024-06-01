@@ -14,6 +14,8 @@ import { getEvent, joinEvent, joinQR, selectEventProps } from "../../store/slice
 import { useRouter } from "next/router";
 import Message from "../../Message";
 import adapter from "webrtc-adapter";
+import Loader from "../../Loader";
+import { selectEventsLoading } from "../../store/slice/eventsSlice";
 interface Idevices {
     cameraId: string;
     deviceId: string;
@@ -39,6 +41,7 @@ const Qr = () => {
     const [scanner, setScanner] = useState<boolean>(true);
     const [guest, setGuest] = useState<boolean>(false);
     const [events, setEvents] = useState<boolean>(false);
+    const loading = useSelector(selectEventsLoading);
 
     console.log(data);
 
@@ -167,6 +170,7 @@ const Qr = () => {
 
     return (
         <>
+            {loading ? <Loader /> : null}
             {event?.detail || userDataFull.id !== event.author ? (
                 <div className={styles["message"]}>
                     <span className={styles["message__text"]}>

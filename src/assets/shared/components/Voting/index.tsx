@@ -8,6 +8,7 @@ import Pen from "/public/icons/pen.svg";
 import ModalEditVoting from "../modal/ModalEditVoting";
 import { useState } from "react";
 import { selectUser } from "../store/slice/authSlice";
+import ModalUnauth from "../modal/ModalUnauth";
 
 const Voting = (props) => {
     const { value, edit, voting } = props;
@@ -16,9 +17,20 @@ const Voting = (props) => {
     const event = useSelector(selectEventProps);
     const userData = useSelector(selectUser);
     const [modalEditVoting, setModalEditVoting] = useState<boolean>(false);
+    const [modalUnlogin, setModalUnlogin] = useState<boolean>(false);
 
     const reload = () => {
         dispatch(getEvent(String(event.id)));
+    };
+
+    const switchModalUnlogin = () => {
+        if (modalUnlogin) {
+            setModalUnlogin(false);
+            document.body.style.overflow = "visible";
+        } else {
+            setModalUnlogin(true);
+            document.body.style.overflow = "hidden";
+        }
     };
 
     const join = (id) => {
@@ -34,7 +46,7 @@ const Voting = (props) => {
                 // }, 2000);
             });
         } else {
-            // switchModalUnlogin();
+            switchModalUnlogin();
         }
     };
 
@@ -51,17 +63,19 @@ const Voting = (props) => {
                 // }, 2000);
             });
         } else {
-            // switchModalUnlogin();
+            switchModalUnlogin();
         }
     };
 
     const changeVote = (item) => {
-        if (item.users && item.users.includes(Number(userData.id_profile))) {
-            // Если id пользователя уже есть, вызываем функцию remove
-            remove(item.id);
-        } else {
-            // Если id пользователя отсутствует, вызываем функцию join
-            join(item.id);
+        if (voting) {
+            if (item.users && item.users.includes(Number(userData.id_profile))) {
+                // Если id пользователя уже есть, вызываем функцию remove
+                remove(item.id);
+            } else {
+                // Если id пользователя отсутствует, вызываем функцию join
+                join(item.id);
+            }
         }
     };
 
@@ -91,6 +105,7 @@ const Voting = (props) => {
     };
     return (
         <>
+            {modalUnlogin ? <ModalUnauth text={"Для голосования необходмо авторизоваться"} switchModal={switchModalUnlogin} /> : null}
             {modalEditVoting ? <ModalEditVoting switchModalEditVoting={switchModalEditVoting} value={value} event={event} /> : null}
             <div className={styles["voting"]}>
                 <div className={styles["voting__header"]}>

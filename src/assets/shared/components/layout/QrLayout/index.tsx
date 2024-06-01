@@ -20,14 +20,31 @@ const QrLayout = (props) => {
         }
     }, []);
 
+    // useEffect(() => {
+    //     const token = localStorage.getItem("userToken");
+    //     if (Object.keys(userData).length !== 0 && token !== null && userData?.id_profile !== "None") {
+    //         dispatch(getMeFull(String(userData.id_profile)));
+    //     }
+    //     if (userData?.id_profile === "None") {
+    //         dispatch(activated());
+    //         router.push("/data");
+    //     }
+    // }, [userData]);
     useEffect(() => {
         const token = localStorage.getItem("userToken");
-        if (Object.keys(userData).length !== 0 && token !== null && userData?.id_profile !== "None") {
-            dispatch(getMeFull(String(userData.id_profile)));
+
+        if (token !== null && userData?.id_profile && userData?.id_profile === "None") {
+            dispatch(activated()).then(() => {
+                dispatch(getMe());
+            });
         }
-        if (userData?.id_profile === "None") {
-            dispatch(activated());
-            router.push("/data");
+
+    }, [userData]);
+
+    useEffect(() => {
+        const token = localStorage.getItem("userToken");
+        if (token !== null && userData?.id_profile && userData?.id_profile !== "None") {
+            dispatch(getMeFull(String(userData?.id_profile)));
         }
     }, [userData]);
 

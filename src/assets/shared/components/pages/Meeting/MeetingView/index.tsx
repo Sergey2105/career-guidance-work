@@ -54,23 +54,14 @@ const MeetingView = (props) => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         const token = localStorage.getItem("userToken");
         if (token !== null) {
-            dispatch(joinEvent({ id: userDataFull?.id, meetings: id }))
-                .then(() => {
+            dispatch(joinEvent({ id: userDataFull?.id, meetings: id })).then(() => {
+                setSuccess(true);
+                setTimeout(() => {
                     dispatch(getEvent(String(event.id)));
                     dispatch(getMeFull(String(userData.id_profile)));
-                    setSuccess(true);
-                    setTimeout(() => {
-                        setSuccess(false);
-                    }, 2000);
-                })
-                .catch(() => {
-                    dispatch(getEvent(String(event.id)));
-                    dispatch(getMeFull(String(userData.id_profile)));
-                    setSuccess(true);
-                    setTimeout(() => {
-                        setSuccess(false);
-                    }, 2000);
-                });
+                    setSuccess(false);
+                }, 2000);
+            });
         } else {
             switchModalUnlogin();
         }
@@ -80,17 +71,11 @@ const MeetingView = (props) => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         const token = localStorage.getItem("userToken");
         if (token !== null) {
-            dispatch(removeEvent({ id: userDataFull?.id, meetings: id }))
-                .then(() => {
-                    dispatch(getEvent(String(event.id)));
-                    dispatch(getMeFull(String(userData.id_profile)));
-                    switchModalRemove();
-                })
-                .catch(() => {
-                    dispatch(getEvent(String(event.id)));
-                    dispatch(getMeFull(String(userData.id_profile)));
-                    switchModalRemove();
-                });
+            dispatch(removeEvent({ id: userDataFull?.id, meetings: id })).then(() => {
+                dispatch(getEvent(String(event.id)));
+                dispatch(getMeFull(String(userData.id_profile)));
+                switchModalRemove();
+            });
         } else {
             switchModalUnlogin();
         }
@@ -106,32 +91,29 @@ const MeetingView = (props) => {
         console.log(source);
 
         if (typeof source.source === "string" && source.source === "qr") {
-            console.log("ssdfa");
-            if (token) {
-                dispatch(joinQR({ id: event?.id }))
-                    .then(() => {
-                        router.replace(`/meeting/${event.id}`);
-                        dispatch(getEvent(String(event.id)));
-                        dispatch(getMeFull(String(userData.id_profile)));
-                        setSuccess(true);
-                        setTimeout(() => {
-                            setSuccess(false);
-                            localStorage.removeItem("redirectAfterLogin");
-                        }, 2000);
-                    })
-                    .catch((error) => {
-                        router.replace(`/meeting/${event.id}`);
-                        dispatch(getEvent(String(event.id)));
-                        dispatch(getMeFull(String(userData.id_profile)));
-                        setSuccess(true);
-                        setTimeout(() => {
-                            setSuccess(false);
-                            localStorage.removeItem("redirectAfterLogin");
-                        }, 2000);
-                    });
-            } else {
-                localStorage.setItem("redirectAfterLogin", `/meeting/${event.id}/?source=qr`);
-                router.push("/login"); // Перенаправление на страницу входа
+            if (token !== null && userDataFull?.id) {
+                if (userDataFull?.id && (userDataFull?.birthday === null || userDataFull?.birthday === "" || userDataFull?.phone === null || userDataFull?.phone === "")) {
+                    // if (event) {
+                    //     localStorage.setItem("redirectAfterLogin", `/meeting/${event?.id}/?source=qr`);
+                    // }
+                    router.push("/data");
+                } else {
+                    if (token !== null && userDataFull?.id && Object.keys(event).length !== 0 && event.id) {
+                        dispatch(joinQR({ id: event?.id })).then(() => {
+                            setSuccess(true);
+                            setTimeout(() => {
+                                setSuccess(false);
+                                localStorage.removeItem("redirectAfterLogin");
+                                router.replace(`/meeting/${event.id}`);
+                            }, 2000);
+                        });
+                    }
+                }
+            } else if (token === null) {
+                if (Object.keys(event).length !== 0 && event.id) {
+                    localStorage.setItem("redirectAfterLogin", `/meeting/${event?.id}/?source=qr`);
+                    router.push("/login");
+                }
             }
         }
     }, [event]);
@@ -139,7 +121,7 @@ const MeetingView = (props) => {
     return (
         <>
             {loading ? <Loader /> : null}
-            {modalUnlogin ? <ModalUnauth switchModal={switchModalUnlogin} /> : null}
+            {modalUnlogin ? <ModalUnauth text={"Для записи на мероприятие необходмо авторизоваться"} switchModal={switchModalUnlogin} /> : null}
             {modalRemove ? <ModalRemoveMeeting switchModal={switchModalRemove} remove={remove} /> : null}
             {event?.detail ? (
                 <div className={styles["message"]}>

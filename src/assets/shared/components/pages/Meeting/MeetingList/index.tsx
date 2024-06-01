@@ -4,24 +4,27 @@ import MeetingsItem from "../MeetingItem";
 import Pagination from "../../../Pagination";
 import { useDispatch, useSelector } from "../../../store/hooks";
 import Loader from "../../../Loader";
-// import useDebounce from "@/hooks/useDebounce";
 import InputSearch from "../../../inputs/inputSeach";
 import { fetchEvents, selectEvents, selectEventsLoading } from "../../../store/slice/eventsSlice";
 import { useRouter } from "next/router";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useSearchParams } from "next/navigation";
 
 const MeetingList = () => {
     const router = useRouter();
-    // const initialPage = router.query.page ? Number(router.query.page) : 1;
 
-    // console.log(initialPage);
+    const searchParams = useSearchParams();
+    const initialPage = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
-    const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);
+    console.log(initialPage);
+
+    const [currentPage, setCurrentPage] = useState<any>(initialPage);
     const [inputSearch, setInputSearch] = useState<string>("");
     const isFirstRender = useRef(true);
 
     const changeSearchHandler = useDebounce((value) => {
         setInputSearch(value || "");
+        setCurrentPage(1);
     }, 500);
     const dispatch = useDispatch();
     const events = useSelector(selectEvents);
@@ -36,43 +39,24 @@ const MeetingList = () => {
         changeSearchHandler("");
     };
 
-    // useEffect(() => {
-    //     if (router.isReady && router.query.page) {
-    //         const pageParam = Number(router.query.page);
-    //         if (isFirstRender.current) {
-    //             setCurrentPage(pageParam);
-    //             isFirstRender.current = false;
-    //         }
-    //     }
-    // }, [router.isReady, router.query.page]);
     useEffect(() => {
-        if (router.isReady && router.query.page) {
-            const pageParam = Number(router.query.page);
+        if (router.isReady) {
+            const pageParam = Number(router.query.page) || 1;
             setCurrentPage(pageParam);
+            isFirstRender.current = false;
         }
     }, [router.isReady, router.query.page]);
 
     useEffect(() => {
-        if (currentPage !== undefined && !isFirstRender.current) {
-            dispatch(fetchEvents({ page: currentPage, search: inputSearch }));
-        } else {
-            isFirstRender.current = false;
-        }
-    }, [currentPage]);
-
-    useEffect(() => {
         if (!isFirstRender.current) {
-            // Проверка, чтобы не срабатывал при первом рендере
-            if (inputSearch === "") {
-                setCurrentPage(1);
-                dispatch(fetchEvents({ page: 1, search: inputSearch }));
-            } else if (inputSearch !== "") {
-                setCurrentPage(1);
+            dispatch(fetchEvents({ page: currentPage, search: inputSearch }));
+            if (currentPage === 1) {
+                router.push("");
             }
-        } else {
-            isFirstRender.current = false; // Устанавливаем флаг после первого рендера
         }
-    }, [inputSearch]);
+    }, [currentPage, inputSearch]);
+
+    console.log(currentPage);
 
     return (
         <>

@@ -67,9 +67,11 @@ const UploadPhoto = (props) => {
         }
     };
 
+    console.log(inputPhoto);
+
     return (
         <div className={styles["upload-container"]}>
-            {inputPhoto === null ? (
+            {inputPhoto === "" || inputPhoto === null ? (
                 <label className={styles["upload-container__label"]}>
                     <span>Добавить изображение</span>
                     <div className={styles["upload-container__label__icon"]}>
