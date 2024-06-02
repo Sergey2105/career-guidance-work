@@ -132,7 +132,7 @@ const CreateMeetingView = (props) => {
         }
     };
 
-    const links = `http://localhost:3000/meeting/${event?.id}/?source=qr`;
+    const links = `${process.env.NEXT_APP_BASE_URL}/meeting/${event?.id}/?source=qr`;
 
     return (
         <>
