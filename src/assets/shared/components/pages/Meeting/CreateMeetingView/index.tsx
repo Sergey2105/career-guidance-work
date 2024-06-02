@@ -48,8 +48,6 @@ const CreateMeetingView = (props) => {
     const loadingMeeting = useSelector(selectLoadingMeeting);
     const loadingUser = useSelector(selectLoadingUser);
 
-    console.log(inputPhoto);
-
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         dispatch(getEvent(String(id)));

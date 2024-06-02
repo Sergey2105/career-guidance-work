@@ -118,6 +118,8 @@ const MeetingView = (props) => {
         }
     }, [event]);
 
+    console.log(event);
+
     return (
         <>
             {loading ? <Loader /> : null}

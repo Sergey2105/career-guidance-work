@@ -5,10 +5,11 @@ import Pagination from "../../../Pagination";
 import { useDispatch, useSelector } from "../../../store/hooks";
 import Loader from "../../../Loader";
 import InputSearch from "../../../inputs/inputSeach";
-import { fetchEvents, selectEvents, selectEventsLoading } from "../../../store/slice/eventsSlice";
+import { fetchEvents, fetchRecommendedEvents, selectEvents, selectEventsLoading } from "../../../store/slice/eventsSlice";
 import { useRouter } from "next/router";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useSearchParams } from "next/navigation";
+import { tr } from "date-fns/locale";
 
 const MeetingList = () => {
     const router = useRouter();
@@ -20,6 +21,16 @@ const MeetingList = () => {
 
     const [currentPage, setCurrentPage] = useState<any>(initialPage);
     const [inputSearch, setInputSearch] = useState<string>("");
+    const [recommended, setRecommended] = useState<boolean>(false);
+
+    const switchRecommended = () => {
+        if (recommended) {
+            setRecommended(false);
+        } else {
+            setRecommended(true);
+        }
+    };
+
     const isFirstRender = useRef(true);
 
     const changeSearchHandler = useDebounce((value) => {
@@ -49,21 +60,34 @@ const MeetingList = () => {
 
     useEffect(() => {
         if (!isFirstRender.current) {
-            dispatch(fetchEvents({ page: currentPage, search: inputSearch }));
-            if (currentPage === 1) {
-                router.push("");
+            if (recommended) {
+                dispatch(fetchRecommendedEvents({ page: currentPage, search: inputSearch }));
+                if (currentPage === 1) {
+                    router.push("");
+                }
+            } else {
+                dispatch(fetchEvents({ page: currentPage, search: inputSearch }));
+                if (currentPage === 1) {
+                    router.push("");
+                }
             }
         }
-    }, [currentPage, inputSearch]);
-
-    console.log(currentPage);
+    }, [currentPage, inputSearch, recommended]);
 
     return (
         <>
             {loading ? <Loader /> : null}
             <div className={styles["list__wrapper"]}>
                 <div className={styles["list"]}>
-                    <div className={styles["list__title"]}>Все мероприятия</div>
+                    <div className={styles["list__title"]}>
+                        <span onClick={switchRecommended} className={recommended ? styles["list__title__inactive"] : styles["list__title__active"]}>
+                            Все мероприятия
+                        </span>
+                        <span className={styles["list__title__divider"]}>|</span>
+                        <span onClick={switchRecommended} className={!recommended ? styles["list__title__inactive"] : styles["list__title__active"]}>
+                            Рекомендуемые
+                        </span>
+                    </div>
                     <div className={styles["list__header"]}>
                         <div className={styles["list__search"]}>
                             <InputSearch value={inputSearch} onChange={changeSearch} changeClear={changeLoginSearch} />
