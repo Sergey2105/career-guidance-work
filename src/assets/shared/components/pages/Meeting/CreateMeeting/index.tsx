@@ -44,11 +44,11 @@ const CreateMeeting = () => {
             {modalCreateMeeting ? <ModalCreateMeeting switchModalCreateMeeting={switchModalCreateMeeting} switchModalCreateTimetable={switchModalCreateTimetable} /> : null}
             <div className={styles["list__wrapper"]}>
                 <div className={styles["list"]}>
-                    <div className={styles["list__title"]}>Мои мероприятия</div>
                     <div className={styles["list__header"]}>
-                        <div className={styles["list__search"]}>
+                        <div className={styles["list__title"]}>Мои мероприятия</div>
+                        {/* <div className={styles["list__search"]}>
                             <InputSearch />
-                        </div>
+                        </div> */}
                         <Button type="default" onClick={switchModalCreateTimetable}>
                             Создать
                         </Button>
