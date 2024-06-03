@@ -88,14 +88,10 @@ const MeetingView = (props) => {
     useEffect(() => {
         const token = localStorage.getItem("userToken");
         const source = router.query;
-        console.log(source);
 
         if (typeof source.source === "string" && source.source === "qr") {
             if (token !== null && userDataFull?.id) {
                 if (userDataFull?.id && (userDataFull?.birthday === null || userDataFull?.birthday === "" || userDataFull?.phone === null || userDataFull?.phone === "")) {
-                    // if (event) {
-                    //     localStorage.setItem("redirectAfterLogin", `/meeting/${event?.id}/?source=qr`);
-                    // }
                     router.push("/data");
                 } else {
                     if (token !== null && userDataFull?.id && Object.keys(event).length !== 0 && event.id) {
@@ -117,8 +113,6 @@ const MeetingView = (props) => {
             }
         }
     }, [event]);
-
-    console.log(event);
 
     return (
         <>

@@ -13,7 +13,6 @@ import Button from "../../buttons/Button";
 import { getEvent, joinEvent, joinEventQR, joinQR, selectEventProps } from "../../store/slice/eventSlice";
 import { useRouter } from "next/router";
 import Message from "../../Message";
-import adapter from "webrtc-adapter";
 import Loader from "../../Loader";
 interface Idevices {
     cameraId: string;
@@ -27,9 +26,6 @@ const Qr = () => {
     const dispatch = useDispatch();
     const userDataFullAnother = useSelector(selectUserFullAnother);
     const userDataFull = useSelector(selectUserFull);
-
-    console.log(userDataFullAnother);
-
     const [dontShow, setDontShow] = useState(true);
     const [data, setData] = useState<any>({});
     const [devices, setDevices] = useState<Idevices | Record<string, string>>({});
@@ -41,8 +37,6 @@ const Qr = () => {
     const [guest, setGuest] = useState<boolean>(false);
     const [events, setEvents] = useState<boolean>(false);
     const loading = useSelector(selectLoadingUser);
-
-    console.log(data);
 
     const switchScanner = () => {
         setTitle("Сканер");
@@ -87,8 +81,6 @@ const Qr = () => {
 
     const refresh = () => {
         changeCamera(currentCameraId);
-        // const id = location.pathname.split("/").filter((el) => el)[1];
-        // dispatch(getEvent(String(event.id)));
     };
 
     const handleError = (err) => {
@@ -162,8 +154,6 @@ const Qr = () => {
     const found = userDataFullAnother?.meetings?.find((el) => {
         return el.id === event.id;
     });
-
-    console.log(data);
 
     if (dontShow) return null;
 
@@ -242,13 +232,13 @@ const Qr = () => {
                                                         <div className={styles["content__guest__list__item__header"]}>Дата рождемения</div>
                                                         <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.birthday}</span>
                                                     </div>
-                                                    {userDataFullAnother?.phone ? (
+                                                    {userDataFullAnother?.phone !== null ? (
                                                         <div className={styles["content__guest__list__item"]}>
                                                             <div className={styles["content__guest__list__item__header"]}>Номер телефона</div>
                                                             <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.phone}</span>
                                                         </div>
                                                     ) : null}
-                                                    {userDataFullAnother?.telegram ? (
+                                                    {userDataFullAnother?.telegram !== null ? (
                                                         <div className={styles["content__guest__list__item"]}>
                                                             <div className={styles["content__guest__list__item__header"]}>Telegram ID</div>
                                                             <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.telegram}</span>

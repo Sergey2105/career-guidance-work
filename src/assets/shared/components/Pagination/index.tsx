@@ -39,10 +39,6 @@ const Pagination = (props) => {
         setPagEls(newEls);
     }, [currentButton, howManyPages]);
 
-    // useEffect(() => {
-    //     onChange(1);
-    // }, [inputSearch]);
-
     return (
         <div className={styles["pagination__container"]}>
             <Link

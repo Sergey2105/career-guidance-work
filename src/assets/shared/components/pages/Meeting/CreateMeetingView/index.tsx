@@ -55,8 +55,6 @@ const CreateMeetingView = (props) => {
         dispatch(getTags());
     }, []);
 
-    console.log(event);
-
     const tags = useSelector(selectTags);
 
     const guest = useSelector(selectGuest);

@@ -56,7 +56,6 @@ const InputText = (props) => {
                     type="text"
                     placeholder={placeholder}
                     onChange={onChangeText}
-                    // value={value || ""}
                     defaultValue={value}
                 ></input>
                 {textValue !== "" && textValue !== null ? (

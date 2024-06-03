@@ -9,6 +9,7 @@ import ModalEditVoting from "../modal/ModalEditVoting";
 import { useState } from "react";
 import { selectUser } from "../store/slice/authSlice";
 import ModalUnauth from "../modal/ModalUnauth";
+import clsx from "clsx";
 
 const Voting = (props) => {
     const { value, edit, voting } = props;
@@ -69,7 +70,7 @@ const Voting = (props) => {
 
     const changeVote = (item) => {
         if (voting) {
-            if (item.users && item.users.includes(Number(userData.id_profile))) {
+            if (item.users && item.users.includes(Number(userData?.id_profile))) {
                 // Если id пользователя уже есть, вызываем функцию remove
                 remove(item.id);
             } else {
@@ -82,15 +83,6 @@ const Voting = (props) => {
     // const votingCount = value?.field[0]?.count_votes;
 
     // console.log(votingCount);
-
-    const dfs = () => {
-        dispatch(
-            addField({
-                name: "номер1",
-                id: value?.id,
-            }),
-        );
-    };
 
     const switchModalEditVoting = () => {
         if (modalEditVoting) {
@@ -123,7 +115,11 @@ const Voting = (props) => {
                 </div>
                 <div className={styles["voting__item"]}>
                     {value?.field.map((item, key) => (
-                        <button key={key} className={styles["voting__item__btn"]} onClick={() => changeVote(item)}>
+                        <button
+                            key={key}
+                            className={clsx(styles["voting__item__btn"], item.users.includes(Number(userData?.id_profile)) ? styles["voting__item__btn__active"] : "")}
+                            onClick={() => changeVote(item)}
+                        >
                             <div>{item.name}</div>
                             {value.all_votes !== 0 ? <div>{`${Math.floor((item.count_votes / value.all_votes) * 100)}%`}</div> : null}
                         </button>

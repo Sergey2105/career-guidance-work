@@ -101,9 +101,9 @@ const Login = () => {
                         Войти
                     </Button>
                 </div>
-                <a href="/reset" className={styles["form__forgot"]}>
+                {/* <a href="/reset" className={styles["form__forgot"]}>
                     <div className={styles["form__forgot"]}>Не помните пароль?</div>
-                </a>
+                </a> */}
                 <a href="/register" className={styles["form__registration"]}>
                     <div className={styles["form__registration"]}>Регистрация</div>
                 </a>

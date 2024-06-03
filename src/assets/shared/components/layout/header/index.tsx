@@ -16,7 +16,6 @@ import Image from "next/image";
 
 const Header = () => {
     const [isToken, setIsToken] = useState(false);
-    const pathname = usePathname();
     const dispatch = useDispatch();
     const router = useRouter();
     const menu = useSelector(selectMenu);

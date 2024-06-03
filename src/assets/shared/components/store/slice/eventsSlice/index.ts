@@ -55,6 +55,7 @@ export const fetchRecommendedEvents = createAsyncThunk("events/fetchRecommendedE
         return result;
     }
 });
+
 const eventsSlice = createSlice({
     name: "event",
     initialState,

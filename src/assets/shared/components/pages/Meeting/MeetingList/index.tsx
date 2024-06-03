@@ -10,14 +10,13 @@ import { useRouter } from "next/router";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useSearchParams } from "next/navigation";
 import { tr } from "date-fns/locale";
+import clsx from "clsx";
 
 const MeetingList = () => {
     const router = useRouter();
 
     const searchParams = useSearchParams();
     const initialPage = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
-
-    console.log(initialPage);
 
     const [currentPage, setCurrentPage] = useState<any>(initialPage);
     const [inputSearch, setInputSearch] = useState<string>("");
@@ -26,8 +25,10 @@ const MeetingList = () => {
     const switchRecommended = () => {
         if (recommended) {
             setRecommended(false);
+            setInputSearch("");
         } else {
             setRecommended(true);
+            setInputSearch("");
         }
     };
 
@@ -36,11 +37,10 @@ const MeetingList = () => {
     const changeSearchHandler = useDebounce((value) => {
         setInputSearch(value || "");
         setCurrentPage(1);
-    }, 500);
+    }, 1000);
     const dispatch = useDispatch();
     const events = useSelector(selectEvents);
     const loading = useSelector(selectEventsLoading);
-    console.log(inputSearch);
 
     const changeSearch = (e) => {
         changeSearchHandler(e.target.value);
@@ -79,7 +79,7 @@ const MeetingList = () => {
             {loading ? <Loader /> : null}
             <div className={styles["list__wrapper"]}>
                 <div className={styles["list"]}>
-                    <div className={styles["list__title"]}>
+                    <div className={clsx(styles["list__title"], recommended ? styles["list__title__recommended"] : "")}>
                         <span onClick={switchRecommended} className={recommended ? styles["list__title__inactive"] : styles["list__title__active"]}>
                             Все мероприятия
                         </span>
@@ -89,9 +89,11 @@ const MeetingList = () => {
                         </span>
                     </div>
                     <div className={styles["list__header"]}>
-                        <div className={styles["list__search"]}>
-                            <InputSearch value={inputSearch} onChange={changeSearch} changeClear={changeLoginSearch} />
-                        </div>
+                        {!recommended ? (
+                            <div className={styles["list__search"]}>
+                                <InputSearch value={inputSearch} onChange={changeSearch} changeClear={changeLoginSearch} />
+                            </div>
+                        ) : null}
                     </div>
                     {events?.results?.length !== 0 || inputSearch.length !== 0 ? (
                         <>

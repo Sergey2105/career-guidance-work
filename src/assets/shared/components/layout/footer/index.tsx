@@ -1,12 +1,10 @@
 import { usePathname } from "next/navigation";
-import { FC } from "react";
 import VK from "/public/icons/vk.svg";
 import TG from "/public/icons/tg.svg";
 import Mail from "/public/icons/mail.svg";
-
 import styles from "./index.module.scss";
 
-const Footer: FC = () => {
+const Footer = () => {
     const pathname = usePathname();
     return (
         <footer className={styles["footer"]}>

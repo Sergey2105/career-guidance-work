@@ -24,7 +24,7 @@ const UploadPhoto = (props) => {
     const uploadImage = async (e) => {
         const file = e.target.files[0];
 
-        if (file.size > 11000000) {
+        if (file.size > 5000000) {
             e.target.value = "";
             setError(true);
             return;
@@ -75,7 +75,7 @@ const UploadPhoto = (props) => {
             <div className={styles["upload-container"]}>
                 {error ? (
                     <div className={styles["error"]}>
-                        <span className={styles["error__text"]}>Размер фото не должен превышать 8 МБ</span>{" "}
+                        <span className={styles["error__text"]}>Размер фото не должен превышать 5 МБ</span>
                     </div>
                 ) : null}
                 {inputPhoto === "" || inputPhoto === null ? (
