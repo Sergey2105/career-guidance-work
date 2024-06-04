@@ -8,7 +8,7 @@ import QrGuest from "./components/QrMeeting";
 import QrMeeting from "./components/QrGuest";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "../../store/hooks";
-import { getAnotherFull, selectLoadingUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
+import { getAnotherFull, selectLoadingUser, selectUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
 import Button from "../../buttons/Button";
 import { getEvent, joinEvent, joinEventQR, joinQR, selectEventProps } from "../../store/slice/eventSlice";
 import { useRouter } from "next/router";
@@ -37,6 +37,7 @@ const Qr = () => {
     const [guest, setGuest] = useState<boolean>(false);
     const [events, setEvents] = useState<boolean>(false);
     const loading = useSelector(selectLoadingUser);
+    const userData = useSelector(selectUser);
 
     const switchScanner = () => {
         setTitle("Сканер");
@@ -160,10 +161,10 @@ const Qr = () => {
     return (
         <>
             {loading ? <Loader /> : null}
-            {event?.detail || userDataFull.id !== event.author ? (
+            {event?.detail || Number(userData.id) !== event?.author ? (
                 <div className={styles["message"]}>
                     <span className={styles["message__text"]}>
-                        {event?.detail ? event?.detail : userDataFull.id !== event.author ? `У вас нет доступа к этому мероприятию` : ""}
+                        {event?.detail ? event?.detail : Number(userData.id) !== event?.author ? `У вас нет доступа к этому мероприятию` : ""}
                     </span>
                     <div className={styles["message__btn"]}>
                         <Button onClick={() => router.push("/")} type="default">
