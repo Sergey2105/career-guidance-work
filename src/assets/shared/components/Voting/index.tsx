@@ -82,7 +82,6 @@ const Voting = (props) => {
 
     // const votingCount = value?.field[0]?.count_votes;
 
-    // console.log(votingCount);
 
     const switchModalEditVoting = () => {
         if (modalEditVoting) {

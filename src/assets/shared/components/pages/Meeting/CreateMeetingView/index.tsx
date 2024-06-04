@@ -29,6 +29,7 @@ import Voting from "../../../Voting";
 import UploadPhoto from "../../../UploadPhoto";
 import QrShare from "../../../QrShare";
 import QrCode from "../../../QrCode";
+import useDebounce from "@/hooks/useDebounce";
 
 const CreateMeetingView = (props) => {
     const router = useRouter();
@@ -40,6 +41,7 @@ const CreateMeetingView = (props) => {
     const [inputBody, setInputBody] = useState<string>(event.body);
     const [inputTags, setInputTags] = useState<any>(event.tags);
     const [inputPhoto, setInputPhoto] = useState<string>("");
+    const [inputSearchTags, setInputSearchTags] = useState<string>("");
     const [modalEdit, setModalEdit] = useState<boolean>(false);
     const [modalVoting, setModalVoting] = useState<boolean>(false);
     const [modalEditVoting, setModalEditVoting] = useState<boolean>(false);
@@ -48,12 +50,27 @@ const CreateMeetingView = (props) => {
     const loadingMeeting = useSelector(selectLoadingMeeting);
     const loadingUser = useSelector(selectLoadingUser);
 
+    const changeSearchHandler = useDebounce((value) => {
+        setInputSearchTags(value || "");
+    }, 700);
+
+    const changeSearch = (e) => {
+        changeSearchHandler(e.target.value);
+    };
+
+    const changeLoginSearch = (e) => {
+        changeSearchHandler("");
+    };
+
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         dispatch(getEvent(String(id)));
         dispatch(getGuest(String(id)));
-        dispatch(getTags());
     }, []);
+
+    useEffect(() => {
+        dispatch(getTags({ search: inputSearchTags }));
+    }, [inputSearchTags]);
 
     const tags = useSelector(selectTags);
 
@@ -174,7 +191,15 @@ const CreateMeetingView = (props) => {
                                 />
                             </div>
                             <div className={styles["body__input"]}>
-                                <InputDropdownTags multiple value={inputTags} onChange={setInputTags} options={tags} label={"Теги мероприятия"} />
+                                <InputDropdownTags
+                                    multiple
+                                    value={inputTags}
+                                    onChange={setInputTags}
+                                    options={tags}
+                                    label={"Теги мероприятия"}
+                                    changeSearch={changeSearch}
+                                    changeLoginSearch={changeLoginSearch}
+                                />
                             </div>
                             <div className={styles["body__input"]}>
                                 <InputAria

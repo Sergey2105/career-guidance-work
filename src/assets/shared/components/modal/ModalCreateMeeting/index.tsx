@@ -12,6 +12,7 @@ import { InputDropdownTimetable } from "../../inputs/InputDropdown/Timetable";
 import { getMeFull, selectUser } from "../../store/slice/authSlice";
 import Message from "../../Message";
 import UploadPhoto from "../../UploadPhoto";
+import useDebounce from "@/hooks/useDebounce";
 
 const ModalCreateMeeting = (props) => {
     const { switchModalCreateMeeting, switchModalCreateTimetable } = props;
@@ -22,15 +23,31 @@ const ModalCreateMeeting = (props) => {
     const [inputTimetable, setInputTimetable] = useState<any>([]);
     const [inputTags, setInputTags] = useState<any>([]);
     const [inputPhoto, setInputPhoto] = useState<string>("");
+    const [inputSearchTags, setInputSearchTags] = useState<string>("");
     const [success, setSuccess] = useState<boolean>(false);
     const messageError = useSelector(selectErrorsMeeting);
 
-    const tags = useSelector(selectTags);
+    const changeSearchHandler = useDebounce((value) => {
+        setInputSearchTags(value || "");
+    }, 700);
+
+    const changeSearch = (e) => {
+        changeSearchHandler(e.target.value);
+    };
+
+    const changeLoginSearch = (e) => {
+        changeSearchHandler("");
+    };
 
     useEffect(() => {
         dispatch(getTimetable());
-        dispatch(getTags());
     }, []);
+
+    useEffect(() => {
+        dispatch(getTags({ search: inputSearchTags }));
+    }, [inputSearchTags]);
+
+    const tags = useSelector(selectTags);
 
     const timetable = useSelector(selectTimetable);
 
@@ -104,7 +121,15 @@ const ModalCreateMeeting = (props) => {
                         <InputDropdownTimetable value={inputTimetable} onChange={setInputTimetable} options={timetable} label={"Запись мероприятия"} />
                     </div>
                     <div className={styles["body__input"]}>
-                        <InputDropdownTags multiple value={inputTags} onChange={setInputTags} options={tags} label={"Теги мероприятия"} />
+                        <InputDropdownTags
+                            multiple
+                            value={inputTags}
+                            onChange={setInputTags}
+                            options={tags}
+                            label={"Теги мероприятия"}
+                            changeSearch={changeSearch}
+                            changeLoginSearch={changeLoginSearch}
+                        />
                     </div>
                     <div className={styles["body__input"]}>
                         <InputAria placeholder={"Введите информацию о мероприятии"} label={"Информация о мероприятии"} type={"text"} onChange={changeBody} />

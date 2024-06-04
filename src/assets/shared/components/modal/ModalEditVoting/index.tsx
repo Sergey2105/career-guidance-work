@@ -42,7 +42,6 @@ const ModalEditVoting = (props) => {
             }
             return el;
         });
-        console.log(arrayChange);
         setNewInput(arrayChange);
         setInputValue((prevState) => ({ ...prevState, name: arrayChange.map((el) => el.value) }));
     };
@@ -64,9 +63,6 @@ const ModalEditVoting = (props) => {
         dispatch(destroyField({ id: id }));
     };
 
-    console.log(inputValue);
-
-    console.log(newInput);
 
     const filteredArray = newInput.filter((item) => !item.hasOwnProperty("vote"));
 
@@ -144,7 +140,6 @@ const ModalEditVoting = (props) => {
         });
     };
 
-    // console.log(inputValue.name[0]);
 
     const changeTitle = (e) => {
         setInputTitle(e.target.value);
@@ -154,11 +149,7 @@ const ModalEditVoting = (props) => {
         setInputTitle("");
     };
 
-    // console.log(success);
-    // console.log(messageError);
-    //success не очищается и нужно 3 условия
 
-    console.log(inputTitle);
     const disabled = inputTitle.length === 0;
 
     return (

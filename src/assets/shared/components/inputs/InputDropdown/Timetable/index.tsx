@@ -28,7 +28,6 @@ export function InputDropdownTimetable(props) {
     const { value, onChange, options, label, multiple } = props;
     const [isOpen, setIsOpen] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(0);
-    const containerRef = useRef<HTMLDivElement>(null);
 
     function clearOptions() {
         onChange("");
@@ -57,80 +56,10 @@ export function InputDropdownTimetable(props) {
         }
     }
 
-    useEffect(() => {
-        const handler = (e: KeyboardEvent) => {
-            if (e.target != containerRef.current) return;
-            switch (e.code) {
-                case "Enter":
-                case "Space":
-                    setIsOpen((prev) => !prev);
-                    if (isOpen) selectOption(options[highlightedIndex]);
-                    break;
-                case "ArrowUp":
-                case "ArrowDown": {
-                    if (!isOpen) {
-                        setIsOpen(true);
-                        break;
-                    }
-
-                    const newValue = highlightedIndex + (e.code === "ArrowDown" ? 1 : -1);
-                    if (newValue >= 0 && newValue < options.length) {
-                        setHighlightedIndex(newValue);
-                    }
-                    break;
-                }
-                case "Escape":
-                    setIsOpen(false);
-                    break;
-            }
-        };
-        containerRef.current?.addEventListener("keydown", handler);
-
-        return () => {
-            containerRef.current?.removeEventListener("keydown", handler);
-        };
-    }, [isOpen, highlightedIndex, options]);
-
-    useEffect(() => {
-        const handler = (e: KeyboardEvent) => {
-            if (e.target != containerRef.current) return;
-            switch (e.code) {
-                case "Enter":
-                case "Space":
-                    setIsOpen((prev) => !prev);
-                    if (isOpen) selectOption(options[highlightedIndex]);
-                    break;
-                case "ArrowUp":
-                case "ArrowDown": {
-                    if (!isOpen) {
-                        setIsOpen(true);
-                        break;
-                    }
-
-                    const newValue = highlightedIndex + (e.code === "ArrowDown" ? 1 : -1);
-                    if (newValue >= 0 && newValue < options.length) {
-                        setHighlightedIndex(newValue);
-                    }
-                    break;
-                }
-                case "Escape":
-                    setIsOpen(false);
-                    break;
-            }
-        };
-        containerRef.current?.addEventListener("keydown", handler);
-
-        return () => {
-            containerRef.current?.removeEventListener("keydown", handler);
-        };
-    }, [isOpen, highlightedIndex, options]);
-
-    console.log(options);
-
     return (
         <>
             {label ? <span className={styles["label"]}>{label}</span> : null}
-            <div ref={containerRef} onBlur={() => setIsOpen(false)} onClick={() => setIsOpen((prev) => !prev)} tabIndex={0} className={styles.container}>
+            <div onBlur={() => setIsOpen(false)} onClick={() => setIsOpen((prev) => !prev)} tabIndex={0} className={styles.container}>
                 {value.length !== 0 ? (
                     <span className={styles.value}>{value.length !== 0 ? `${value?.event_date} ${value?.start_time} - ${value?.end_time} ( ${value?.place?.office} )` : ""}</span>
                 ) : (
@@ -149,28 +78,30 @@ export function InputDropdownTimetable(props) {
                 <div className={styles.arrow}>
                     <Arrow />
                 </div>
-                <ul className={`${styles.options} ${isOpen ? styles.show : ""}`}>
-                    {options?.length !== 0 ? (
-                        <>
-                            {options.map((option, index) => (
-                                <li
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        selectOption(option);
-                                        setIsOpen(false);
-                                    }}
-                                    onMouseEnter={() => setHighlightedIndex(index)}
-                                    key={option.id}
-                                    className={`${styles.option} ${isOptionSelected(option) ? styles.selected : ""}`}
-                                >
-                                    {option?.event_date} {option?.start_time} - {option?.end_time} ( {option?.place?.office} )
-                                </li>
-                            ))}
-                        </>
-                    ) : (
-                        <li className={`${styles.option}`}>Нет доступных записей на мероприятие</li>
-                    )}
-                </ul>
+                {isOpen ? (
+                    <ul className={styles.optionsnot}>
+                        {options?.length !== 0 ? (
+                            <>
+                                {options.map((option, index) => (
+                                    <li
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            selectOption(option);
+                                            setIsOpen(false);
+                                        }}
+                                        onMouseEnter={() => setHighlightedIndex(index)}
+                                        key={option.id}
+                                        className={`${styles.option} ${isOptionSelected(option) ? styles.selected : ""}`}
+                                    >
+                                        {option?.event_date} {option?.start_time} - {option?.end_time} ( {option?.place?.office} )
+                                    </li>
+                                ))}
+                            </>
+                        ) : (
+                            <li className={`${styles.option}`}>Нет доступных записей на мероприятие</li>
+                        )}
+                    </ul>
+                ) : null}
             </div>
         </>
     );

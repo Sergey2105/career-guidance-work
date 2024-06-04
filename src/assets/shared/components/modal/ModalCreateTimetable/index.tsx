@@ -29,8 +29,6 @@ const ModalCreateTimetable = (props) => {
     const place = useSelector(selectPlace);
     const timetable = useSelector(selectTimetable);
 
-    console.log(timetable);
-
     const changeDate = (e) => {
         setInputDate(e);
     };

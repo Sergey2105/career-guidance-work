@@ -256,10 +256,10 @@ export const createMeeting = createAsyncThunk(
     },
 );
 
-export const getTags = createAsyncThunk("event/getTags", async function () {
+export const getTags = createAsyncThunk("event/getTags", async ({ search }: { search: string }, thunkAPI) => {
     const token = localStorage.getItem("userToken");
     if (token !== null) {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/tags_list/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/tags_list/?search=${search}`, {
             method: "GET",
             headers: {
                 Accept: "application/json",

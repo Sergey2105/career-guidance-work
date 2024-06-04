@@ -21,7 +21,6 @@ const ModalEditTimetable = (props) => {
     const [inputTimeEnd, setInputTimeEnd] = useState<string>("");
     const [success, setSuccess] = useState<boolean>(false);
     const messageError = useSelector(selectErrorsTimetable);
-    console.log(messageError);
 
     useEffect(() => {
         dispatch(getPlaces());
@@ -38,7 +37,6 @@ const ModalEditTimetable = (props) => {
         }
     }, [event]);
 
-    // console.log(event);
 
     const changeDate = (e) => {
         setInputDate(e);
@@ -85,9 +83,6 @@ const ModalEditTimetable = (props) => {
 
     const disabled = places.length === 0 || inputDate.length === 0 || inputTimeStart.length === 0 || inputTimeEnd.length === 0;
 
-    // console.log(success);
-    console.log(messageError);
-    //success не очищается и нужно 3 условия
 
     return (
         <>

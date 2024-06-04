@@ -213,22 +213,22 @@ const votingSlice = createSlice({
             state.loading = true;
         });
         builder.addCase(addField.fulfilled, (state, action) => {
-            console.log(action);
+            // console.log(action);
         });
         builder.addCase(addField.pending, (state, action) => {
-            console.log(action);
+            // console.log(action);
         });
         builder.addCase(addField.rejected, (state, action) => {
-            console.log(action);
+            // console.log(action);
         });
         builder.addCase(renameField.fulfilled, (state, action) => {
-            console.log(action);
+            // console.log(action);
         });
         builder.addCase(renameField.pending, (state, action) => {
-            console.log(action);
+            // console.log(action);
         });
         builder.addCase(renameField.rejected, (state, action) => {
-            console.log(action);
+            // console.log(action);
         });
     },
 });

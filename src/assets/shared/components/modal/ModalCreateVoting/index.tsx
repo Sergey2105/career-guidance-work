@@ -19,7 +19,6 @@ const ModalCreateVoting = (props) => {
     const [inputTitle, setInputTitle] = useState<string>("");
     const [success, setSuccess] = useState<boolean>(false);
     const messageError = useSelector(selectErrorsTimetable);
-    console.log(messageError);
 
     const changeTitle = (e) => {
         setInputTitle(e.target.value);
@@ -49,8 +48,6 @@ const ModalCreateVoting = (props) => {
 
     const disabled = inputTitle.length === 0;
 
-    // console.log(success);
-    console.log(messageError);
     //success не очищается и нужно 3 условия
 
     return (

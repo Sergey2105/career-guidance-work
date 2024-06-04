@@ -12,6 +12,7 @@ import { getTags, selectTags } from "../../store/slice/eventSlice";
 import Message from "../../Message";
 import Loader from "../../Loader";
 import UploadPhoto from "../../UploadPhoto";
+import useDebounce from "@/hooks/useDebounce";
 
 const Data = () => {
     const userData = useSelector(selectUser);
@@ -25,10 +26,23 @@ const Data = () => {
     const [inputPhone, setInputPhone] = useState<string>("");
     const [inputTelegram, setInputTelegram] = useState<string>("");
     const [inputTags, setInputTags] = useState<any>([]);
+    const [inputSearchTags, setInputSearchTags] = useState<string>("");
     const [inputInfo, setInputInfo] = useState<string>("");
     const [inputPhoto, setInputPhoto] = useState<string>("");
     const [success, setSuccess] = useState<boolean>(false);
     const messageError = useSelector(selectErrorsData);
+
+    const changeSearchHandler = useDebounce((value) => {
+        setInputSearchTags(value || "");
+    }, 700);
+
+    const changeSearch = (e) => {
+        changeSearchHandler(e.target.value);
+    };
+
+    const changeLoginSearch = (e) => {
+        changeSearchHandler("");
+    };
 
     useEffect(() => {
         if (userDataFull) {
@@ -48,13 +62,12 @@ const Data = () => {
         }
     }, [userDataFull]);
 
-    console.log(inputPhone);
     const dispatch = useDispatch();
     const router = useRouter();
 
     useEffect(() => {
-        dispatch(getTags());
-    }, []);
+        dispatch(getTags({ search: inputSearchTags }));
+    }, [inputSearchTags]);
 
     const tags = useSelector(selectTags);
 
@@ -195,7 +208,15 @@ const Data = () => {
                         <InputText placeholder={"Введите Telegram ID"} label={"Telegram ID"} onChange={changeTelegram} changeClear={changeTelegramClear} value={inputTelegram} />
                     </div>
                     <div className={styles["body__input"]}>
-                        <InputDropdownTags multiple value={inputTags} onChange={setInputTags} options={tags} label={"Теги пользователя"} />
+                        <InputDropdownTags
+                            multiple
+                            value={inputTags}
+                            onChange={setInputTags}
+                            options={tags}
+                            label={"Теги пользователя"}
+                            changeSearch={changeSearch}
+                            changeLoginSearch={changeLoginSearch}
+                        />
                     </div>
                     <div className={styles["body__input"]}>
                         <InputAria placeholder={"Введите информация"} label={"Информация"} type={"text"} onChange={changeInfo} value={inputInfo} />
