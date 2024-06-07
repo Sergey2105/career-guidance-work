@@ -89,7 +89,7 @@ const ModalCreateMeeting = (props) => {
         });
     };
 
-    const disabled = inputTitle.length === 0 || inputTimetable.length === 0 || inputTimetable.length === 0 || inputPhoto.length === 0;
+    const disabled = inputTitle.length === 0 || inputTimetable.length === 0 || inputTimetable.length === 0;
 
     return (
         <>
