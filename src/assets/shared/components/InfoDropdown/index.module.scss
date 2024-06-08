@@ -1,0 +1,35 @@
+.element {
+    width: 100%;
+    &__header {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        background-color: #b3b3b3;
+        padding: 12px;
+        border-radius: 8px;
+        &__visible {
+            border-radius: 8px 8px 0 0;
+        }
+        &__text {
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 600;
+        }
+        &__icon {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+    }
+    &__main {
+        padding: 12px 12px;
+        background-color: #b3b3b3;
+        border-radius: 0 0 8px 8px;
+        &__text {
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 600;
+            color: #fff;
+        }
+    }
+}
