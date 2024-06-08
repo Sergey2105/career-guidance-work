@@ -4,7 +4,7 @@ const nextConfig = {
     trailingSlash: true,
     reactStrictMode: false,
     output: "standalone",
-    distDir: "dist",
+    // distDir: "dist",
     webpack: (config) => {
         config.module.rules.push({
             test: /\.svg$/,
