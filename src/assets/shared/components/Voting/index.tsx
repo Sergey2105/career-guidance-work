@@ -1,7 +1,6 @@
-import Button from "../buttons/Button";
 import { useDispatch, useSelector } from "../store/hooks";
 import { getEvent, selectEventProps } from "../store/slice/eventSlice";
-import { addField, addVote, removeVote } from "../store/slice/votings";
+import { addVote, removeVote } from "../store/slice/votings";
 import styles from "./index.module.scss";
 import Refresh from "/public/icons/refresh.svg";
 import Pen from "/public/icons/pen.svg";
@@ -81,7 +80,6 @@ const Voting = (props) => {
     };
 
     // const votingCount = value?.field[0]?.count_votes;
-
 
     const switchModalEditVoting = () => {
         if (modalEditVoting) {
