@@ -1,11 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Header from "../Header";
 import Footer from "../Footer";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
 import { activated, getMe, getMeFull, selectUser, selectUserFull } from "../../store/slice/authSlice";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 const MainLayout = (props) => {
     const { children } = props;

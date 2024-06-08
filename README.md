@@ -1,40 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Установка и запуск проекта:
 
-## Getting Started
+Устанавливаем NodeJs **_не ниже версии 16.7.0_**
 
-First, run the development server:
+Вводим в терминале команду для клонирование репозитория
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Добавляем туда запись
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+`необходимая ссылка HTTPS или SSH`
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+В IDE необходимо открыть файл проекта и в терминал написать следующие команды:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```bash
+npm ci
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Устанавливаем необходимые пакеты для работы и запускаем проект
 
-## Learn More
+Для запуска бэкенд, также необходимо клонировать репозиторий и в терминал написать следующие команды:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pip install requirements.txt
+cd events
+python manage.py runserver
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Работа с файлами
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Работа с глобальной папкой shared
 
-## Deploy on Vercel
+В глобальной папке shared находятся части сайта, которые могут быть использованы в других проектах. При добавлении новыйх элментов в эту папку рекомендуется обсудить необходимость этого компнента.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Импорты
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+В проекте находится один tsconfig, в нем можно прописывать алиасы для импортов, чтобы упростить импортирование компонентов/методов и т.п.
+
+## Коммиты
+
+Коммиты строятся в оответсвии с номером задачи, так же необходимо кратко описывать, что было добавлено или изменено.
+
+```bash
+git add -A
+git commit -m
+git push origin
+```
+
+### Git flow
+
+Создаем ветки от ветки **master**. После окончания тестирования задача ждет сбора релиза. После сбора релизной ветки еще раз проверяется вместе с другими задачами.
+
+### Форматирование
+
+При установке проекта, сразу настроить в IDE автоформатирование под `prettier` и `eslint`, чтобы у всех было единое форматирование.
+Если в конфиге форматирования или линтинга что-то не устраивает или надо дополнить - необходимо обсудить изменения.
