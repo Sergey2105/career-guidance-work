@@ -3,7 +3,7 @@ import { getEvent, selectEventProps } from "../store/slice/eventSlice";
 import { addVote, removeVote } from "../store/slice/votings";
 import styles from "./index.module.scss";
 import Refresh from "/public/icons/refresh.svg";
-import Pen from "/public/icons/pen.svg";
+import Pen from "@/public/icons/pen.svg";
 import ModalEditVoting from "../modal/ModalEditVoting";
 import { useState } from "react";
 import { selectUser } from "../store/slice/authSlice";
