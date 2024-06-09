@@ -145,7 +145,7 @@ const CreateMeetingView = (props) => {
         }
     };
 
-    const links = `${process.env.NEXT_APP_BASE_URL}/meeting/${event?.id}/?source=qr`;
+    const links = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${event?.id}/?source=qr`;
 
     return (
         <>

@@ -8,7 +8,8 @@ const QrShare = (props) => {
     const [link, setLink] = useState("");
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
-        setLink(`{process.env.NEXT_APP_BASE_URL}/meeting/${id}?source=qr`);
+
+        setLink(`${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${id}?source=qr`);
     }, []);
 
     return (
