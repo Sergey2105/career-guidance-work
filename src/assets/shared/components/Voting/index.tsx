@@ -71,7 +71,7 @@ const Voting = (props) => {
     const changeVote = (item) => {
         console.log(item);
         if (voting) {
-            if (item.users && !item.users.includes(Number(userData?.id_profile))) {
+            if (item.users && item.users.includes(Number(userData?.id_profile))) {
                 // Если id пользователя уже есть, вызываем функцию remove
                 remove(item.id);
             } else {
