@@ -15,7 +15,8 @@ const CreateMeeting = () => {
     const [modalCreateMeeting, setModalCreateMeeting] = useState<boolean>(false);
     const [inputSearch, setInputSearch] = useState<string>("");
     const userDataFull = useSelector(selectUserFull);
-    const loading = useSelector(selectLoadingUser);
+    const loadingEvent = useSelector(selectLoadingUser);
+    const loadingUser = useSelector(selectLoadingUser);
 
     const switchModalCreateTimetable = () => {
         if (modalCreateTimetable) {
@@ -39,7 +40,7 @@ const CreateMeeting = () => {
 
     return (
         <>
-            {loading ? <Loader /> : null}
+            {loadingEvent && loadingUser ? <Loader /> : null}
             {modalCreateTimetable ? <ModalCreateTimetable switchModalCreateTimetable={switchModalCreateTimetable} switchModalCreateMeeting={switchModalCreateMeeting} /> : null}
             {modalCreateMeeting ? <ModalCreateMeeting switchModalCreateMeeting={switchModalCreateMeeting} switchModalCreateTimetable={switchModalCreateTimetable} /> : null}
             <div className={styles["list__wrapper"]}>

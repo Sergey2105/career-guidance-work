@@ -7,14 +7,15 @@ import EventItem from "../Meeting/MeetingItem";
 import { useDispatch, useSelector } from "../../store/hooks";
 import Button from "../../buttons/Button";
 import Loader from "../../Loader";
-import { selectUserFull } from "../../store/slice/authSlice";
+import { selectLoadingUser, selectUserFull } from "../../store/slice/authSlice";
 import { fetchEvents, selectEvents, selectEventsLoading } from "../../store/slice/eventsSlice";
 import "@splidejs/react-splide/css";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 const HomePage = () => {
     const userDataFull = useSelector(selectUserFull);
-    const loading = useSelector(selectEventsLoading);
+    const loadingEvents = useSelector(selectEventsLoading);
+    const loadingUser = useSelector(selectLoadingUser);
 
     useEffect(() => {
         dispatch(fetchEvents({ page: 1, search: "" }));
@@ -26,7 +27,7 @@ const HomePage = () => {
 
     return (
         <>
-            {loading ? <Loader /> : null}
+            {loadingEvents && loadingUser ? <Loader /> : null}
             <div className={styles["home"]}>
                 <div className={styles["home__wrapper"]}>
                     <div className={styles["home__main"]}>
