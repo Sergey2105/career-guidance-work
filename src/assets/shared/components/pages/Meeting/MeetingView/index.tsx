@@ -86,6 +86,8 @@ const MeetingView = (props) => {
         return el.id === Number(location.pathname.split("/").filter((el) => el)[1]);
     });
 
+    console.log(found);
+
     useEffect(() => {
         const token = localStorage.getItem("userToken");
         const source = router.query;
@@ -120,9 +122,12 @@ const MeetingView = (props) => {
 
     console.log(userDataFull);
 
+    console.log(loadingEvent);
+    console.log(loadingUser);
+
     return (
         <>
-            {loadingEvent && loadingUser ? <Loader /> : null}
+            {loadingEvent || loadingUser ? <Loader /> : null}
             {modalUnlogin ? <ModalUnauth text={"Для записи на мероприятие необходмо авторизоваться"} switchModal={switchModalUnlogin} /> : null}
             {modalRemove ? <ModalRemoveMeeting switchModal={switchModalRemove} remove={remove} /> : null}
             {event?.detail ? (
@@ -151,7 +156,7 @@ const MeetingView = (props) => {
                                 )}
                             </div>
                             <div className={styles["header__main"]}>
-                                <div className={styles["header__main__title"]}>{event.title}</div>
+                                <div className={styles["header__main__title"]}>{event?.title}</div>
                                 <div className={styles["header__main__name"]}>
                                     <div className={styles["header__main__name__time"]}>Время проведения</div>
                                     <div className={styles["header__main__name__place"]}>Место проведения</div>

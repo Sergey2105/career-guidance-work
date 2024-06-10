@@ -6,7 +6,7 @@ import Refresh from "/public/icons/refresh.svg";
 import Pen from "/public/icons/pen.svg";
 import ModalEditVoting from "../modal/ModalEditVoting";
 import { useState } from "react";
-import { selectUser } from "../store/slice/authSlice";
+import { getMeFull, selectUser } from "../store/slice/authSlice";
 import ModalUnauth from "../modal/ModalUnauth";
 import clsx from "clsx";
 
@@ -21,6 +21,7 @@ const Voting = (props) => {
 
     const reload = () => {
         dispatch(getEvent(String(event.id)));
+        dispatch(getMeFull(String(userData.id_profile)));
     };
 
     const switchModalUnlogin = () => {
@@ -68,8 +69,9 @@ const Voting = (props) => {
     };
 
     const changeVote = (item) => {
+        console.log(item);
         if (voting) {
-            if (item.users && item.users.includes(Number(userData?.id_profile))) {
+            if (item.users && !item.users.includes(Number(userData?.id_profile))) {
                 // Если id пользователя уже есть, вызываем функцию remove
                 remove(item.id);
             } else {
@@ -92,6 +94,7 @@ const Voting = (props) => {
             // dispatch(getEvent(String(event.id)));
         }
     };
+
     return (
         <>
             {modalUnlogin ? <ModalUnauth text={"Для голосования необходмо авторизоваться"} switchModal={switchModalUnlogin} /> : null}

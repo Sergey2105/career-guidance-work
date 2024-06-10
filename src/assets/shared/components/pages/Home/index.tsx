@@ -27,7 +27,7 @@ const HomePage = () => {
 
     return (
         <>
-            {loadingEvents && loadingUser ? <Loader /> : null}
+            {loadingEvents || loadingUser ? <Loader /> : null}
             <div className={styles["home"]}>
                 <div className={styles["home__wrapper"]}>
                     <div className={styles["home__main"]}>
