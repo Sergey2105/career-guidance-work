@@ -101,6 +101,7 @@ const MeetingView = (props) => {
                                 setSuccess(false);
                                 localStorage.removeItem("redirectAfterLogin");
                                 router.replace(`/meeting/${event.id}`);
+                                dispatch(getEvent(String(event.id)));
                             }, 2000);
                         });
                     }
