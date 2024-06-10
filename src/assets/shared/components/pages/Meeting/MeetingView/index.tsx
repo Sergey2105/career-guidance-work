@@ -169,7 +169,7 @@ const MeetingView = (props) => {
                             </div>
                         </div>
                         {found !== undefined ? (
-                            Number(userData.id) === event?.author ? (
+                            Number(userData?.id) === event?.author ? (
                                 <div className={styles["record"]}>Вы организатор данного мероприятия</div>
                             ) : (
                                 <div className={styles["record"]}>Вы записаны на данное мероприятие</div>
@@ -181,7 +181,7 @@ const MeetingView = (props) => {
                             <div className={styles["main__tag"]}>{event?.tags?.map((value, key) => <Tag key={key} value={value} myKey={key} />)}</div>
                             <div className={styles["main__btn"]}>
                                 {found !== undefined ? (
-                                    Number(userData.id) === event?.author ? (
+                                    Number(userData?.id) === event?.author ? (
                                         <Button type="default" onClick={() => join()} disabled={true}>
                                             Вы организатор
                                         </Button>
