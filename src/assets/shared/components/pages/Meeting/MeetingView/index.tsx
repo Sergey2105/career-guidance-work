@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "../../../store/hooks";
 import { getEvent, joinEvent, joinQR, removeEvent, selectEventProps, selectLoadingMeeting } from "../../../store/slice/eventSlice";
 import Button from "../../../buttons/Button";
 import Tag from "../../../Tag";
-import { getMeFull, selectUser, selectUserFull } from "../../../store/slice/authSlice";
+import { getMeFull, selectLoadingUser, selectUser, selectUserFull } from "../../../store/slice/authSlice";
 import ModalUnauth from "../../../modal/ModalUnauth";
 import ModalRemoveMeeting from "../../../modal/ModalRemoveMeeting";
 import Message from "../../../Message";
@@ -24,7 +24,8 @@ const MeetingView = (props) => {
     const event = useSelector(selectEventProps);
     const userData = useSelector(selectUser);
     const userDataFull = useSelector(selectUserFull);
-    const loading = useSelector(selectLoadingMeeting);
+    const loadingEvent = useSelector(selectLoadingMeeting);
+    const loadingUser = useSelector(selectLoadingUser);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
@@ -121,7 +122,7 @@ const MeetingView = (props) => {
 
     return (
         <>
-            {loading ? <Loader /> : null}
+            {loadingEvent && loadingUser ? <Loader /> : null}
             {modalUnlogin ? <ModalUnauth text={"Для записи на мероприятие необходмо авторизоваться"} switchModal={switchModalUnlogin} /> : null}
             {modalRemove ? <ModalRemoveMeeting switchModal={switchModalRemove} remove={remove} /> : null}
             {event?.detail ? (
