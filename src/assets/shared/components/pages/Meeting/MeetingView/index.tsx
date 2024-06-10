@@ -88,13 +88,14 @@ const MeetingView = (props) => {
     useEffect(() => {
         const token = localStorage.getItem("userToken");
         const source = router.query;
+        console.log(source);
 
         if (typeof source.source === "string" && source.source === "qr") {
             if (token !== null && userDataFull?.id) {
                 if (userDataFull?.id && (userDataFull?.birthday === null || userDataFull?.birthday === "" || userDataFull?.phone === null || userDataFull?.phone === "")) {
                     router.push("/data");
                 } else {
-                    if (token !== null && userDataFull?.id && Object.keys(event).length !== 0 && event.id) {
+                    if (token !== null && userDataFull.id && Object.keys(event).length !== 0 && event.id) {
                         dispatch(joinQR({ id: event?.id })).then(() => {
                             setSuccess(true);
                             setTimeout(() => {
@@ -113,10 +114,9 @@ const MeetingView = (props) => {
                 }
             }
         }
-    }, [event]);
+    }, [event, userDataFull]);
 
     console.log(userDataFull);
-    console.log(event);
 
     return (
         <>
