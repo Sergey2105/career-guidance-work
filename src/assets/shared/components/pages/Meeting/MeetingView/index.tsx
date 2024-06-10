@@ -103,6 +103,7 @@ const MeetingView = (props) => {
                                 localStorage.removeItem("redirectAfterLogin");
                                 router.replace(`/meeting/${event.id}`);
                                 dispatch(getEvent(String(event.id)));
+                                dispatch(getMeFull(String(userData.id_profile)));
                             }, 2000);
                         });
                     }
