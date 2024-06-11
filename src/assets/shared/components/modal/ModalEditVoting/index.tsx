@@ -63,12 +63,13 @@ const ModalEditVoting = (props) => {
         dispatch(destroyField({ id: id }));
     };
 
-
     const filteredArray = newInput.filter((item) => !item.hasOwnProperty("vote"));
 
     const valueArray = filteredArray.map((item) => item.value);
 
     const result = valueArray.map((item) => item.replace(/ /g, "_")).join(" ");
+
+    console.log(valueArray);
 
     const saveField = () => {
         if (inputTitle !== value?.name) {
@@ -90,7 +91,7 @@ const ModalEditVoting = (props) => {
                 }
             });
         }
-        if (result.length !== 0) {
+        if (result.replace(/\s+/g, "").length !== 0) {
             dispatch(addField({ id: value.id, name: result })).then((res) => {
                 if (res.type.includes("fulfilled")) {
                     if (res.type.includes("fulfilled")) {
@@ -140,7 +141,6 @@ const ModalEditVoting = (props) => {
         });
     };
 
-
     const changeTitle = (e) => {
         setInputTitle(e.target.value);
     };
@@ -149,8 +149,7 @@ const ModalEditVoting = (props) => {
         setInputTitle("");
     };
 
-
-    const disabled = inputTitle.length === 0;
+    const disabled = inputTitle.length === 0 || valueArray.some((element) => element === "");
 
     return (
         <>

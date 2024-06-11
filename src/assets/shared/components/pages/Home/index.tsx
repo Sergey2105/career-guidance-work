@@ -73,7 +73,7 @@ const HomePage = () => {
                                                     perPage: 2,
                                                     gap: "12px",
                                                 },
-                                                480: {
+                                                540: {
                                                     perPage: 2,
                                                     gap: "12px",
                                                 },

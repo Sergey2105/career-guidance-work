@@ -5,16 +5,18 @@ import QRCode from "qrcode.react";
 import { useEffect, useState } from "react";
 
 const QrCode = (props) => {
-    const { id } = props;
+    const { id, view = true } = props;
     const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
     const switchModalVoting = () => {
-        if (isFullscreen) {
-            setIsFullscreen(false);
-            document.body.style.overflow = "visible";
-        } else {
-            setIsFullscreen(true);
-            document.body.style.overflow = "hidden";
+        if (view) {
+            if (isFullscreen) {
+                setIsFullscreen(false);
+                document.body.style.overflow = "visible";
+            } else {
+                setIsFullscreen(true);
+                document.body.style.overflow = "hidden";
+            }
         }
     };
 

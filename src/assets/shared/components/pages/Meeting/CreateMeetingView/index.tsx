@@ -260,7 +260,7 @@ const CreateMeetingView = (props) => {
                             </div>
                             <div className={styles["qr"]}>
                                 <div onClick={() => window.open(`/qrshare/${event.id}`, "_blank")}>
-                                    <QrCode id={links} />
+                                    <QrCode id={links} view={false} />
                                 </div>
                             </div>
                             <div className={styles["body__guest__header"]}>
