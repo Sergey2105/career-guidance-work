@@ -38,7 +38,23 @@
         }
     }
 }
-
+.message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 343px;
+    max-height: 100%;
+    text-align: center;
+    &__text {
+        font-size: 22px;
+        line-height: 30px;
+        font-weight: 600;
+    }
+    &__btn {
+        margin-top: 10px;
+    }
+}
 @media screen and (min-width: 768px) {
     .list {
         &__wrapper {

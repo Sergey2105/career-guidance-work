@@ -164,7 +164,13 @@ const Qr = () => {
             {event?.detail || Number(userData.id) !== event?.author ? (
                 <div className={styles["message"]}>
                     <span className={styles["message__text"]}>
-                        {event?.detail ? event?.detail : Number(userData.id) !== event?.author ? `У вас нет доступа к этому мероприятию` : ""}
+                        {event?.detail
+                            ? event?.detail
+                            : Number(userData.id) !== event?.author
+                              ? `У вас нет доступа к этому мероприятию`
+                              : !userDataFull?.teacher_permission
+                                ? "У вас нет прав для просмотра данной страницы"
+                                : ""}
                     </span>
                     <div className={styles["message__btn"]}>
                         <Button onClick={() => router.push("/")} type="default">
