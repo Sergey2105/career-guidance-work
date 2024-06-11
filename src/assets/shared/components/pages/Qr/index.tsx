@@ -70,6 +70,7 @@ const Qr = () => {
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         dispatch(getEvent(String(id)));
+        refresh();
     }, []);
 
     const event = useSelector(selectEventProps);
@@ -137,7 +138,6 @@ const Qr = () => {
 
     const registrationGuest = () => {
         dispatch(joinEventQR({ id: userDataFullAnother?.id, meetings: event.id })).then(() => {
-            refresh();
             setRegistration(true);
             dispatch(getAnotherFull(String(data.text)));
             setTimeout(() => {
