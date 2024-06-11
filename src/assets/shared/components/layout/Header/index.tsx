@@ -58,23 +58,23 @@ const Header = () => {
                     <div className={styles["header__menu"]}>
                         <div className={clsx(styles["header__menu__visible"], styles[`${menu ? "header__menu__visible__active" : "header__menu__visible__disabled"}`])}>
                             <ul className={styles["header__list"]}>
-                                <li>
+                                <li className={styles["header__list__item"]}>
                                     <Link href="/" className={styles["link"]} onClick={() => dispatch(closeMenu())}>
                                         Главная
                                     </Link>
                                 </li>
-                                <li>
+                                <li className={styles["header__list__item"]}>
                                     <Link href="/meeting" className={styles["link"]} onClick={() => dispatch(closeMenu())}>
                                         Мероприятия
                                     </Link>
                                 </li>
-                                <li>
+                                <li className={styles["header__list__item"]}>
                                     <Link href="/info" className={styles["link"]} onClick={() => dispatch(closeMenu())}>
                                         Информация
                                     </Link>
                                 </li>
                                 {isToken ? (
-                                    <li>
+                                    <li className={styles["header__list__item"]}>
                                         <Link href="/mymeeting" className={styles["link"]} onClick={() => dispatch(closeMenu())}>
                                             Мои мероприятия
                                         </Link>
