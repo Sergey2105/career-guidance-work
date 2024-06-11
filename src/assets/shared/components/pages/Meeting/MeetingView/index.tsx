@@ -86,12 +86,9 @@ const MeetingView = (props) => {
         return el.id === Number(location.pathname.split("/").filter((el) => el)[1]);
     });
 
-    console.log(found);
-
     useEffect(() => {
         const token = localStorage.getItem("userToken");
         const source = router.query;
-        console.log(source);
 
         if (typeof source.source === "string" && source.source === "qr") {
             if (token !== null && userDataFull?.id) {
@@ -119,11 +116,6 @@ const MeetingView = (props) => {
             }
         }
     }, [event, userDataFull]);
-
-    console.log(userDataFull);
-
-    console.log(loadingEvent);
-    console.log(loadingUser);
 
     return (
         <>

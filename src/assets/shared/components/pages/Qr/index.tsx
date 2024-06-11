@@ -267,8 +267,8 @@ const Qr = () => {
                     ) : null}
                     <div className={styles["footer"]}>
                         <div className={styles["footer__elements"]}>
-                            <div className={styles["footer__elements__link"]}>
-                                <div className={styles["footer__elements__icon"]} onClick={switchGuest}>
+                            <div className={styles["footer__elements__link"]} onClick={switchGuest}>
+                                <div className={styles["footer__elements__icon"]}>
                                     <ProfileScanner className={guest ? styles[`icon__active`] : styles[`icon__inactive`]} />
                                 </div>
                                 <span
@@ -280,8 +280,8 @@ const Qr = () => {
                                     Участники
                                 </span>
                             </div>
-                            <div className={styles["footer__elements__link"]}>
-                                <div className={styles["footer__elements__icon"]} onClick={switchScanner}>
+                            <div className={styles["footer__elements__link"]} onClick={switchScanner}>
+                                <div className={styles["footer__elements__icon"]}>
                                     <Scanner className={scanner ? styles[`icon__active`] : styles[`icon__inactive`]} />
                                 </div>
                                 <span
@@ -293,8 +293,8 @@ const Qr = () => {
                                     Сканер
                                 </span>
                             </div>
-                            <div className={styles["footer__elements__link"]}>
-                                <div className={styles["footer__elements__icon"]} onClick={switchEvents}>
+                            <div className={styles["footer__elements__link"]} onClick={switchEvents}>
+                                <div className={styles["footer__elements__icon"]}>
                                     <List className={events ? styles[`icon__active`] : styles[`icon__inactive`]} />
                                 </div>
                                 <span
