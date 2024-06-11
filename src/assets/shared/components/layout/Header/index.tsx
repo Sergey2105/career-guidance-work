@@ -10,9 +10,10 @@ import Menu from "/public/icons/menu.svg";
 import Cross from "/public/icons/cross.svg";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "../../store/hooks";
-import { activated, getMe, selectUser } from "../../store/slice/authSlice";
+import { activated, getMe, selectUser, selectUserFull } from "../../store/slice/authSlice";
 import Logo from "/public/img/logo.png";
 import Image from "next/image";
+import Nophoto from "/public/img/nophoto.jpeg";
 
 const Header = () => {
     const [isToken, setIsToken] = useState(false);
@@ -20,6 +21,7 @@ const Header = () => {
     const router = useRouter();
     const menu = useSelector(selectMenu);
     const userData = useSelector(selectUser);
+    const userDataFull = useSelector(selectUserFull);
 
     const pathLogin = () => {
         if (localStorage.getItem("userToken")) {
