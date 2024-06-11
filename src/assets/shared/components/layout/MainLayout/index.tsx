@@ -18,6 +18,9 @@ const MainLayout = (props) => {
         if (token !== null && Object.keys(userData).length === 0) {
             dispatch(getMe());
         }
+        if (userData.detail) {
+            localStorage.removeItem("userToken");
+        }
     }, []);
 
     useEffect(() => {

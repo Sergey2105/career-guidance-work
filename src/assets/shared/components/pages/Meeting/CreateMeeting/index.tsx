@@ -40,7 +40,7 @@ const CreateMeeting = () => {
 
     return (
         <>
-            {loadingEvent || loadingUser ? <Loader /> : null}
+            {loadingEvent || (loadingUser && userDataFull?.id) ? <Loader /> : null}
             {modalCreateTimetable ? <ModalCreateTimetable switchModalCreateTimetable={switchModalCreateTimetable} switchModalCreateMeeting={switchModalCreateMeeting} /> : null}
             {modalCreateMeeting ? <ModalCreateMeeting switchModalCreateMeeting={switchModalCreateMeeting} switchModalCreateTimetable={switchModalCreateTimetable} /> : null}
             <div className={styles["list__wrapper"]}>

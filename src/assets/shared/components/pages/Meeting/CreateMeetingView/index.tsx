@@ -149,7 +149,7 @@ const CreateMeetingView = (props) => {
 
     return (
         <>
-            {loadingMeeting || loadingUser ? <Loader /> : null}
+            {loadingMeeting || (loadingUser && userDataFull?.id) ? <Loader /> : null}
             {event?.detail || Number(userData.id) !== event?.author ? (
                 <div className={styles["message"]}>
                     <span className={styles["message__text"]}>

@@ -119,7 +119,7 @@ const MeetingView = (props) => {
 
     return (
         <>
-            {loadingEvent || loadingUser ? <Loader /> : null}
+            {loadingEvent || (loadingUser && userDataFull?.id) ? <Loader /> : null}
             {modalUnlogin ? <ModalUnauth text={"Для записи на мероприятие необходмо авторизоваться"} switchModal={switchModalUnlogin} /> : null}
             {modalRemove ? <ModalRemoveMeeting switchModal={switchModalRemove} remove={remove} /> : null}
             {event?.detail ? (
