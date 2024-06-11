@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../store/hooks";
-import { getAnotherFull, logout, selectLoadingUser, selectUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
+import { getAnotherFull, logout, selectLoadingUser, selectLoadingUserFullAnother, selectUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
 import Image from "next/image";
 import Nophoto from "/public/img/nophoto.jpeg";
 import Button from "../../buttons/Button";
@@ -28,6 +28,7 @@ const Profile = () => {
     const [isMeeting, setIsMeeting] = useState<boolean>(false);
     const userDataFullAnother = useSelector(selectUserFullAnother);
     const loading = useSelector(selectLoadingUser);
+    const loadingAnother = useSelector(selectLoadingUserFullAnother);
 
     const changeProfile = () => {
         setIsProfile(true);
@@ -70,7 +71,7 @@ const Profile = () => {
 
     return (
         <>
-            {loading ? <Loader /> : null}
+            {loading || loadingAnother ? <Loader /> : null}
             {userDataFullAnother?.detail ? (
                 <div className={styles["message"]}>
                     <span className={styles["message__text"]}>{userDataFullAnother?.detail}</span>

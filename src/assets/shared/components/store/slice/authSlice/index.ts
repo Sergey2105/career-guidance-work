@@ -18,6 +18,7 @@ interface type {
     isLogin: boolean;
     auth_token: string | null;
     loading: boolean;
+    loadingAnother: boolean;
     errors: ApiError | null;
     userData: Record<string, any>;
     userDataFull: Record<string, any>;
@@ -29,6 +30,7 @@ const initialState: type = {
     isLogin: false,
     auth_token: null,
     loading: true,
+    loadingAnother: true,
     errors: null,
     userData: {},
     userDataFull: {},
@@ -242,12 +244,15 @@ const authSlice = createSlice({
         builder.addCase(getAnotherFull.fulfilled, (state, action) => {
             state.userDataFullAnother = action.payload;
             state.loading = false;
+            state.loadingAnother = false;
         });
         builder.addCase(getAnotherFull.pending, (state, action) => {
             state.loading = true;
+            state.loadingAnother = true;
         });
         builder.addCase(getAnotherFull.rejected, (state, action) => {
             state.loading = true;
+            state.loadingAnother = true;
         });
         builder.addCase(logout.fulfilled, (state, action) => {
             state.userDataFull = {};
@@ -276,6 +281,6 @@ export const selectErrorsData = (state: RootState) => state.eventSlice.errors;
 
 // export const selectLoadingUser = (state: RootState) => state.authSlice.loading;
 export const selectLoadingUser = (state: RootState) => state.authSlice.loading;
-// export const selectLoadingUserFullAnother = (state: RootState) => state.authSlice.loading;
+export const selectLoadingUserFullAnother = (state: RootState) => state.authSlice.loadingAnother;
 
 export default authSlice.reducer;
