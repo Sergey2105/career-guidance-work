@@ -65,7 +65,7 @@ const Qr = () => {
     const handleScan = (e) => {
         if (e?.text) {
             setData(e);
-            dispatch(getAnotherFull(String(data.text)));
+            dispatch(getAnotherFull(String(e?.text)));
         }
     };
 
@@ -170,7 +170,7 @@ const Qr = () => {
     return (
         <>
             {loading ? <Loader /> : null}
-            {/* {event?.detail || Number(userData.id) !== event?.author ? (
+            {event?.detail || Number(userData.id) !== event?.author ? (
                 <div className={styles["message"]}>
                     <span className={styles["message__text"]}>
                         {event?.detail
@@ -187,133 +187,144 @@ const Qr = () => {
                         </Button>
                     </div>
                 </div>
-            ) : ( */}
-            <div className={styles["container"]}>
-                <div className={styles["header"]}>
-                    <span className={styles["header__label"]}>{title}</span>
-                </div>
-                {registration ? (
-                    <div className={styles["modal"]}>
-                        <Message>Пользователь успешно зарегестрирован!</Message>
+            ) : (
+                <div className={styles["container"]}>
+                    <div className={styles["header"]}>
+                        <span className={styles["header__label"]}>{title}</span>
                     </div>
-                ) : null}
-                {!Object.keys(data || {}).length && qrReaderVisible && !guest && !events ? (
-                    <QrReader
-                        className={guest || events ? styles["scanner__inactive"] : styles["scanner"]}
-                        onScan={handleScan}
-                        delay={500}
-                        onError={handleError}
-                        constraints={
-                            devices.cameraId && {
-                                audio: false,
-                                video: { deviceId: devices.cameraId },
+                    {registration ? (
+                        <div className={styles["modal"]}>
+                            <Message>Пользователь успешно зарегестрирован!</Message>
+                        </div>
+                    ) : null}
+                    {!Object.keys(data || {}).length && qrReaderVisible && !guest && !events ? (
+                        <QrReader
+                            className={guest || events ? styles["scanner__inactive"] : styles["scanner"]}
+                            onScan={handleScan}
+                            delay={500}
+                            onError={handleError}
+                            constraints={
+                                devices.cameraId && {
+                                    audio: false,
+                                    video: { deviceId: devices.cameraId },
+                                }
                             }
-                        }
-                    />
-                ) : null}
-                {events ? (
-                    <div className={styles["content__guests"]}>
-                        <QrGuest />
-                    </div>
-                ) : null}
-                {guest ? (
-                    <div className={styles["content__meeting"]}>
-                        <QrMeeting />
-                    </div>
-                ) : null}
-                {data.text ? (
-                    <>
-                        {loading || loadingAnother ? <Loader /> : null}
-                        <div className={styles["content__guest"]}>
-                            {!userDataFullAnother?.detail ? (
-                                <>
-                                    <div className={styles["wrapper"]}>
-                                        {/* <div className={styles["guest"]}> */}
-                                        <div className={styles["content__guest__list"]}>
-                                            <div className={styles["content__guest__list__header"]}>Участник</div>
-                                            <div className={styles["content__guest__list__item"]}>
-                                                <div className={styles["content__guest__list__item__header"]}>Имя</div>
-                                                <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.first_name}</span>
-                                            </div>
-                                            <div className={styles["content__guest__list__item"]}>
-                                                <div className={styles["content__guest__list__item__header"]}>Фамилия</div>
-                                                <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.last_name}</span>
-                                            </div>
-                                            <div className={styles["content__guest__list__item"]}>
-                                                <div className={styles["content__guest__list__item__header"]}>Email</div>
-                                                <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.email}</span>
-                                            </div>
+                        />
+                    ) : null}
+                    {events ? (
+                        <div className={styles["content__guests"]}>
+                            <QrGuest />
+                        </div>
+                    ) : null}
+                    {guest ? (
+                        <div className={styles["content__meeting"]}>
+                            <QrMeeting />
+                        </div>
+                    ) : null}
+                    {data.text ? (
+                        <>
+                            {loading || loadingAnother ? <Loader /> : null}
+                            <div className={styles["content__guest"]}>
+                                {!userDataFullAnother?.detail ? (
+                                    <>
+                                        <div className={styles["wrapper"]}>
+                                            {/* <div className={styles["guest"]}> */}
+                                            <div className={styles["content__guest__list"]}>
+                                                <div className={styles["content__guest__list__header"]}>Участник</div>
+                                                <div className={styles["content__guest__list__item"]}>
+                                                    <div className={styles["content__guest__list__item__header"]}>Имя</div>
+                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.first_name}</span>
+                                                </div>
+                                                <div className={styles["content__guest__list__item"]}>
+                                                    <div className={styles["content__guest__list__item__header"]}>Фамилия</div>
+                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.last_name}</span>
+                                                </div>
+                                                <div className={styles["content__guest__list__item"]}>
+                                                    <div className={styles["content__guest__list__item__header"]}>Email</div>
+                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.email}</span>
+                                                </div>
 
-                                            <div className={styles["content__guest__list__item"]}>
-                                                <div className={styles["content__guest__list__item__header"]}>Дата рождемения</div>
-                                                <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.birthday}</span>
+                                                <div className={styles["content__guest__list__item"]}>
+                                                    <div className={styles["content__guest__list__item__header"]}>Дата рождемения</div>
+                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.birthday}</span>
+                                                </div>
+                                                {userDataFullAnother?.phone !== null ? (
+                                                    <div className={styles["content__guest__list__item"]}>
+                                                        <div className={styles["content__guest__list__item__header"]}>Номер телефона</div>
+                                                        <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.phone}</span>
+                                                    </div>
+                                                ) : null}
+                                                {userDataFullAnother?.telegram !== null ? (
+                                                    <div className={styles["content__guest__list__item"]}>
+                                                        <div className={styles["content__guest__list__item__header"]}>Telegram ID</div>
+                                                        <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.telegram}</span>
+                                                    </div>
+                                                ) : null}
                                             </div>
-                                            {userDataFullAnother?.phone !== null ? (
-                                                <div className={styles["content__guest__list__item"]}>
-                                                    <div className={styles["content__guest__list__item__header"]}>Номер телефона</div>
-                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.phone}</span>
-                                                </div>
-                                            ) : null}
-                                            {userDataFullAnother?.telegram !== null ? (
-                                                <div className={styles["content__guest__list__item"]}>
-                                                    <div className={styles["content__guest__list__item__header"]}>Telegram ID</div>
-                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.telegram}</span>
-                                                </div>
-                                            ) : null}
+                                            <div className={styles["guest__btn"]}>
+                                                <Button type="default" disabled={found} onClick={registrationGuest}>
+                                                    {!found ? `Зарегистрировать` : event.seats_bool ? `Пользователь зарегистрирован` : `Мест нет`}
+                                                </Button>
+                                                <Button type="white" onClick={back}>
+                                                    Назад
+                                                </Button>
+                                            </div>
+                                            {/* </div> */}
                                         </div>
-                                        <div className={styles["guest__btn"]}>
-                                            <Button type="default" disabled={found} onClick={registrationGuest}>
-                                                {!found ? `Зарегистрировать` : event.seats_bool ? `Пользователь зарегистрирован` : `Мест нет`}
-                                            </Button>
-                                            <Button type="white" onClick={back}>
-                                                Назад
-                                            </Button>
-                                        </div>
-                                        {/* </div> */}
+                                    </>
+                                ) : (
+                                    <div className={styles["wrapper"]}>
+                                        <div className={styles["error"]}>{userDataFullAnother?.detail}</div>
                                     </div>
-                                </>
-                            ) : (
-                                <div className={styles["wrapper"]}>
-                                    <div className={styles["error"]}>{userDataFullAnother?.detail}</div>
+                                )}
+                            </div>
+                        </>
+                    ) : null}
+                    <div className={styles["footer"]}>
+                        <div className={styles["footer__elements"]}>
+                            <div className={styles["footer__elements__link"]} onClick={switchGuest}>
+                                <div className={styles["footer__elements__icon"]}>
+                                    <ProfileScanner className={guest ? styles[`icon__active`] : styles[`icon__inactive`]} />
                                 </div>
-                            )}
-                        </div>
-                    </>
-                ) : null}
-                <div className={styles["footer"]}>
-                    <div className={styles["footer__elements"]}>
-                        <div className={styles["footer__elements__link"]} onClick={switchGuest}>
-                            <div className={styles["footer__elements__icon"]}>
-                                <ProfileScanner className={guest ? styles[`icon__active`] : styles[`icon__inactive`]} />
+                                <span
+                                    className={clsx(
+                                        styles["footer__elements__text"],
+                                        guest ? styles["footer__elements__text__active"] : styles["footer__elements__text__inactive"],
+                                    )}
+                                >
+                                    Участники
+                                </span>
                             </div>
-                            <span className={clsx(styles["footer__elements__text"], guest ? styles["footer__elements__text__active"] : styles["footer__elements__text__inactive"])}>
-                                Участники
-                            </span>
-                        </div>
-                        <div className={styles["footer__elements__link"]} onClick={switchScanner}>
-                            <div className={styles["footer__elements__icon"]}>
-                                <Scanner className={scanner ? styles[`icon__active`] : styles[`icon__inactive`]} />
+                            <div className={styles["footer__elements__link"]} onClick={switchScanner}>
+                                <div className={styles["footer__elements__icon"]}>
+                                    <Scanner className={scanner ? styles[`icon__active`] : styles[`icon__inactive`]} />
+                                </div>
+                                <span
+                                    className={clsx(
+                                        styles["footer__elements__text"],
+                                        scanner ? styles["footer__elements__text__active"] : styles["footer__elements__text__inactive"],
+                                    )}
+                                >
+                                    Сканер
+                                </span>
                             </div>
-                            <span
-                                className={clsx(styles["footer__elements__text"], scanner ? styles["footer__elements__text__active"] : styles["footer__elements__text__inactive"])}
-                            >
-                                Сканер
-                            </span>
-                        </div>
-                        <div className={styles["footer__elements__link"]} onClick={switchEvents}>
-                            <div className={styles["footer__elements__icon"]}>
-                                <List className={events ? styles[`icon__active`] : styles[`icon__inactive`]} />
+                            <div className={styles["footer__elements__link"]} onClick={switchEvents}>
+                                <div className={styles["footer__elements__icon"]}>
+                                    <List className={events ? styles[`icon__active`] : styles[`icon__inactive`]} />
+                                </div>
+                                <span
+                                    className={clsx(
+                                        styles["footer__elements__text"],
+                                        events ? styles["footer__elements__text__active"] : styles["footer__elements__text__inactive"],
+                                    )}
+                                >
+                                    Мероприятия
+                                </span>
                             </div>
-                            <span
-                                className={clsx(styles["footer__elements__text"], events ? styles["footer__elements__text__active"] : styles["footer__elements__text__inactive"])}
-                            >
-                                Мероприятия
-                            </span>
                         </div>
                     </div>
                 </div>
-            </div>
-            {/* )} */}
+            )}
         </>
     );
 };
