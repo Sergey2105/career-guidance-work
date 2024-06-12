@@ -77,10 +77,10 @@ const Qr = () => {
     //     }
     // }, []);
 
-    // useEffect(() => {
-    //     const id = location.pathname.split("/").filter((el) => el)[1];
-    //     dispatch(getEvent(String(id)));
-    // }, []);
+    useEffect(() => {
+        const id = location.pathname.split("/").filter((el) => el)[1];
+        dispatch(getEvent(String(id)));
+    }, []);
 
     const event = useSelector(selectEventProps);
 
