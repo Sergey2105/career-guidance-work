@@ -8,7 +8,7 @@ import QrGuest from "./components/QrMeeting";
 import QrMeeting from "./components/QrGuest";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "../../store/hooks";
-import { getAnotherFull, selectLoadingUser, selectUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
+import { getAnotherFull, selectLoadingUser, selectLoadingUserFullAnother, selectUser, selectUserFull, selectUserFullAnother } from "../../store/slice/authSlice";
 import Button from "../../buttons/Button";
 import { getEvent, joinEvent, joinEventQR, joinQR, selectEventProps } from "../../store/slice/eventSlice";
 import { useRouter } from "next/router";
@@ -37,6 +37,7 @@ const Qr = () => {
     const [guest, setGuest] = useState<boolean>(false);
     const [events, setEvents] = useState<boolean>(false);
     const loading = useSelector(selectLoadingUser);
+    const loadingAnother = useSelector(selectLoadingUserFullAnother);
     const userData = useSelector(selectUser);
 
     const switchScanner = () => {
@@ -219,7 +220,7 @@ const Qr = () => {
                     ) : null}
                     {data.text ? (
                         <>
-                            {loading ? <Loader /> : null}
+                            {loading || loadingAnother ? <Loader /> : null}
                             <div className={styles["content__guest"]}>
                                 {!userDataFullAnother?.detail ? (
                                     <>
