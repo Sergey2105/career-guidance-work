@@ -70,10 +70,9 @@ const Qr = () => {
 
     useEffect(() => {
         if (dontShow) {
-            setScanner(true);
-            refresh();
+            switchScanner();
         }
-    }, []);
+    }, [dontShow]);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
