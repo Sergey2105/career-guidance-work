@@ -26,7 +26,7 @@ const Qr = () => {
     const dispatch = useDispatch();
     const userDataFullAnother = useSelector(selectUserFullAnother);
     const userDataFull = useSelector(selectUserFull);
-    const [dontShow, setDontShow] = useState(true);
+    const [dontShow, setDontShow] = useState<boolean>(true);
     const [data, setData] = useState<any>({});
     const [devices, setDevices] = useState<Idevices | Record<string, string>>({});
     const [qrReaderVisible, setQrReaderVisible] = useState<boolean>(true);
@@ -197,20 +197,19 @@ const Qr = () => {
                         <Message>Пользователь успешно зарегестрирован!</Message>
                     </div>
                 ) : null}
-                {!Object.keys(data || {}).length && qrReaderVisible && !guest && !events ? (
-                    <QrReader
-                        className={guest || events ? styles["scanner__inactive"] : styles["scanner"]}
-                        onScan={handleScan}
-                        delay={500}
-                        onError={handleError}
-                        constraints={
-                            devices.cameraId && {
-                                audio: false,
-                                video: { deviceId: devices.cameraId },
-                            }
+                <QrReader
+                    className={guest || events ? styles["scanner__inactive"] : styles["scanner"]}
+                    onScan={handleScan}
+                    delay={500}
+                    onError={handleError}
+                    constraints={
+                        devices.cameraId && {
+                            audio: false,
+                            video: { deviceId: devices.cameraId },
                         }
-                    />
-                ) : null}
+                    }
+                />
+
                 {events ? (
                     <div className={styles["content__guests"]}>
                         <QrGuest />
