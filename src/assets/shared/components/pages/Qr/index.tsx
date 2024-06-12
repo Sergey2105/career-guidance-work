@@ -65,29 +65,30 @@ const Qr = () => {
     const handleScan = (e) => {
         if (e?.text) {
             setData(e);
+            dispatch(getAnotherFull(String(data.text)));
         }
     };
 
-    useEffect(() => {
-        if (currentCameraId) {
-            setTimeout(() => {
-                refresh();
-            }, 500);
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (currentCameraId) {
+    //         setTimeout(() => {
+    //             refresh();
+    //         }, 500);
+    //     }
+    // }, []);
 
-    useEffect(() => {
-        const id = location.pathname.split("/").filter((el) => el)[1];
-        dispatch(getEvent(String(id)));
-    }, []);
+    // useEffect(() => {
+    //     const id = location.pathname.split("/").filter((el) => el)[1];
+    //     dispatch(getEvent(String(id)));
+    // }, []);
 
     const event = useSelector(selectEventProps);
 
-    useEffect(() => {
-        if (Object.keys(data).length !== 0) {
-            dispatch(getAnotherFull(String(data.text)));
-        }
-    }, [data]);
+    // useEffect(() => {
+    //     if (Object.keys(data).length !== 0) {
+    //         dispatch(getAnotherFull(String(data.text)));
+    //     }
+    // }, [data]);
 
     const refresh = () => {
         changeCamera(currentCameraId);

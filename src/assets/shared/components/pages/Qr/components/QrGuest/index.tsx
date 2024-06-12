@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import CreateMeetingViewHeader from "../../../Meeting/CreateMeetingView/components/CreateMeetingViewHeader";
 import CreateMeetingViewItem from "../../../Meeting/CreateMeetingView/components/CreateMeetingViewItem";
 import { useDispatch } from "@/assets/shared/components/store/hooks";
-import { getEvent, getGuest, selectGuest } from "@/assets/shared/components/store/slice/eventSlice";
+import { getEvent, getGuest, selectGuest, selectLoadinggetGuest } from "@/assets/shared/components/store/slice/eventSlice";
+import Loader from "@/assets/shared/components/Loader";
 
 const QrGuest = (props) => {
     const dispatch = useDispatch();
+    const loadingGuest = useSelector(selectLoadinggetGuest);
+    const guest = useSelector(selectGuest);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
@@ -15,14 +18,15 @@ const QrGuest = (props) => {
         dispatch(getGuest(String(id)));
     }, []);
 
-    const guest = useSelector(selectGuest);
-
     return (
-        <div className={styles["wrapper"]}>
-            <div className={styles["body__guest"]}>
-                <CreateMeetingViewHeader>{guest?.profile_list?.map((value, key) => <CreateMeetingViewItem key={key} value={value} myKey={key} />)}</CreateMeetingViewHeader>
+        <>
+            {loadingGuest ? <Loader /> : null}
+            <div className={styles["wrapper"]}>
+                <div className={styles["body__guest"]}>
+                    <CreateMeetingViewHeader>{guest?.profile_list?.map((value, key) => <CreateMeetingViewItem key={key} value={value} myKey={key} />)}</CreateMeetingViewHeader>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 export default QrGuest;

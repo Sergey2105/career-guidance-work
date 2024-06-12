@@ -13,6 +13,7 @@ interface ApiError {
 
 interface typeEvents {
     loading: boolean;
+    loadinggetGuest: boolean;
     guests: Record<string, any>;
     meta: Record<string, any>;
     eventProps: Record<string, any>;
@@ -53,6 +54,7 @@ const initialState: typeEvents = {
         // voting: [],
     },
     loading: true,
+    loadinggetGuest: true,
     errors: null,
 };
 
@@ -331,7 +333,13 @@ const eventSlice = createSlice({
             state.timetable = action.payload;
         });
         builder.addCase(getGuest.fulfilled, (state, action) => {
-            state.guests = action.payload;
+            state.loadinggetGuest = false;
+        });
+        builder.addCase(getGuest.pending, (state, action) => {
+            state.loadinggetGuest = true;
+        });
+        builder.addCase(getGuest.rejected, (state, action) => {
+            state.loadinggetGuest = true;
         });
         builder.addCase(createTimetable.fulfilled, (state, action) => {
             state.errors = null;
@@ -386,5 +394,6 @@ export const selectErrorsEditTimetable = (state: RootState) => state.eventSlice.
 export const selectErrorsEditEvents = (state: RootState) => state.eventSlice.errors;
 
 export const selectLoadingMeeting = (state: RootState) => state.eventSlice.loading;
+export const selectLoadinggetGuest = (state: RootState) => state.eventSlice.loadinggetGuest;
 
 export default eventSlice.reducer;

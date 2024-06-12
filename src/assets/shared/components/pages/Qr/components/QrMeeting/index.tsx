@@ -8,15 +8,23 @@ import { useDispatch } from "@/assets/shared/components/store/hooks";
 import ModalCreateTimetable from "@/assets/shared/components/modal/ModalCreateTimetable";
 import ModalCreateMeeting from "@/assets/shared/components/modal/ModalCreateMeeting";
 import Button from "@/assets/shared/components/buttons/Button";
+import { getEvent, selectLoadingMeeting } from "@/assets/shared/components/store/slice/eventSlice";
+import Loader from "@/assets/shared/components/Loader";
 
 const QrMeeting = (props) => {
     const [modalCreateTimetable, setModalCreateTimetable] = useState<boolean>(false);
     const [modalCreateMeeting, setModalCreateMeeting] = useState<boolean>(false);
     const userDataFull = useSelector(selectUserFull);
+    const loadingEvent = useSelector(selectLoadingMeeting);
 
     const dispatch = useDispatch();
 
     console.log(userDataFull);
+
+    useEffect(() => {
+        const id = location.pathname.split("/").filter((el) => el)[1];
+        dispatch(getEvent(String(id)));
+    }, []);
 
     const switchModalCreateTimetable = () => {
         if (modalCreateTimetable) {
@@ -40,6 +48,7 @@ const QrMeeting = (props) => {
 
     return (
         <>
+            {loadingEvent ? <Loader /> : null}
             {modalCreateTimetable ? <ModalCreateTimetable switchModalCreateTimetable={switchModalCreateTimetable} switchModalCreateMeeting={switchModalCreateMeeting} /> : null}
             {modalCreateMeeting ? <ModalCreateMeeting switchModalCreateMeeting={switchModalCreateMeeting} switchModalCreateTimetable={switchModalCreateTimetable} /> : null}
             <div className={styles["wrapper"]}>
