@@ -225,7 +225,7 @@ const Qr = () => {
                                 {!userDataFullAnother?.detail ? (
                                     <>
                                         <div className={styles["wrapper"]}>
-                                            <div className={styles["guest"]}>
+                                            {/* <div className={styles["guest"]}> */}
                                                 <div className={styles["content__guest__list"]}>
                                                     <div className={styles["content__guest__list__header"]}>Участник</div>
                                                     <div className={styles["content__guest__list__item"]}>
@@ -266,7 +266,7 @@ const Qr = () => {
                                                         Назад
                                                     </Button>
                                                 </div>
-                                            </div>
+                                            {/* </div> */}
                                         </div>
                                     </>
                                 ) : (
