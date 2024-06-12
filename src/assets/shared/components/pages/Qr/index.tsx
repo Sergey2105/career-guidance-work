@@ -72,7 +72,7 @@ const Qr = () => {
         if (dontShow || currentCameraId !== "") {
             switchScanner();
         }
-    }, [dontShow]);
+    }, [dontShow, currentCameraId]);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
@@ -149,7 +149,7 @@ const Qr = () => {
             setTimeout(() => {
                 refresh();
                 setRegistration(false);
-            }, 3000);
+            }, 5000);
         });
     };
 
