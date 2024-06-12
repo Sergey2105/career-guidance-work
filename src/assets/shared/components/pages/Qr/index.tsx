@@ -69,13 +69,13 @@ const Qr = () => {
         }
     };
 
-    // useEffect(() => {
-    //     if (currentCameraId) {
-    //         setTimeout(() => {
-    //             refresh();
-    //         }, 500);
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (currentCameraId) {
+            setTimeout(() => {
+                refresh();
+            }, 1500);
+        }
+    }, []);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
