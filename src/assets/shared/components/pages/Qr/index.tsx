@@ -75,7 +75,7 @@ const Qr = () => {
                 refresh();
             }, 1500);
         }
-    }, []);
+    }, [currentCameraId]);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
