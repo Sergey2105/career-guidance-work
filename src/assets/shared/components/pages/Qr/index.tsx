@@ -198,7 +198,7 @@ const Qr = () => {
                     </div>
                 ) : null}
                 <QrReader
-                    className={guest || events ? styles["scanner__inactive"] : styles["scanner"]}
+                    className={styles["scanner"]}
                     onScan={handleScan}
                     delay={500}
                     onError={handleError}
@@ -209,7 +209,6 @@ const Qr = () => {
                         }
                     }
                 />
-
                 {events ? (
                     <div className={styles["content__guests"]}>
                         <QrGuest />
