@@ -33,7 +33,7 @@ const Qr = () => {
     const [registration, setRegistration] = useState<boolean>(false);
     const [currentCameraId, setCurrentCameraId] = useState<string>();
     const [title, setTitle] = useState<string>("Сканер");
-    const [scanner, setScanner] = useState<boolean>(true);
+    const [scanner, setScanner] = useState<boolean>(false);
     const [guest, setGuest] = useState<boolean>(false);
     const [events, setEvents] = useState<boolean>(false);
     const loading = useSelector(selectLoadingUser);
@@ -71,6 +71,7 @@ const Qr = () => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         dispatch(getEvent(String(id)));
         refresh();
+        setScanner(true);
     }, []);
 
     const event = useSelector(selectEventProps);
