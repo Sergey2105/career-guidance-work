@@ -122,24 +122,26 @@
     &__guests {
         position: fixed;
         top: 56px;
-        bottom: 220px;
+        bottom: 280px;
         left: 0;
         right: 0;
         display: flex;
         overflow: auto;
         z-index: 1;
         height: calc(100vh - 56px - 69px);
+        background-color: #fff;
     }
     &__meeting {
         position: fixed;
         top: 56px;
-        bottom: 220px;
+        bottom: 280px;
         left: 0;
         right: 0;
         display: flex;
         overflow: auto;
         z-index: 1;
         height: calc(100vh - 56px - 69px);
+        background-color: #fff;
     }
     &__guest {
         position: fixed;
@@ -151,7 +153,6 @@
         overflow: auto;
         z-index: 1;
         height: calc(100vh - 56px - 69px);
-        // height: 100%;
         background-color: #fff;
         &__list {
             display: flex;

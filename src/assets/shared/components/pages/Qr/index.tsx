@@ -69,7 +69,7 @@ const Qr = () => {
     };
 
     useEffect(() => {
-        if (dontShow) {
+        if (dontShow || currentCameraId !== "") {
             switchScanner();
         }
     }, [dontShow]);
@@ -226,46 +226,46 @@ const Qr = () => {
                                     <>
                                         <div className={styles["wrapper"]}>
                                             {/* <div className={styles["guest"]}> */}
-                                                <div className={styles["content__guest__list"]}>
-                                                    <div className={styles["content__guest__list__header"]}>Участник</div>
-                                                    <div className={styles["content__guest__list__item"]}>
-                                                        <div className={styles["content__guest__list__item__header"]}>Имя</div>
-                                                        <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.first_name}</span>
-                                                    </div>
-                                                    <div className={styles["content__guest__list__item"]}>
-                                                        <div className={styles["content__guest__list__item__header"]}>Фамилия</div>
-                                                        <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.last_name}</span>
-                                                    </div>
-                                                    <div className={styles["content__guest__list__item"]}>
-                                                        <div className={styles["content__guest__list__item__header"]}>Email</div>
-                                                        <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.email}</span>
-                                                    </div>
+                                            <div className={styles["content__guest__list"]}>
+                                                <div className={styles["content__guest__list__header"]}>Участник</div>
+                                                <div className={styles["content__guest__list__item"]}>
+                                                    <div className={styles["content__guest__list__item__header"]}>Имя</div>
+                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.first_name}</span>
+                                                </div>
+                                                <div className={styles["content__guest__list__item"]}>
+                                                    <div className={styles["content__guest__list__item__header"]}>Фамилия</div>
+                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.last_name}</span>
+                                                </div>
+                                                <div className={styles["content__guest__list__item"]}>
+                                                    <div className={styles["content__guest__list__item__header"]}>Email</div>
+                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.email}</span>
+                                                </div>
 
+                                                <div className={styles["content__guest__list__item"]}>
+                                                    <div className={styles["content__guest__list__item__header"]}>Дата рождемения</div>
+                                                    <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.birthday}</span>
+                                                </div>
+                                                {userDataFullAnother?.phone !== null ? (
                                                     <div className={styles["content__guest__list__item"]}>
-                                                        <div className={styles["content__guest__list__item__header"]}>Дата рождемения</div>
-                                                        <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.birthday}</span>
+                                                        <div className={styles["content__guest__list__item__header"]}>Номер телефона</div>
+                                                        <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.phone}</span>
                                                     </div>
-                                                    {userDataFullAnother?.phone !== null ? (
-                                                        <div className={styles["content__guest__list__item"]}>
-                                                            <div className={styles["content__guest__list__item__header"]}>Номер телефона</div>
-                                                            <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.phone}</span>
-                                                        </div>
-                                                    ) : null}
-                                                    {userDataFullAnother?.telegram !== null ? (
-                                                        <div className={styles["content__guest__list__item"]}>
-                                                            <div className={styles["content__guest__list__item__header"]}>Telegram ID</div>
-                                                            <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.telegram}</span>
-                                                        </div>
-                                                    ) : null}
-                                                </div>
-                                                <div className={styles["guest__btn"]}>
-                                                    <Button type="default" disabled={found} onClick={registrationGuest}>
-                                                        {!found ? `Зарегистрировать` : event.seats_bool ? `Пользователь зарегистрирован` : `Мест нет`}
-                                                    </Button>
-                                                    <Button type="white" onClick={back}>
-                                                        Назад
-                                                    </Button>
-                                                </div>
+                                                ) : null}
+                                                {userDataFullAnother?.telegram !== null ? (
+                                                    <div className={styles["content__guest__list__item"]}>
+                                                        <div className={styles["content__guest__list__item__header"]}>Telegram ID</div>
+                                                        <span className={styles["content__guest__list__item__text"]}>{userDataFullAnother?.telegram}</span>
+                                                    </div>
+                                                ) : null}
+                                            </div>
+                                            <div className={styles["guest__btn"]}>
+                                                <Button type="default" disabled={found} onClick={registrationGuest}>
+                                                    {!found ? `Зарегистрировать` : event.seats_bool ? `Пользователь зарегистрирован` : `Мест нет`}
+                                                </Button>
+                                                <Button type="white" onClick={back}>
+                                                    Назад
+                                                </Button>
+                                            </div>
                                             {/* </div> */}
                                         </div>
                                     </>
