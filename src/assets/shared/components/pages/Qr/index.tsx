@@ -33,7 +33,7 @@ const Qr = () => {
     const [registration, setRegistration] = useState<boolean>(false);
     const [currentCameraId, setCurrentCameraId] = useState<string>();
     const [title, setTitle] = useState<string>("Сканер");
-    const [scanner, setScanner] = useState<boolean>(false);
+    const [scanner, setScanner] = useState<boolean>(true);
     const [guest, setGuest] = useState<boolean>(false);
     const [events, setEvents] = useState<boolean>(false);
     const loading = useSelector(selectLoadingUser);
@@ -68,13 +68,13 @@ const Qr = () => {
         }
     };
 
-    // useEffect(() => {
-    //     if (!dontShow || currentCameraId !== "") {
-    //         setTimeout(() => {
-    //             switchScanner();
-    //         }, 500);
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (currentCameraId) {
+            setTimeout(() => {
+                refresh();
+            }, 500);
+        }
+    }, []);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
