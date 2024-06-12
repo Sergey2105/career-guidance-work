@@ -70,7 +70,7 @@ const Qr = () => {
     };
 
     useEffect(() => {
-        if (!dontShow && currentCameraId) {
+        if (!dontShow && currentCameraId && !loading) {
             // setTimeout(() => {
             refresh();
             // console.log("fds");
