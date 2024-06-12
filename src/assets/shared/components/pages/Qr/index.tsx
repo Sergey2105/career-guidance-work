@@ -197,18 +197,20 @@ const Qr = () => {
                         <Message>Пользователь успешно зарегестрирован!</Message>
                     </div>
                 ) : null}
-                <QrReader
-                    className={styles["scanner"]}
-                    onScan={handleScan}
-                    delay={500}
-                    onError={handleError}
-                    constraints={
-                        devices.cameraId && {
-                            audio: false,
-                            video: { deviceId: devices.cameraId },
+                {!Object.keys(data || {}).length && qrReaderVisible && !guest && !events ? (
+                    <QrReader
+                        className={guest || events ? styles["scanner__inactive"] : styles["scanner"]}
+                        onScan={handleScan}
+                        delay={500}
+                        onError={handleError}
+                        constraints={
+                            devices.cameraId && {
+                                audio: false,
+                                video: { deviceId: devices.cameraId },
+                            }
                         }
-                    }
-                />
+                    />
+                ) : null}
                 {events ? (
                     <div className={styles["content__guests"]}>
                         <QrGuest />
