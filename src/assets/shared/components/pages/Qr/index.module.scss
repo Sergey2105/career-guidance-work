@@ -154,7 +154,10 @@
         &__list {
             display: flex;
             flex-direction: column;
+            overflow: auto;
             width: 100%;
+            height: calc(100vh - 56px - 150px);
+
             &__header {
                 margin: 10px auto;
                 font-size: 18px;
