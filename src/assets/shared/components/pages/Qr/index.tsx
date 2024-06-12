@@ -70,12 +70,13 @@ const Qr = () => {
     };
 
     useEffect(() => {
-        if (!dontShow) {
+        if (!dontShow && currentCameraId && !loading) {
             setTimeout(() => {
                 refresh();
+                console.log("fds");
             }, 1500);
         }
-    }, [dontShow]);
+    }, [dontShow, currentCameraId, loading]);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
@@ -83,12 +84,6 @@ const Qr = () => {
     }, []);
 
     const event = useSelector(selectEventProps);
-
-    // useEffect(() => {
-    //     if (Object.keys(data).length !== 0) {
-    //         dispatch(getAnotherFull(String(data.text)));
-    //     }
-    // }, [data]);
 
     const refresh = () => {
         changeCamera(currentCameraId);
