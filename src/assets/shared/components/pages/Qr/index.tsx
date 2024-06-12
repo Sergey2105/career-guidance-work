@@ -69,10 +69,12 @@ const Qr = () => {
     };
 
     useEffect(() => {
-        if (dontShow || currentCameraId !== "") {
-            switchScanner();
+        if (dontShow) {
+            setTimeout(() => {
+                switchScanner();
+            }, 500);
         }
-    }, [dontShow, currentCameraId]);
+    }, [dontShow]);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
