@@ -119,6 +119,9 @@ const Qr = () => {
                         loading: false,
                     });
                     setCurrentCameraId(devices.length == 1 ? devices[0].deviceId : devices[1].deviceId);
+                    setTimeout(() => {
+                        switchScanner();
+                    }, 500);
                 });
             setDontShow(false);
         });
