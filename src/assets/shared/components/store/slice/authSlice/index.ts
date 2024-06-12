@@ -243,15 +243,15 @@ const authSlice = createSlice({
         });
         builder.addCase(getAnotherFull.fulfilled, (state, action) => {
             state.userDataFullAnother = action.payload;
-            state.loading = false;
+            // state.loading = false;
             state.loadingAnother = false;
         });
         builder.addCase(getAnotherFull.pending, (state, action) => {
-            state.loading = true;
+            // state.loading = true;
             state.loadingAnother = true;
         });
         builder.addCase(getAnotherFull.rejected, (state, action) => {
-            state.loading = true;
+            // state.loading = true;
             state.loadingAnother = true;
         });
         builder.addCase(logout.fulfilled, (state, action) => {

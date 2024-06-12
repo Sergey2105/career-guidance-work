@@ -334,6 +334,7 @@ const eventSlice = createSlice({
         });
         builder.addCase(getGuest.fulfilled, (state, action) => {
             state.loadinggetGuest = false;
+            state.guests = action.payload;
         });
         builder.addCase(getGuest.pending, (state, action) => {
             state.loadinggetGuest = true;

@@ -18,6 +18,8 @@ const QrGuest = (props) => {
         dispatch(getGuest(String(id)));
     }, []);
 
+    console.log(guest);
+
     return (
         <>
             {loadingGuest ? <Loader /> : null}

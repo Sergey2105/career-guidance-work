@@ -76,7 +76,7 @@ const Qr = () => {
             // console.log("fds");
             // }, 900);
         }
-    }, [dontShow, currentCameraId]);
+    }, [dontShow, currentCameraId, loading]);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
@@ -218,7 +218,7 @@ const Qr = () => {
                     ) : null}
                     {data.text ? (
                         <>
-                            {loading || loadingAnother ? <Loader /> : null}
+                            {loadingAnother ? <Loader /> : null}
                             <div className={styles["content__guest"]}>
                                 {!userDataFullAnother?.detail ? (
                                     <>
