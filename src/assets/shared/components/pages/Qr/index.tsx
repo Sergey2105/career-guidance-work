@@ -68,13 +68,13 @@ const Qr = () => {
         }
     };
 
-    useEffect(() => {
-        if (!dontShow || currentCameraId !== "") {
-            setTimeout(() => {
-                switchScanner();
-            }, 500);
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (!dontShow || currentCameraId !== "") {
+    //         setTimeout(() => {
+    //             switchScanner();
+    //         }, 500);
+    //     }
+    // }, []);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
