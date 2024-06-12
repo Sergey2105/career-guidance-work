@@ -74,7 +74,7 @@ const Qr = () => {
             setTimeout(() => {
                 refresh();
                 console.log("fds");
-            }, 1500);
+            }, 900);
         }
     }, [dontShow, currentCameraId, loading]);
 
