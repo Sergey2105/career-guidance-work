@@ -143,18 +143,14 @@
     }
     &__guest {
         position: fixed;
-        // top: 56px;
-        // bottom: 69px;
+        top: 56px;
+        bottom: 220px;
         left: 0;
         right: 0;
         display: flex;
         overflow: auto;
         z-index: 1;
         height: calc(100vh - 56px - 69px);
-        // height: 100vh;
-        // height: 100%;
-        margin: 56px 0 69px 0;
-        // padding-bottom: 120px;
         background-color: #fff;
         &__list {
             display: flex;
@@ -199,7 +195,10 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
+    overflow: auto;
+    // height: 100%;
+    height: calc(100vh - 56px - 69px);
+    z-index: 1;
     &__btn {
         margin-bottom: 20px;
         display: flex;

@@ -69,8 +69,10 @@ const Qr = () => {
     };
 
     useEffect(() => {
-        setScanner(true);
-        refresh();
+        if (dontShow) {
+            setScanner(true);
+            refresh();
+        }
     }, []);
 
     useEffect(() => {
@@ -118,7 +120,6 @@ const Qr = () => {
                     setCurrentCameraId(devices.length == 1 ? devices[0].deviceId : devices[1].deviceId);
                 });
             setDontShow(false);
-            switchScanner();
         });
     }, []);
 
