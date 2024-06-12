@@ -82,7 +82,7 @@ export const login = createAsyncThunk("auth/login", async ({ username, password 
         },
         body: JSON.stringify({ username, password }),
     });
-    let dataChange = await response.json();
+    const dataChange = await response.json();
 
     if (response.status === 200) {
         localStorage.setItem("userToken", dataChange.auth_token);
@@ -115,15 +115,39 @@ export const getMe = createAsyncThunk("auth/getMe", async (_, thunkAPI) => {
                 Authorization: `Token ${token}`,
             },
         });
-        let userInfo = await response.json();
+        const result = await response.json();
 
-        return userInfo;
+        if (response.status === 200 || response.status === 201) {
+            return result;
+        } else {
+            return thunkAPI.rejectWithValue(result);
+        }
     }
 });
 
 export const getMeFull = createAsyncThunk("auth/getMeFull", async function (id: string) {
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/users/${id}/`).then((res) => res.json());
 });
+
+// export const getMeFullDelete = createAsyncThunk("auth/getMe", async ({ id }: { id: string }, thunkAPI) => {
+//     const token = localStorage.getItem("userToken");
+//     if (token !== null) {
+//         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/users/${id}/`, {
+//             method: "DELETE",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 Authorization: `Token ${token}`,
+//             },
+//         });
+//         const result = await response.json();
+
+//         if (response.status === 200 || response.status === 201) {
+//             return result;
+//         } else {
+//             return thunkAPI.rejectWithValue(result);
+//         }
+//     }
+// });
 
 export const getAnotherFull = createAsyncThunk("auth/getMeFullAnother", async function (id: string) {
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/users/${id}/`).then((res) => res.json());

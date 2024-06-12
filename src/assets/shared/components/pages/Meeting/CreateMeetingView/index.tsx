@@ -30,6 +30,7 @@ import UploadPhoto from "../../../UploadPhoto";
 import QrShare from "../../../QrShare";
 import QrCode from "../../../QrCode";
 import useDebounce from "@/hooks/useDebounce";
+import ModalDelete from "../../../modal/ModalDelete";
 
 const CreateMeetingView = (props) => {
     const router = useRouter();
@@ -46,6 +47,7 @@ const CreateMeetingView = (props) => {
     const [modalVoting, setModalVoting] = useState<boolean>(false);
     const [modalEditVoting, setModalEditVoting] = useState<boolean>(false);
     const [success, setSuccess] = useState<boolean>(false);
+    const [modalDelete, setModalDelete] = useState<boolean>(false);
     const messageError = useSelector(selectErrorsEditEvents);
     const loadingMeeting = useSelector(selectLoadingMeeting);
     const loadingUser = useSelector(selectLoadingUser);
@@ -145,6 +147,16 @@ const CreateMeetingView = (props) => {
         }
     };
 
+    const switchModalDelete = () => {
+        if (modalDelete) {
+            setModalDelete(false);
+            document.body.style.overflow = "visible";
+        } else {
+            setModalDelete(true);
+            document.body.style.overflow = "hidden";
+        }
+    };
+
     const links = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${event?.id}/?source=qr`;
 
     return (
@@ -180,6 +192,7 @@ const CreateMeetingView = (props) => {
                             </Message>
                         </div>
                     ) : null}
+                    {modalDelete ? <ModalDelete switchModal={switchModalDelete} text={"Вы действительно хотите удалить мероприятие?"} deleteMeeting={deleteMeeting} /> : null}
                     {modalEdit ? <ModalEditTimetable switchModalEdit={switchModalEdit} event={event} /> : null}
                     {modalVoting ? <ModalCreateVoting switchModalVoting={switchModalVoting} event={event} /> : null}
                     <div className={styles["wrapper"]}>
@@ -220,7 +233,7 @@ const CreateMeetingView = (props) => {
                                 <Button type="default" onClick={changeData}>
                                     Изменить
                                 </Button>
-                                <Button type="delete" onClick={deleteMeeting}>
+                                <Button type="delete" onClick={switchModalDelete}>
                                     Удалить
                                 </Button>
                             </div>

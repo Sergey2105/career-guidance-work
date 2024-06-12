@@ -13,6 +13,7 @@ import Message from "../../Message";
 import Loader from "../../Loader";
 import UploadPhoto from "../../UploadPhoto";
 import useDebounce from "@/hooks/useDebounce";
+import ModalDelete from "../../modal/ModalDelete";
 
 const Data = () => {
     const userData = useSelector(selectUser);
@@ -30,6 +31,7 @@ const Data = () => {
     const [inputInfo, setInputInfo] = useState<string>("");
     const [inputPhoto, setInputPhoto] = useState<string>("");
     const [success, setSuccess] = useState<boolean>(false);
+    // const [modalDelete, setModalDelete] = useState<boolean>(false);
     const messageError = useSelector(selectErrorsData);
 
     const changeSearchHandler = useDebounce((value) => {
@@ -166,10 +168,27 @@ const Data = () => {
         });
     };
 
+    // const switchModalDelete = () => {
+    //     if (modalDelete) {
+    //         setModalDelete(false);
+    //         document.body.style.overflow = "visible";
+    //     } else {
+    //         setModalDelete(true);
+    //         document.body.style.overflow = "hidden";
+    //     }
+    // };
+
+    // const deleteProfile = () => {
+    //     dispatch(getMeFullDelete({ id: userDataFull.id })).then(() => {
+    //         localStorage.removeItem("userToken");
+    //         router.push("/");
+    //     });
+    // };
+
     return (
         <>
             {loading ? <Loader /> : null}
-
+            {/* {modalDelete ? <ModalDelete switchModal={switchModalDelete} text={"Вы действительно хотите удалить профиль?"} deleteProfile={deleteProfile} /> : null} */}
             <div className={styles["wrapper"]}>
                 {success ? (
                     <div className={styles["modal"]}>
@@ -228,6 +247,9 @@ const Data = () => {
                         <Button type="default" onClick={change} disabled={disabled}>
                             Сохранить
                         </Button>
+                        {/* <Button type="delete" onClick={switchModalDelete} disabled={disabled}>
+                            Удалить профиль
+                        </Button> */}
                         {userDataFull?.birthday !== null ? (
                             <Button type="white" onClick={() => router.push(`/profile/${userData?.id_profile}`)}>
                                 Назад

@@ -1,0 +1,26 @@
+.text {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+}
+@media screen and (min-width: 768px) {
+    .text {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 600;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .text {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 600;
+    }
+}
+@media screen and (min-width: 1280px) {
+    .text {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 600;
+    }
+}
