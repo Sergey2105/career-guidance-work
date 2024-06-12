@@ -4,7 +4,7 @@ import Cross from "/public/icons/cross.svg";
 import { IMask, IMaskInput, useIMask } from "react-imask";
 
 const InputText = (props) => {
-    const { placeholder, label, onChange, changeClear, type, error, value } = props;
+    const { placeholder, label, onChange, changeClear, type, error, value, fullerror = "true" } = props;
     const [textValue, setTextValue] = useState<string>("");
 
     const [mask] = useState([
@@ -64,7 +64,8 @@ const InputText = (props) => {
                     </div>
                 ) : null}
             </div>
-            {error ? <div className={styles["error"]}>{error}</div> : null}
+
+            {fullerror ? <>{error ? <div className={styles["error"]}>{error}</div> : null}</> : null}
         </div>
     );
 };

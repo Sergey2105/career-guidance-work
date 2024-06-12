@@ -82,6 +82,8 @@ const Login = () => {
 
     const disabled = inputLogin.length == 0 || inputPassword.length == 0;
 
+    console.log(loginErrors);
+
     return (
         <div className={styles["container"]}>
             <div className={styles["body"]}>
@@ -89,10 +91,24 @@ const Login = () => {
                 <div className={styles["form__title"]}>Войдите в личный кабинет</div>
                 <div className={styles["form"]}>
                     <div className={styles["form__input"]}>
-                        <InputText placeholder={"Введите логин"} label={"Логин"} onChange={changeLogin} changeClear={changeLoginClear} error={error} value={inputLogin} />
+                        <InputText
+                            placeholder={"Введите логин"}
+                            label={"Логин"}
+                            onChange={changeLogin}
+                            changeClear={changeLoginClear}
+                            error={loginErrors?.non_field_errors}
+                            value={inputLogin}
+                            fullerror={false}
+                        />
                     </div>
                     <div className={styles["form__input"]}>
-                        <InputPassword placeholder={"Введите пароль"} label={"Пароль"} onChange={changePassword} error={error} value={inputPassword} />
+                        <InputPassword
+                            placeholder={"Введите пароль"}
+                            label={"Пароль"}
+                            onChange={changePassword}
+                            error={loginErrors?.non_field_errors}
+                            value={inputPassword}
+                        />
                     </div>
                 </div>
                 {loginErrors ? <div className={styles["form__error"]}>{loginErrors?.non_field_errors}</div> : null}
