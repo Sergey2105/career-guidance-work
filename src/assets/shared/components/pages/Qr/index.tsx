@@ -70,13 +70,13 @@ const Qr = () => {
     };
 
     useEffect(() => {
-        if (!dontShow && currentCameraId && !loading) {
+        if (!dontShow && currentCameraId) {
             // setTimeout(() => {
             refresh();
             // console.log("fds");
             // }, 900);
         }
-    }, [dontShow, currentCameraId, loading]);
+    }, [dontShow, currentCameraId]);
 
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
