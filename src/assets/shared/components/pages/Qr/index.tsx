@@ -69,8 +69,6 @@ const Qr = () => {
     };
 
     useEffect(() => {
-        setScanner(true);
-        refresh();
         switchScanner();
     }, []);
 
