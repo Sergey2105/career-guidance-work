@@ -70,8 +70,8 @@ const Qr = () => {
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         dispatch(getEvent(String(id)));
-        refresh();
         setScanner(true);
+        refresh();
     }, []);
 
     const event = useSelector(selectEventProps);
