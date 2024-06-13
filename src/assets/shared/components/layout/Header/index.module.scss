@@ -89,13 +89,7 @@
             font-size: 16px;
             line-height: 24px;
             margin-right: 20px;
-            padding: 2px 5px;
-        }
-        @media (hover: hover) {
-            &__item:hover {
-                border-radius: 6px;
-                background-color: rgba(50, 94, 165, 0.33);
-            }
+            // padding: 2px 5px;
         }
     }
     a {
@@ -105,10 +99,17 @@
 .link {
     text-decoration: none;
     color: #fff;
+    padding: 2px 5px;
     &__active {
         text-decoration: none;
         color: #fff;
         font-weight: 600;
+    }
+}
+@media (hover: hover) {
+    .link:hover {
+        border-radius: 6px;
+        background-color: rgba(50, 94, 165, 0.33);
     }
 }
 @media screen and (min-width: 768px) {
