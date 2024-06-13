@@ -16,9 +16,13 @@ const MainLayout = (props) => {
     useEffect(() => {
         const token = localStorage.getItem("userToken");
         if (token !== null && Object.keys(userData).length === 0) {
-            dispatch(getMe());
+            dispatch(getMe()).then((res) => {
+                if (res.type.includes("rejected")) {
+                    localStorage.removeItem("userToken");
+                }
+            });
         }
-        if (userData.detail) {
+        if (userData?.detail) {
             localStorage.removeItem("userToken");
         }
     }, []);

@@ -53,9 +53,9 @@ const User = (props) => {
             <div className={styles["user__icon"]}>
                 <div className={styles["user__btn"]} onClick={onClick}>
                     {userDataFull?.profile_pic ? (
-                        <img className={styles["user__btn__img"]} src={smallImg} alt="Uploaded" height="200px" />
+                        <img className={styles["user__btn__img"]} src={smallImg} alt="user" height="200px" />
                     ) : (
-                        <Image className={styles["user__btn__img"]} src={Nophoto} alt={"room"} objectFit="contain" />
+                        <Image className={styles["user__btn__img"]} src={Nophoto} alt={"user"} objectFit="contain" />
                     )}
                 </div>
             </div>
