@@ -71,10 +71,7 @@ const Qr = () => {
 
     useEffect(() => {
         if (!dontShow && currentCameraId && !loading) {
-            // setTimeout(() => {
             refresh();
-            // console.log("fds");
-            // }, 900);
         }
     }, [dontShow, currentCameraId, loading]);
 
@@ -143,10 +140,10 @@ const Qr = () => {
     const registrationGuest = () => {
         dispatch(joinEventQR({ id: userDataFullAnother?.id, meetings: event.id })).then(() => {
             setRegistration(true);
-            dispatch(getAnotherFull(String(data.text)));
             setTimeout(() => {
                 refresh();
                 setRegistration(false);
+                dispatch(getAnotherFull(String(data.text)));
             }, 5000);
         });
     };
