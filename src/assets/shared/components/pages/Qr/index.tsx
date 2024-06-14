@@ -71,7 +71,10 @@ const Qr = () => {
 
     useEffect(() => {
         if (!dontShow && currentCameraId && !loading) {
-            refresh();
+            setTimeout(() => {
+                refresh();
+                // console.log("fds");
+            }, 500);
         }
     }, [dontShow, currentCameraId, loading]);
 
