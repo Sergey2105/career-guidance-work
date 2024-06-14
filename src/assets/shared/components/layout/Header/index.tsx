@@ -73,7 +73,7 @@ const Header = () => {
                                         Информация
                                     </Link>
                                 </li>
-                                {isToken && userDataFull?.teacher_permission ? (
+                                {userDataFull?.teacher_permission ? (
                                     <li className={styles["header__list__item"]}>
                                         <Link href="/mymeeting" className={styles["link"]} onClick={() => dispatch(closeMenu())}>
                                             Мои мероприятия

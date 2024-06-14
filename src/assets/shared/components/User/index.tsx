@@ -15,45 +15,45 @@ const User = (props) => {
     const userDataFull = useSelector(selectUserFull);
     const [smallImg, setSmallImg] = useState<any>();
 
-    const base64ToFile = (base64, filename) => {
-        const arr = base64.split(",");
-        const mime = arr[0].match(/:(.*?);/)[1];
-        const bstr = atob(arr[1]);
-        let n = bstr.length;
-        const u8arr = new Uint8Array(n);
+    // const base64ToFile = (base64, filename) => {
+    //     const arr = base64.split(",");
+    //     const mime = arr[0].match(/:(.*?);/)[1];
+    //     const bstr = atob(arr[1]);
+    //     let n = bstr.length;
+    //     const u8arr = new Uint8Array(n);
 
-        u8arr.forEach((_, i) => {
-            u8arr[i] = bstr.charCodeAt(i);
-        });
+    //     u8arr.forEach((_, i) => {
+    //         u8arr[i] = bstr.charCodeAt(i);
+    //     });
 
-        return new File([u8arr], filename, { type: mime });
-    };
+    //     return new File([u8arr], filename, { type: mime });
+    // };
 
-    useEffect(() => {
-        if (userDataFull?.profile_pic) {
-            const file = base64ToFile(userDataFull.profile_pic, "profile_pic.jpeg");
+    // useEffect(() => {
+    //     if (userDataFull?.profile_pic) {
+    //         const file = base64ToFile(userDataFull.profile_pic, "profile_pic.jpeg");
 
-            Resizer.imageFileResizer(
-                file,
-                200, // new image max width
-                200, // new image max height
-                "JPEG", // format
-                100, // quality
-                0, // rotation
-                (uri) => {
-                    return setSmallImg(uri);
-                },
-                "base64", // output type
-            );
-        }
-    }, [userDataFull]);
+    //         Resizer.imageFileResizer(
+    //             file,
+    //             200, // new image max width
+    //             200, // new image max height
+    //             "JPEG", // format
+    //             100, // quality
+    //             0, // rotation
+    //             (uri) => {
+    //                 return setSmallImg(uri);
+    //             },
+    //             "base64", // output type
+    //         );
+    //     }
+    // }, [userDataFull]);
 
     return (
         <div className={styles["user"]}>
             <div className={styles["user__icon"]}>
                 <div className={styles["user__btn"]} onClick={onClick}>
                     {userDataFull?.profile_pic ? (
-                        <img className={styles["user__btn__img"]} src={smallImg} alt="" height="200px" />
+                        <img className={styles["user__btn__img"]} src={userDataFull?.profile_pic} alt="" height="200px" />
                     ) : (
                         <Image className={styles["user__btn__img"]} src={Nophoto} alt={""} objectFit="contain" />
                     )}

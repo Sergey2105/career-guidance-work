@@ -7,13 +7,14 @@ import EventItem from "../Meeting/MeetingItem";
 import { useDispatch, useSelector } from "../../store/hooks";
 import Button from "../../buttons/Button";
 import Loader from "../../Loader";
-import { selectLoadingUser, selectUserFull } from "../../store/slice/authSlice";
+import { selectLoadingUser, selectUser, selectUserFull } from "../../store/slice/authSlice";
 import { fetchEvents, selectEvents, selectEventsLoading } from "../../store/slice/eventsSlice";
 import "@splidejs/react-splide/css";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 const HomePage = () => {
     const userDataFull = useSelector(selectUserFull);
+    const userData = useSelector(selectUser);
     const loadingEvents = useSelector(selectEventsLoading);
     const loadingUser = useSelector(selectLoadingUser);
 
@@ -27,7 +28,7 @@ const HomePage = () => {
 
     return (
         <>
-            {loadingEvents || (loadingUser && userDataFull?.id) ? <Loader /> : null}
+            {loadingEvents || (loadingUser && userDataFull.id) ? <Loader /> : null}
             <div className={styles["home"]}>
                 <div className={styles["home__wrapper"]}>
                     <div className={styles["home__main"]}>
@@ -37,13 +38,13 @@ const HomePage = () => {
                                 <Image className={styles["home__main__img__img"]} src={Empowered} alt="class" />
                             </div>
                         </div>
-                        <div className={styles["home__main__btn"]}>
-                            {!userDataFull.id ? (
+                        {!userData.id_profile && userData?.id_profile !== "None" ? (
+                            <div className={styles["home__main__btn"]}>
                                 <Button type="default" onClick={() => router.push("/login")}>
                                     Присоединиться
                                 </Button>
-                            ) : null}
-                        </div>
+                            </div>
+                        ) : null}
                     </div>
                 </div>
                 <div className={styles["home__events"]}>
