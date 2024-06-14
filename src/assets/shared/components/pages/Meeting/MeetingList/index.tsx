@@ -11,6 +11,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { useSearchParams } from "next/navigation";
 import { tr } from "date-fns/locale";
 import clsx from "clsx";
+import { selectUser } from "../../../store/slice/authSlice";
 
 const MeetingList = () => {
     const router = useRouter();
@@ -21,6 +22,7 @@ const MeetingList = () => {
     const [currentPage, setCurrentPage] = useState<any>(initialPage);
     const [inputSearch, setInputSearch] = useState<string>("");
     const [recommended, setRecommended] = useState<boolean>(false);
+    const userData = useSelector(selectUser);
 
     const switchRecommended = () => {
         if (recommended) {
@@ -83,10 +85,14 @@ const MeetingList = () => {
                         <span onClick={switchRecommended} className={recommended ? styles["list__title__inactive"] : styles["list__title__active"]}>
                             Все мероприятия
                         </span>
-                        <span className={styles["list__title__divider"]}>|</span>
-                        <span onClick={switchRecommended} className={!recommended ? styles["list__title__inactive"] : styles["list__title__active"]}>
-                            Рекомендуемые
-                        </span>
+                        {userData.id_profile && userData?.id_profile !== "None" ? (
+                            <>
+                                <span className={styles["list__title__divider"]}>|</span>
+                                <span onClick={switchRecommended} className={!recommended ? styles["list__title__inactive"] : styles["list__title__active"]}>
+                                    Рекомендуемые
+                                </span>
+                            </>
+                        ) : null}
                     </div>
                     <div className={styles["list__header"]}>
                         {!recommended ? (
