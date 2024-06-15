@@ -104,7 +104,7 @@ export function InputDropdownTags(props) {
                         >
                             <InputText onChange={changeSearch} changeClear={changeLoginSearch} placeholder={"Введите название тега"} />
                         </div>
-                        <ul className={styles.options}>
+                        <ul className={styles.optionsTag}>
                             {options?.length !== 0 ? (
                                 <>
                                     {options?.map((option, index) => (

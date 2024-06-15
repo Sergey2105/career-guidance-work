@@ -92,10 +92,23 @@
     top: calc(100% + 5px);
     background-color: white;
     z-index: 100;
-    height: 274px;
-    overflow: auto;
 }
 .options {
+    font-family: "Montserrat", sans-serif;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+    border: 2px solid #b3b3b3;
+    border-radius: 6px;
+    width: 100%;
+    left: 0;
+    top: calc(100% + 55px);
+    background-color: white;
+    z-index: 100;
+}
+.optionsTag {
     font-family: "Montserrat", sans-serif;
     position: absolute;
     margin: 0;
