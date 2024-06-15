@@ -96,7 +96,7 @@ export function InputDropdownPlaces(props) {
                 {isOpen ? (
                     <div
                         onClick={(e) => {
-                            setIsOpen(false);
+                            setIsOpen(true);
                         }}
                     >
                         <ul className={options.length > 10 ? styles.optionsnotScroll : styles.optionsnot}>
