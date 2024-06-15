@@ -6,6 +6,7 @@ import styles from "../index.module.scss";
 import InputText from "../../inputText";
 import { tr } from "date-fns/locale";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import clsx from "clsx";
 
 export function InputDropdownTags(props) {
     const { multiple, value = [], onChange, options, placeholder, label, changeClear, type, error, changeSearch, changeLoginSearch } = props;
@@ -51,6 +52,8 @@ export function InputDropdownTags(props) {
     const refOutside = useOutsideClick(() => {
         setIsOpen(false);
     });
+
+    console.log(options);
 
     return (
         <>
@@ -104,7 +107,7 @@ export function InputDropdownTags(props) {
                         >
                             <InputText onChange={changeSearch} changeClear={changeLoginSearch} placeholder={"Введите название тега"} />
                         </div>
-                        <ul className={styles.optionsTag}>
+                        <ul className={options.length > 10 ? styles.optionsScroll : styles.options}>
                             {options?.length !== 0 ? (
                                 <>
                                     {options?.map((option, index) => (

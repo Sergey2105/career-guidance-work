@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Cross from "/public/icons/cross.svg";
 import Arrow from "/public/icons/arrow.svg";
 import styles from "../index.module.scss";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 export type SelectOption = {
     label: string;
@@ -56,10 +57,24 @@ export function InputDropdownPlaces(props) {
         }
     }
 
+    useEffect(() => {
+        if (isOpen) setHighlightedIndex(0);
+    }, [isOpen]);
+
+    const switchOpen = () => {
+        setIsOpen((prev) => !prev);
+    };
+
+    const refOutside = useOutsideClick(() => {
+        setIsOpen(false);
+    });
+
+    console.log(options);
+
     return (
         <>
             {label ? <span className={styles["label"]}>{label}</span> : null}
-            <div onBlur={() => setIsOpen(false)} onClick={() => setIsOpen((prev) => !prev)} tabIndex={0} className={styles.container}>
+            <div ref={refOutside} onClick={switchOpen} tabIndex={0} className={styles.container}>
                 {value && Object.keys(value).length > 0 ? (
                     <span className={styles.value}>{`${value?.office} (${value.max_participant})`}</span>
                 ) : (
@@ -79,28 +94,34 @@ export function InputDropdownPlaces(props) {
                     <Arrow />
                 </div>
                 {isOpen ? (
-                    <ul className={styles.optionsnot}>
-                        {options?.length !== 0 ? (
-                            <>
-                                {options?.map((option, index) => (
-                                    <li
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            selectOption(option);
-                                            setIsOpen(false);
-                                        }}
-                                        onMouseEnter={() => setHighlightedIndex(index)}
-                                        key={option.id}
-                                        className={`${styles.option} ${isOptionSelected(option) ? styles.selected : ""}`}
-                                    >
-                                        {option.office} ({option.max_participant})
-                                    </li>
-                                ))}
-                            </>
-                        ) : (
-                            <li className={`${styles.option}`}>Нет доступных мест проведения</li>
-                        )}
-                    </ul>
+                    <div
+                        onClick={(e) => {
+                            setIsOpen(false);
+                        }}
+                    >
+                        <ul className={options.length > 10 ? styles.optionsnotScroll : styles.optionsnot}>
+                            {options?.length !== 0 ? (
+                                <>
+                                    {options?.map((option, index) => (
+                                        <li
+                                            onClick={(e) => {
+                                                // e.stopPropagation();
+                                                selectOption(option);
+                                                setIsOpen(false);
+                                            }}
+                                            onMouseEnter={() => setHighlightedIndex(index)}
+                                            key={option.id}
+                                            className={`${styles.option} ${isOptionSelected(option) ? styles.selected : ""}`}
+                                        >
+                                            {option.office} ({option.max_participant})
+                                        </li>
+                                    ))}
+                                </>
+                            ) : (
+                                <li className={`${styles.option}`}>Нет доступных мест проведения</li>
+                            )}
+                        </ul>
+                    </div>
                 ) : null}
             </div>
         </>
