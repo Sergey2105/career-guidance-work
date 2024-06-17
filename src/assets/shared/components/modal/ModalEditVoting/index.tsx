@@ -69,7 +69,6 @@ const ModalEditVoting = (props) => {
 
     const result = valueArray.map((item) => item.replace(/ /g, "_")).join(" ");
 
-    console.log(valueArray);
 
     const saveField = () => {
         if (inputTitle !== value?.name) {

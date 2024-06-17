@@ -53,7 +53,6 @@ export function InputDropdownTags(props) {
         setIsOpen(false);
     });
 
-    console.log(options);
 
     return (
         <>

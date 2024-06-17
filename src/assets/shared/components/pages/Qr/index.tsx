@@ -73,7 +73,6 @@ const Qr = () => {
         if (!dontShow && currentCameraId && !loading) {
             setTimeout(() => {
                 refresh();
-                // console.log("fds");
             }, 500);
         }
     }, [dontShow, currentCameraId, loading]);

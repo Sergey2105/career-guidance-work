@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "../../../store/hooks";
 import {
     deleteEvents,
+    deleteGuest,
     editEvents,
     getEvent,
     getGuest,
@@ -293,7 +294,7 @@ const CreateMeetingView = (props) => {
                             <div className={styles["body__guest__header__message"]}>Перейдите к сканеру, чтобы зарегистрировать новых участников.</div>
                             <div className={styles["body__guest"]}>
                                 <CreateMeetingViewHeader>
-                                    {guest?.profile_list?.map((value, key) => <CreateMeetingViewItem key={key} value={value} myKey={key} />)}
+                                    {guest?.profile_list?.map((value, key) => <CreateMeetingViewItem key={key} value={value} myKey={key} event={event} />)}
                                 </CreateMeetingViewHeader>
                             </div>
                         </div>

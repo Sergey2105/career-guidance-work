@@ -19,8 +19,6 @@ const QrMeeting = (props) => {
 
     const dispatch = useDispatch();
 
-    console.log(userDataFull);
-
     useEffect(() => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         dispatch(getEvent(String(id)));

@@ -11,7 +11,6 @@ const QrLayout = (props) => {
     const userData = useSelector(selectUser);
     const userDataFull = useSelector(selectUserFull);
 
-    console.log(userDataFull);
 
     useEffect(() => {
         const token = localStorage.getItem("userToken");

@@ -69,7 +69,6 @@ export function InputDropdownPlaces(props) {
         setIsOpen(false);
     });
 
-    console.log(options);
 
     return (
         <>

@@ -306,6 +306,20 @@ export const getGuest = createAsyncThunk("event/getGuest", async (id: string) =>
     }
 });
 
+export const deleteGuest = createAsyncThunk("event/deleteGuest", async ({ id, meetings }: { id: string; meetings: string }, thunkAPI) => {
+    const token = localStorage.getItem("userToken");
+    if (token !== null) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/meeting-api/v1/meeting/${meetings}/kick_user/${id}/`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+            },
+        });
+    }
+});
+
 const eventSlice = createSlice({
     name: "event",
     initialState,
