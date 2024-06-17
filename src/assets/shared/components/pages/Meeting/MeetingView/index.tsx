@@ -55,7 +55,7 @@ const MeetingView = (props) => {
         const id = location.pathname.split("/").filter((el) => el)[1];
         const token = localStorage.getItem("userToken");
         if (token !== null) {
-            dispatch(joinEvent({ id: String(userData?.id), meetings: id })).then(() => {
+            dispatch(joinEvent({ id: String(userData.id_profile), meetings: id })).then(() => {
                 setSuccess(true);
                 setTimeout(() => {
                     dispatch(getEvent(String(event.id)));
