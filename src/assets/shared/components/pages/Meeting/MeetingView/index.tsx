@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
 import Image from "next/image";
 import Room from "/public/img/room.jpg";
@@ -86,27 +86,33 @@ const MeetingView = (props) => {
         return el.id === Number(location.pathname.split("/").filter((el) => el)[1]);
     });
 
+    const hasJoinedEvent = useRef(false);
+
     useEffect(() => {
         const token = localStorage.getItem("userToken");
         const source = router.query;
+        const redirectUrl = localStorage.getItem("redirectAfterLogin");
 
         if (typeof source.source === "string" && source.source === "qr") {
             if (token !== null && userDataFull?.id) {
                 if (userDataFull?.id && (userDataFull?.birthday === null || userDataFull?.birthday === "" || userDataFull?.phone === null || userDataFull?.phone === "")) {
                     router.push("/data");
+                    console.log("тут");
                 } else {
-                    if (token !== null && userDataFull.id && Object.keys(event).length !== 0 && event.id) {
-                        dispatch(joinEvent({ id: userDataFull?.id, meetings: event?.id })).then(() => {
-                            // dispatch(joinQR({ id: event?.id })).then(() => {
-                            setSuccess(true);
-                            setTimeout(() => {
-                                setSuccess(false);
+                    if (!hasJoinedEvent.current && token !== null && userDataFull.id && Object.keys(event).length !== 0 && event.id && found === undefined) {
+                        hasJoinedEvent.current = true;
+                        dispatch(joinEvent({ id: userDataFull?.id, meetings: event?.id })).then((res) => {
+                            if (res.type.includes("fulfilled")) {
+                                // dispatch(joinQR({ id: event?.id })).then(() => {
+                                setSuccess(true);
                                 localStorage.removeItem("redirectAfterLogin");
-                                router.replace(`/meeting/${event.id}`);
-                                dispatch(getEvent(String(event.id)));
-                                dispatch(getMeFull(String(userData.id_profile)));
-                            }, 2000);
+                                setTimeout(() => {
+                                    setSuccess(false);
+                                    router.replace(`/meeting/${event.id}`).then(() => router.reload());
+                                }, 2000);
+                            }
                         });
+                        console.log("yes");
                     }
                 }
             } else if (token === null) {
