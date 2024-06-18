@@ -96,8 +96,8 @@ const MeetingView = (props) => {
                     router.push("/data");
                 } else {
                     if (token !== null && userDataFull.id && Object.keys(event).length !== 0 && event.id) {
-                        // dispatch(joinEvent({ id: userDataFull?.id, meetings: event?.id })).then(() => {
-                        dispatch(joinQR({ id: event?.id })).then(() => {
+                        dispatch(joinEvent({ id: userDataFull?.id, meetings: event?.id })).then(() => {
+                            // dispatch(joinQR({ id: event?.id })).then(() => {
                             setSuccess(true);
                             setTimeout(() => {
                                 setSuccess(false);

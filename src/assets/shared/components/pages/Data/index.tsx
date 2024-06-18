@@ -155,13 +155,18 @@ const Data = () => {
             if (res.type.includes("fulfilled")) {
                 const redirectUrl = localStorage.getItem("redirectAfterLogin");
                 setSuccess(true);
+                if (redirectUrl) {
+                    router.push(redirectUrl);
+                }
                 setTimeout(() => {
-                    setSuccess(false);
-                    dispatch(getMeFull(String(userData.id_profile)));
-                    dispatch(getMe());
-                    dispatch(getAnotherFull(String(userData.id_profile)));
-                    if (redirectUrl) {
+                    if (redirectUrl && userDataFull?.birthday !== null) {
+                        setSuccess(false);
                         router.push(redirectUrl);
+                    } else {
+                        setSuccess(false);
+                        dispatch(getMeFull(String(userData.id_profile)));
+                        dispatch(getMe());
+                        dispatch(getAnotherFull(String(userData.id_profile)));
                     }
                 }, 2000);
             }

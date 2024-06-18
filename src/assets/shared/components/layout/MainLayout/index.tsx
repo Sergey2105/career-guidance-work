@@ -48,6 +48,8 @@ const MainLayout = (props) => {
         const redirectUrl = localStorage.getItem("redirectAfterLogin");
         if (userDataFull?.id && (userDataFull?.birthday === null || userDataFull?.birthday === "" || userDataFull?.phone === null || userDataFull?.phone === "")) {
             router.push("/data");
+        } else if (userDataFull?.id && userDataFull?.birthday !== null && redirectUrl) {
+            router.push(redirectUrl);
         }
     }, [userDataFull]);
 
